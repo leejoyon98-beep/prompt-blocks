@@ -6,6 +6,7 @@ import { BlockCard } from "./BlockCard";
 import { SearchInput } from "./SearchInput";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ALL } from "./CategorySidebar";
+import { normalizeCategory } from "@/data/categories";
 
 export function BlockLibrary({
   blocks,
@@ -25,7 +26,7 @@ export function BlockLibrary({
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     return blocks.filter((b) => {
-      if (category !== ALL && b.category !== category) return false;
+      if (category !== ALL && normalizeCategory(b.category) !== category) return false;
       if (!q) return true;
       return (
         b.name.toLowerCase().includes(q) ||

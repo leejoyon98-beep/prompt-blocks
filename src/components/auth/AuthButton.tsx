@@ -32,6 +32,12 @@ export function AuthButton() {
     return () => window.removeEventListener("mousedown", onClick);
   }, [open]);
 
+  useEffect(() => {
+    const onOpen = () => setOpen(true);
+    window.addEventListener("prompt-auth-open", onOpen);
+    return () => window.removeEventListener("prompt-auth-open", onOpen);
+  }, []);
+
   if (!supabase) return null;
 
   async function signInWithGoogle() {

@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { PromptBlock } from "@/types";
 import { cn } from "@/lib/utils";
 import { differencesByName } from "@/data/blockDifferences";
+import { normalizeCategory } from "@/data/categories";
 
 export function BlockCard({
   block,
@@ -16,13 +17,14 @@ export function BlockCard({
 }) {
   const [showDiff, setShowDiff] = useState(false);
   const diffs = differencesByName[block.name] ?? [];
+  const category = normalizeCategory(block.category);
 
   return (
     <div className="flex h-full flex-col rounded-[var(--radius-card)] border border-border bg-background p-4 transition-colors hover:border-border-strong">
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-[14px] font-semibold tracking-tight text-foreground">{block.name}</h3>
         <span className="shrink-0 rounded-full bg-subtle px-2 py-0.5 text-[11px] text-muted">
-          {block.category}
+          {category}
         </span>
       </div>
       <p className="mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-muted">{block.description}</p>

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePacks } from "@/lib/usePacks";
 import { promptBlocks, blockById } from "@/data/promptBlocks";
 import { promptTags, tagById, TAG_CATEGORIES } from "@/data/promptTags";
-import { UI_CATEGORIES } from "@/data/categories";
+import { normalizeCategory, UI_CATEGORIES } from "@/data/categories";
 import type { PromptBlock, PromptTag } from "@/types";
 import { CategorySidebar, ALL } from "@/components/blocks/CategorySidebar";
 import { BlockLibrary } from "@/components/blocks/BlockLibrary";
@@ -20,7 +20,10 @@ import { cn } from "@/lib/utils";
 const blockCategoryCounts: Record<string, number> = (() => {
   const counts: Record<string, number> = { [ALL]: promptBlocks.length };
   for (const c of UI_CATEGORIES) counts[c] = 0;
-  for (const b of promptBlocks) counts[b.category] = (counts[b.category] ?? 0) + 1;
+  for (const b of promptBlocks) {
+    const category = normalizeCategory(b.category);
+    counts[category] = (counts[category] ?? 0) + 1;
+  }
   return counts;
 })();
 

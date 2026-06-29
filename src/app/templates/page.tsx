@@ -8,31 +8,21 @@ import { useToast } from "@/components/common/Toast";
 import { SearchInput } from "@/components/blocks/SearchInput";
 import { recommendedPacks } from "@/data/recommendedPacks";
 import { blockById } from "@/data/promptBlocks";
+import { CATEGORY_ORDER, normalizeCategory } from "@/data/categories";
 import { usePacks } from "@/lib/usePacks";
 import type { RecommendedBlockPack } from "@/types";
 import { cn } from "@/lib/utils";
 
-const FILTERS = [
-  "전체",
-  "업무",
-  "기획/보고",
-  "상품기획",
-  "마케팅/브랜드",
-  "이미지 작업",
-  "딥리서치",
-  "콘텐츠",
-  "메일",
-];
-
 const filterKeywords: Record<string, string[]> = {
-  업무: ["업무", "직장", "보고", "메일", "회의", "상사"],
+  "범용 작업": ["범용 작업", "업무", "직장", "메일", "회의", "상사"],
   "기획/보고": ["기획", "보고", "계획", "문제정의", "실행"],
   상품기획: ["상품", "제품", "상세페이지", "기능", "구매"],
   "마케팅/브랜드": ["마케팅", "브랜드", "고객", "광고", "캠페인"],
-  "이미지 작업": ["이미지", "사진", "영상", "비주얼", "프롬프트"],
+  "사진/영상/비주얼": ["이미지", "사진", "영상", "비주얼", "프롬프트"],
   딥리서치: ["리서치", "조사", "근거", "출처", "시장"],
-  콘텐츠: ["콘텐츠", "SNS", "카드뉴스", "릴스", "영상"],
-  메일: ["메일", "이메일", "답장"],
+  "콘텐츠 제작": ["콘텐츠", "SNS", "카드뉴스", "릴스", "영상"],
+  "분석/검토": ["분석", "검토", "리스크", "비교", "평가"],
+  "자료 검색": ["자료", "검색", "요약", "배경", "트렌드"],
 };
 
 function packBlockNames(pack: RecommendedBlockPack): string[] {
@@ -42,14 +32,18 @@ function packBlockNames(pack: RecommendedBlockPack): string[] {
 function matchesFilter(pack: RecommendedBlockPack, filter: string) {
   if (filter === "전체") return true;
   const keywords = filterKeywords[filter] ?? [filter];
-  const haystack = [pack.name, pack.description, pack.category, ...packBlockNames(pack)].join(" ").toLowerCase();
+  const haystack = [pack.name, pack.description, normalizeCategory(pack.category), ...packBlockNames(pack)]
+    .join(" ")
+    .toLowerCase();
   return keywords.some((keyword) => haystack.includes(keyword.toLowerCase()));
 }
 
 function matchesSearch(pack: RecommendedBlockPack, query: string) {
   const q = query.trim().toLowerCase();
   if (!q) return true;
-  const haystack = [pack.name, pack.description, pack.category, ...packBlockNames(pack)].join(" ").toLowerCase();
+  const haystack = [pack.name, pack.description, normalizeCategory(pack.category), ...packBlockNames(pack)]
+    .join(" ")
+    .toLowerCase();
   return haystack.includes(q);
 }
 
@@ -91,7 +85,7 @@ export default function TemplatesPage() {
       <section className="py-6">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-wrap gap-1.5">
-            {FILTERS.map((filter) => (
+            {CATEGORY_ORDER.map((filter) => (
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
@@ -151,12 +145,13 @@ function TemplatePackCard({
 }) {
   const names = packBlockNames(pack);
   const tagCount = pack.tagIds?.length ?? 0;
+  const category = normalizeCategory(pack.category);
 
   return (
     <div className="flex h-full flex-col rounded-[var(--radius-card)] border border-border bg-background p-4 transition-colors hover:border-border-strong">
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-[14px] font-semibold tracking-tight">{pack.name}</h3>
-        <span className="shrink-0 rounded-full bg-subtle px-2 py-0.5 text-[11px] text-muted">{pack.category}</span>
+        <span className="shrink-0 rounded-full bg-subtle px-2 py-0.5 text-[11px] text-muted">{category}</span>
       </div>
       <p className="mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-muted">{pack.description}</p>
 
