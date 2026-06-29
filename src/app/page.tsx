@@ -42,7 +42,7 @@ export default function Home() {
   return (
     <PageShell className="py-12">
       {/* Hero */}
-      <section className="border-b border-border pb-12">
+      <section className="border-b border-border pb-3">
         <h1 className="max-w-2xl text-[40px] font-semibold leading-[1.12] tracking-[-0.02em] sm:text-[48px]">
           프롬프트 블록을 골라
           <br />
@@ -53,7 +53,7 @@ export default function Home() {
           <br />
           내가 사용하는 AI에 붙여넣어 반복 작업을 빠르게 요청할 수 있어요.
         </p>
-        <Link href="/guide" className="mt-4 inline-flex text-[13px] font-medium text-foreground hover:underline">
+        <Link href="/guide" className="mt-7 inline-flex text-[13px] font-medium text-foreground hover:underline">
           프롬프트 블록이 처음이라면? 사용 가이드 보기 →
         </Link>
       </section>
