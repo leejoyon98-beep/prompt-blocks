@@ -11,6 +11,7 @@ export function AuthButton() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
+  const [oauthLoading, setOauthLoading] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,6 +34,19 @@ export function AuthButton() {
 
   if (!supabase) return null;
 
+  async function signInWithGoogle() {
+    if (!supabase) return;
+    setOauthLoading(true);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: window.location.origin,
+      },
+    });
+    setOauthLoading(false);
+    if (error) show("Google 로그인 시작에 실패했어요: " + error.message);
+  }
+
   async function sendLink(e: React.FormEvent) {
     e.preventDefault();
     if (!input.trim() || !supabase) return;
@@ -43,12 +57,12 @@ export function AuthButton() {
     });
     setSending(false);
     if (error) {
-      show("로그인 링크 전송 실패: " + error.message);
+      show("로그인 링크 전송에 실패했어요: " + error.message);
       return;
     }
     setOpen(false);
     setInput("");
-    show("로그인 링크를 이메일로 보냈어요. 메일함을 확인하세요.");
+    show("로그인 링크를 이메일로 보냈어요. 메일함을 확인해주세요.");
   }
 
   if (email) {
@@ -74,29 +88,46 @@ export function AuthButton() {
         로그인
       </button>
       {open && (
-        <form
-          onSubmit={sendLink}
-          className="absolute right-0 top-full z-40 mt-2 w-72 rounded-[var(--radius-card)] border border-border bg-background p-3 shadow-sm"
-        >
-          <p className="mb-2 text-[12px] leading-relaxed text-muted">
-            이메일을 입력하면 로그인 링크를 보내드려요. 링크를 누르면 로그인돼요.
-          </p>
-          <input
-            type="email"
-            required
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="you@example.com"
-            className="h-9 w-full rounded-[var(--radius-btn)] border border-border bg-background px-3 text-[13px] outline-none focus:border-border-strong"
-          />
+        <div className="absolute right-0 top-full z-40 mt-2 w-72 rounded-[var(--radius-card)] border border-border bg-background p-3 shadow-sm">
           <button
-            type="submit"
-            disabled={sending}
-            className="mt-2 w-full rounded-[var(--radius-btn)] bg-ink py-2 text-[13px] font-medium text-white hover:bg-ink/90 disabled:opacity-40"
+            type="button"
+            onClick={signInWithGoogle}
+            disabled={oauthLoading}
+            className="flex w-full items-center justify-center gap-2 rounded-[var(--radius-btn)] border border-border bg-background py-2 text-[13px] font-medium text-foreground transition-colors hover:border-border-strong hover:bg-subtle disabled:opacity-40"
           >
-            {sending ? "보내는 중…" : "로그인 링크 보내기"}
+            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-border text-[12px] font-semibold">
+              G
+            </span>
+            {oauthLoading ? "Google로 이동 중..." : "Google로 계속하기"}
           </button>
-        </form>
+
+          <div className="my-3 flex items-center gap-2">
+            <span className="h-px flex-1 bg-border" />
+            <span className="text-[11px] text-muted">또는</span>
+            <span className="h-px flex-1 bg-border" />
+          </div>
+
+          <form onSubmit={sendLink}>
+            <p className="mb-2 text-[12px] leading-relaxed text-muted">
+              Google 로그인이 안 될 때만 이메일 링크를 사용하세요.
+            </p>
+            <input
+              type="email"
+              required
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="you@example.com"
+              className="h-9 w-full rounded-[var(--radius-btn)] border border-border bg-background px-3 text-[13px] outline-none focus:border-border-strong"
+            />
+            <button
+              type="submit"
+              disabled={sending}
+              className="mt-2 w-full rounded-[var(--radius-btn)] bg-ink py-2 text-[13px] font-medium text-white hover:bg-ink/90 disabled:opacity-40"
+            >
+              {sending ? "보내는 중..." : "이메일 링크 받기"}
+            </button>
+          </form>
+        </div>
       )}
     </div>
   );
