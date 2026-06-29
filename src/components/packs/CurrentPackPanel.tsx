@@ -4,6 +4,8 @@ import type { BlockPack, PromptBlock } from "@/types";
 import { Button } from "@/components/common/Button";
 import { CopyRegisterButton } from "./CopyRegisterButton";
 import { EmptyState } from "@/components/common/EmptyState";
+import { useToast } from "@/components/common/Toast";
+import { generateBlockNames } from "@/lib/generateRegisterPrompt";
 
 export function CurrentPackPanel({
   pack,
@@ -24,6 +26,19 @@ export function CurrentPackPanel({
   onDuplicate: () => void;
   onDelete: () => void;
 }) {
+  const { show } = useToast();
+
+  async function copyNames() {
+    const text = generateBlockNames(pack);
+    if (!text) return;
+    try {
+      await navigator.clipboard.writeText(text);
+      show("블록명을 복사했어요.");
+    } catch {
+      show("복사에 실패했어요. 다시 시도해주세요.");
+    }
+  }
+
   return (
     <div className="flex h-full flex-col">
       <div className="space-y-2">
@@ -82,6 +97,13 @@ export function CurrentPackPanel({
 
       <div className="mt-4 border-t border-border pt-4">
         <CopyRegisterButton pack={pack} full />
+        <button
+          onClick={copyNames}
+          disabled={blocks.length === 0}
+          className="mt-2 w-full rounded-[var(--radius-btn)] border border-border bg-background py-1.5 text-[12px] font-medium text-foreground transition-colors hover:border-border-strong hover:bg-subtle disabled:opacity-40 disabled:pointer-events-none"
+        >
+          블록명만 복사
+        </button>
         <p className="mt-2 text-center text-[12px] leading-relaxed text-muted">
           복사한 내용을 내가 사용하는 AI에 붙여넣으세요.
         </p>

@@ -1,6 +1,14 @@
 import { blockById } from "@/data/promptBlocks";
 import type { BlockPack } from "@/types";
 
+/** "핵심요약 + 표정리 + 문장개선" — block names only, joined by " + ". */
+export function generateBlockNames(pack: Pick<BlockPack, "blockIds">): string {
+  return pack.blockIds
+    .map((id) => blockById.get(id)?.name)
+    .filter(Boolean)
+    .join(" + ");
+}
+
 /**
  * Build the "블록팩 등록" text that the user pastes into their AI.
  * Missing block ids are skipped. Returns "" when no valid blocks remain.
