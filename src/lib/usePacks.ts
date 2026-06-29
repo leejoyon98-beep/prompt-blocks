@@ -44,6 +44,36 @@ const packToRow = (p: BlockPack, userId: string) => ({
   updated_at: p.updatedAt,
 });
 
+const packToLegacyRow = (p: BlockPack, userId: string) => ({
+  id: p.id,
+  user_id: userId,
+  name: p.name,
+  description: p.description,
+  block_ids: p.blockIds,
+  created_at: p.createdAt,
+  updated_at: p.updatedAt,
+});
+
+function isMissingTagIdsColumn(error: { message?: string; details?: string; hint?: string } | null) {
+  const text = [error?.message, error?.details, error?.hint].filter(Boolean).join(" ");
+  return text.includes("tag_ids");
+}
+
+async function upsertPack(supabase: SupabaseClient, pack: BlockPack, userId: string) {
+  const { error } = await supabase.from(TABLE).upsert(packToRow(pack, userId));
+  if (!error) return;
+  if (isMissingTagIdsColumn(error)) {
+    const retry = await supabase.from(TABLE).upsert(packToLegacyRow(pack, userId));
+    if (!retry.error) {
+      console.warn("[packs] tag_ids column is missing; saved without 조각 태그 sync.");
+      return;
+    }
+    console.error("[packs] save failed", retry.error.message);
+    return;
+  }
+  console.error("[packs] save failed", error.message);
+}
+
 /** Upload local packs to the cloud once, only when the cloud is still empty. */
 async function migrateLocalToCloud(supabase: SupabaseClient, userId: string) {
   const local = loadPacks();
@@ -52,7 +82,10 @@ async function migrateLocalToCloud(supabase: SupabaseClient, userId: string) {
     .from(TABLE)
     .select("id", { count: "exact", head: true });
   if (error || (count ?? 0) > 0) return;
-  await supabase.from(TABLE).upsert(local.map((p) => packToRow(p, userId)));
+  const { error: upsertError } = await supabase.from(TABLE).upsert(local.map((p) => packToRow(p, userId)));
+  if (upsertError && isMissingTagIdsColumn(upsertError)) {
+    await supabase.from(TABLE).upsert(local.map((p) => packToLegacyRow(p, userId)));
+  }
 }
 
 /**
@@ -126,8 +159,7 @@ export function usePacks() {
       const supabase = getSupabase();
       if (userId && supabase) {
         if (changed) {
-          const { error } = await supabase.from(TABLE).upsert(packToRow(changed, userId));
-          if (error) console.error("[packs] save failed", error.message);
+          await upsertPack(supabase, changed, userId);
         }
         if (removedId) {
           const { error } = await supabase.from(TABLE).delete().eq("id", removedId);

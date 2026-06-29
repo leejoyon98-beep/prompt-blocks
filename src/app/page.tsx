@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { usePacks } from "@/lib/usePacks";
 import { featuredPacks } from "@/data/recommendedPacks";
 import { PageShell } from "@/components/layout/PageShell";
-import { Button } from "@/components/common/Button";
 import { RecommendedPackCard } from "@/components/packs/RecommendedPackCard";
 import { BlockPackCard } from "@/components/packs/BlockPackCard";
 import { EmptyState } from "@/components/common/EmptyState";
@@ -15,13 +14,9 @@ import type { BlockPack, RecommendedBlockPack } from "@/types";
 
 export default function Home() {
   const router = useRouter();
-  const { packs, ready, createPack, duplicatePack, deletePack, startFromRecommended } = usePacks();
+  const { packs, ready, duplicatePack, deletePack, startFromRecommended } = usePacks();
   const [toDelete, setToDelete] = useState<BlockPack | null>(null);
 
-  const handleCreate = () => {
-    const pack = createPack();
-    router.push(`/packs/${pack.id}`);
-  };
   const handleStart = (rec: RecommendedBlockPack) => {
     const pack = startFromRecommended(rec);
     router.push(`/packs/${pack.id}`);
@@ -39,16 +34,6 @@ export default function Home() {
         <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted">
           자주 쓰는 AI 작업 방식을 블록팩으로 등록하고, 내가 사용하는 AI에 붙여넣어 사용할 수 있어요.
         </p>
-        <div className="mt-7 flex items-center gap-2">
-          <Button variant="primary" size="md" onClick={handleCreate}>
-            새 블록팩 만들기
-          </Button>
-          <a href="#recommended">
-            <Button variant="ghost" size="md">
-              추천 블록팩 보기
-            </Button>
-          </a>
-        </div>
       </section>
 
       {/* Recommended */}
@@ -77,16 +62,7 @@ export default function Home() {
           <EmptyState
             title="아직 만든 블록팩이 없어요."
             description={"추천 블록팩으로 시작하거나 새 블록팩을 만들어보세요."}
-          >
-            <Button variant="primary" size="sm" onClick={handleCreate}>
-              새 블록팩 만들기
-            </Button>
-            <a href="#recommended">
-              <Button variant="outline" size="sm">
-                추천 블록팩 보기
-              </Button>
-            </a>
-          </EmptyState>
+          />
         ) : (
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {packs.slice(0, 6).map((p) => (
