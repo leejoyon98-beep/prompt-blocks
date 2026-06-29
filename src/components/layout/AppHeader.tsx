@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AuthButton } from "@/components/auth/AuthButton";
 
 export function AppHeader() {
   return (
@@ -17,6 +18,8 @@ export function AppHeader() {
           <Link href="/library" className="rounded-[var(--radius-btn)] px-3 py-1.5 text-muted hover:bg-subtle hover:text-foreground">
             블록 라이브러리
           </Link>
+          <span className="mx-1 h-4 w-px bg-border" />
+          <AuthButton />
         </nav>
       </div>
     </header>
