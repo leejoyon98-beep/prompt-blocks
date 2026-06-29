@@ -26,6 +26,7 @@ export type RecommendedBlockPack = {
   description: string;
   category: string;
   blockIds: number[];
+  tagIds?: string[];
 };
 
 export type BlockPack = {

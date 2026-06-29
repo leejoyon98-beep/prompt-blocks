@@ -302,7 +302,7 @@ export function usePacks() {
         name: uniqueName(rec.name, packs.map((p) => p.name)),
         description: rec.description,
         blockIds: [...rec.blockIds],
-        tagIds: [],
+        tagIds: [...(rec.tagIds ?? [])],
         createdAt: ts,
         updatedAt: ts,
       };

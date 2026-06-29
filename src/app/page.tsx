@@ -62,12 +62,30 @@ export default function Home() {
       <section id="recommended" className="scroll-mt-20 py-12">
         <div className="mb-5 flex items-baseline justify-between">
           <h2 className="text-[20px] font-semibold tracking-tight">추천 블록팩</h2>
-          <span className="text-[12px] text-muted">목적에 맞는 세트로 바로 시작</span>
+          <Link href="/templates" className="text-[13px] text-muted hover:text-foreground">
+            모든 블록팩 보기 →
+          </Link>
         </div>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {featuredPacks.map((p) => (
             <RecommendedPackCard key={p.id} pack={p} onStart={handleStart} />
           ))}
+          <Link
+            href="/templates"
+            className="flex h-full min-h-[218px] flex-col rounded-[var(--radius-card)] border border-border bg-background p-4 transition-colors hover:border-border-strong hover:bg-subtle/40"
+          >
+            <div>
+              <h3 className="text-[14px] font-semibold tracking-tight">모든 블록팩 보기</h3>
+              <p className="mt-1.5 text-[13px] leading-relaxed text-muted">
+                상품기획, 리서치, 이미지 작업, 마케팅 등 목적별 기본 블록팩을 둘러보고 바로 시작해보세요.
+              </p>
+            </div>
+            <div className="mt-auto pt-4">
+              <span className="inline-flex h-8 items-center justify-center rounded-[var(--radius-btn)] bg-ink px-3 text-[13px] font-medium text-white">
+                둘러보기
+              </span>
+            </div>
+          </Link>
         </div>
       </section>
 
