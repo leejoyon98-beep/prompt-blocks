@@ -8,17 +8,24 @@ import { Button } from "@/components/common/Button";
 import { BlockPackCard } from "@/components/packs/BlockPackCard";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ConfirmDialog } from "@/components/common/ConfirmDialog";
+import { useToast } from "@/components/common/Toast";
 import Link from "next/link";
 import type { BlockPack } from "@/types";
 
 export default function PacksPage() {
   const router = useRouter();
   const { packs, ready, createPack, duplicatePack, deletePack } = usePacks();
+  const { show } = useToast();
   const [toDelete, setToDelete] = useState<BlockPack | null>(null);
 
-  const handleCreate = () => {
-    const pack = createPack();
-    router.push(`/packs/${pack.id}`);
+  const handleCreate = async () => {
+    try {
+      const pack = await createPack();
+      router.push(`/packs/${pack.id}`);
+    } catch (error) {
+      console.error("[packs] create failed", error);
+      show("블록팩을 만들지 못했어요. 잠시 후 다시 시도해주세요.");
+    }
   };
 
   return (

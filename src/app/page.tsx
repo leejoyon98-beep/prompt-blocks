@@ -10,21 +10,33 @@ import { RecommendedPackCard } from "@/components/packs/RecommendedPackCard";
 import { BlockPackCard } from "@/components/packs/BlockPackCard";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ConfirmDialog } from "@/components/common/ConfirmDialog";
+import { useToast } from "@/components/common/Toast";
 import { useState } from "react";
 import type { BlockPack, RecommendedBlockPack } from "@/types";
 
 export default function Home() {
   const router = useRouter();
   const { packs, ready, createPack, duplicatePack, deletePack, startFromRecommended } = usePacks();
+  const { show } = useToast();
   const [toDelete, setToDelete] = useState<BlockPack | null>(null);
 
-  const handleCreate = () => {
-    const pack = createPack();
-    router.push(`/packs/${pack.id}`);
+  const handleCreate = async () => {
+    try {
+      const pack = await createPack();
+      router.push(`/packs/${pack.id}`);
+    } catch (error) {
+      console.error("[packs] create failed", error);
+      show("블록팩을 만들지 못했어요. 잠시 후 다시 시도해주세요.");
+    }
   };
-  const handleStart = (rec: RecommendedBlockPack) => {
-    const pack = startFromRecommended(rec);
-    router.push(`/packs/${pack.id}`);
+  const handleStart = async (rec: RecommendedBlockPack) => {
+    try {
+      const pack = await startFromRecommended(rec);
+      router.push(`/packs/${pack.id}`);
+    } catch (error) {
+      console.error("[packs] recommended start failed", error);
+      show("블록팩을 만들지 못했어요. 잠시 후 다시 시도해주세요.");
+    }
   };
 
   return (

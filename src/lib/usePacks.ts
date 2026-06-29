@@ -19,6 +19,7 @@ type Row = {
   description: string;
   block_ids: number[];
   tag_ids?: string[];
+  tagIds?: string[];
   created_at: string;
   updated_at: string;
 };
@@ -28,7 +29,7 @@ const rowToPack = (r: Row): BlockPack => ({
   name: r.name,
   description: r.description,
   blockIds: r.block_ids ?? [],
-  tagIds: r.tag_ids ?? [],
+  tagIds: r.tag_ids ?? r.tagIds ?? [],
   createdAt: r.created_at,
   updatedAt: r.updated_at,
 });
@@ -72,6 +73,30 @@ async function upsertPack(supabase: SupabaseClient, pack: BlockPack, userId: str
     return;
   }
   console.error("[packs] save failed", error.message);
+}
+
+async function insertPack(supabase: SupabaseClient, pack: BlockPack, userId: string): Promise<BlockPack> {
+  const { data, error } = await supabase
+    .from(TABLE)
+    .insert(packToRow(pack, userId))
+    .select("*")
+    .single();
+
+  if (!error && data) return rowToPack(data as Row);
+
+  if (isMissingTagIdsColumn(error)) {
+    const retry = await supabase
+      .from(TABLE)
+      .insert(packToLegacyRow(pack, userId))
+      .select("*")
+      .single();
+    if (!retry.error && retry.data) return rowToPack(retry.data as Row);
+    console.error("[packs] create failed", retry.error?.message);
+    throw retry.error ?? error;
+  }
+
+  console.error("[packs] create failed", error?.message);
+  throw error;
 }
 
 /** Upload local packs to the cloud once, only when the cloud is still empty. */
@@ -174,7 +199,7 @@ export function usePacks() {
   );
 
   const createPack = useCallback(
-    (input?: { name?: string; description?: string; blockIds?: number[]; tagIds?: string[] }): BlockPack => {
+    async (input?: { name?: string; description?: string; blockIds?: number[]; tagIds?: string[] }): Promise<BlockPack> => {
       const name = uniqueName(input?.name?.trim() || "새 블록팩", packs.map((p) => p.name));
       const ts = now();
       const pack: BlockPack = {
@@ -186,12 +211,34 @@ export function usePacks() {
         createdAt: ts,
         updatedAt: ts,
       };
-      const next = [pack, ...packs];
+
+      const supabase = getSupabase();
+      let created = pack;
+      let savedInCloud = false;
+      if (supabase) {
+        let uid = userId;
+        if (!uid) {
+          const { data, error } = await supabase.auth.getUser();
+          if (error) {
+            console.error("[packs] user lookup failed", error.message);
+            throw error;
+          }
+          uid = data.user?.id ?? null;
+        }
+        if (uid) {
+          created = await insertPack(supabase, pack, uid);
+          savedInCloud = true;
+        }
+      }
+
+      const next = [created, ...packs];
       setPacks(next);
-      persist(next, pack);
-      return pack;
+      if (!savedInCloud) {
+        await persist(next, created);
+      }
+      return created;
     },
-    [packs, persist]
+    [packs, persist, userId]
   );
 
   const updatePack = useCallback(
@@ -240,7 +287,7 @@ export function usePacks() {
   );
 
   const startFromRecommended = useCallback(
-    (rec: RecommendedBlockPack): BlockPack => {
+    async (rec: RecommendedBlockPack): Promise<BlockPack> => {
       const ts = now();
       const pack: BlockPack = {
         id: newId(),
@@ -251,12 +298,34 @@ export function usePacks() {
         createdAt: ts,
         updatedAt: ts,
       };
-      const next = [pack, ...packs];
+
+      const supabase = getSupabase();
+      let created = pack;
+      let savedInCloud = false;
+      if (supabase) {
+        let uid = userId;
+        if (!uid) {
+          const { data, error } = await supabase.auth.getUser();
+          if (error) {
+            console.error("[packs] user lookup failed", error.message);
+            throw error;
+          }
+          uid = data.user?.id ?? null;
+        }
+        if (uid) {
+          created = await insertPack(supabase, pack, uid);
+          savedInCloud = true;
+        }
+      }
+
+      const next = [created, ...packs];
       setPacks(next);
-      persist(next, pack);
-      return pack;
+      if (!savedInCloud) {
+        await persist(next, created);
+      }
+      return created;
     },
-    [packs, persist]
+    [packs, persist, userId]
   );
 
   return {
