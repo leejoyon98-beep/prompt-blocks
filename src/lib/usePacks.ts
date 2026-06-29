@@ -81,14 +81,16 @@ export function usePacks() {
     const supabase = getSupabase();
 
     if (!supabase) {
-      setPacks(loadPacks());
-      setReady(true);
-      const onChange = () => setPacks(loadPacks());
-      window.addEventListener("prompt-packs-changed", onChange);
-      window.addEventListener("storage", onChange);
+      const syncLocal = () => {
+        setPacks(loadPacks());
+        setReady(true);
+      };
+      queueMicrotask(syncLocal);
+      window.addEventListener("prompt-packs-changed", syncLocal);
+      window.addEventListener("storage", syncLocal);
       return () => {
-        window.removeEventListener("prompt-packs-changed", onChange);
-        window.removeEventListener("storage", onChange);
+        window.removeEventListener("prompt-packs-changed", syncLocal);
+        window.removeEventListener("storage", syncLocal);
       };
     }
 

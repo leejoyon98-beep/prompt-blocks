@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Prompt Blocks
 
-## Getting Started
+자주 쓰는 AI 작업 방식을 프롬프트 블록으로 조합하고, 나만의 블록팩으로 저장해서 복사해 쓰는 Next.js 앱입니다.
 
-First, run the development server:
+## 실행
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+개발 서버는 `http://localhost:3047`에서 열립니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 주요 기능
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- 추천 블록팩으로 빠르게 시작
+- 블록 라이브러리 검색과 카테고리 필터
+- 내 블록팩 생성, 수정, 복제, 삭제
+- 등록용 프롬프트 전체 복사
+- 블록 이름만 조합해서 복사
+- Supabase 설정이 없으면 브라우저 로컬 저장소에 저장
+- Supabase 설정이 있으면 이메일 링크 로그인과 클라우드 동기화 사용
 
-## Learn More
+## Supabase 설정
 
-To learn more about Next.js, take a look at the following resources:
+Supabase 없이도 앱은 동작합니다. 여러 기기에서 블록팩을 동기화하려면 `.env.local`에 아래 값을 넣습니다.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Supabase SQL Editor에서 다음 테이블과 RLS 정책을 생성합니다.
 
-## Deploy on Vercel
+```sql
+create table if not exists public.block_packs (
+  id text primary key,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  name text not null,
+  description text not null default '',
+  block_ids integer[] not null default '{}',
+  created_at timestamptz not null,
+  updated_at timestamptz not null
+);
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+alter table public.block_packs enable row level security;
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+create policy "Users can read their own block packs"
+on public.block_packs
+for select
+to authenticated
+using (auth.uid() = user_id);
+
+create policy "Users can insert their own block packs"
+on public.block_packs
+for insert
+to authenticated
+with check (auth.uid() = user_id);
+
+create policy "Users can update their own block packs"
+on public.block_packs
+for update
+to authenticated
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+create policy "Users can delete their own block packs"
+on public.block_packs
+for delete
+to authenticated
+using (auth.uid() = user_id);
+```
+
+Supabase Authentication에서 Email provider를 켜고, Site URL에 개발 중에는 `http://localhost:3047`을 등록합니다.
+
+## 검사
+
+```bash
+npm run lint
+npm run build
+```
