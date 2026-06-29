@@ -128,7 +128,7 @@ export function CurrentPackPanel({
       </div>
 
       <div className="mt-4 border-t border-border pt-4">
-        <CopyRegisterButton pack={pack} full />
+        <CopyRegisterButton pack={pack} full label="블록팩 등록" />
         <button
           onClick={copyNames}
           disabled={!hasItems}

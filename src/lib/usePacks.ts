@@ -60,19 +60,20 @@ function isMissingTagIdsColumn(error: { message?: string; details?: string; hint
   return text.includes("tag_ids");
 }
 
-async function upsertPack(supabase: SupabaseClient, pack: BlockPack, userId: string) {
+async function upsertPack(supabase: SupabaseClient, pack: BlockPack, userId: string): Promise<boolean> {
   const { error } = await supabase.from(TABLE).upsert(packToRow(pack, userId));
-  if (!error) return;
+  if (!error) return true;
   if (isMissingTagIdsColumn(error)) {
     const retry = await supabase.from(TABLE).upsert(packToLegacyRow(pack, userId));
     if (!retry.error) {
       console.warn("[packs] tag_ids column is missing; saved without 조각 태그 sync.");
-      return;
+      return true;
     }
     console.error("[packs] save failed", retry.error.message);
-    return;
+    return false;
   }
   console.error("[packs] save failed", error.message);
+  return false;
 }
 
 async function insertPack(supabase: SupabaseClient, pack: BlockPack, userId: string): Promise<BlockPack> {
@@ -180,20 +181,26 @@ export function usePacks() {
   }, [reload]);
 
   const persist = useCallback(
-    async (next: BlockPack[], changed?: BlockPack, removedId?: string) => {
+    async (next: BlockPack[], changed?: BlockPack, removedId?: string): Promise<boolean> => {
       const supabase = getSupabase();
       if (userId && supabase) {
         if (changed) {
-          await upsertPack(supabase, changed, userId);
+          return upsertPack(supabase, changed, userId);
         }
         if (removedId) {
           const { error } = await supabase.from(TABLE).delete().eq("id", removedId);
-          if (error) console.error("[packs] delete failed", error.message);
+          if (error) {
+            console.error("[packs] delete failed", error.message);
+            return false;
+          }
+          return true;
         }
       } else {
         savePacks(next);
         window.dispatchEvent(new Event("prompt-packs-changed"));
+        return true;
       }
+      return true;
     },
     [userId]
   );
@@ -242,15 +249,16 @@ export function usePacks() {
   );
 
   const updatePack = useCallback(
-    (id: string, patch: Partial<Omit<BlockPack, "id" | "createdAt">>) => {
+    async (id: string, patch: Partial<Omit<BlockPack, "id" | "createdAt">>): Promise<boolean> => {
       let updated: BlockPack | undefined;
       const next = packs.map((p) => {
         if (p.id !== id) return p;
         updated = { ...p, ...patch, updatedAt: now() };
         return updated;
       });
+      if (!updated) return false;
       setPacks(next);
-      if (updated) persist(next, updated);
+      return persist(next, updated);
     },
     [packs, persist]
   );

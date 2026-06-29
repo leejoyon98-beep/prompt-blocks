@@ -16,7 +16,7 @@ import type { BlockPack, RecommendedBlockPack } from "@/types";
 
 export default function Home() {
   const router = useRouter();
-  const { packs, ready, createPack, duplicatePack, deletePack, startFromRecommended } = usePacks();
+  const { packs, ready, createPack, updatePack, deletePack, startFromRecommended } = usePacks();
   const { show } = useToast();
   const [toDelete, setToDelete] = useState<BlockPack | null>(null);
 
@@ -95,7 +95,7 @@ export default function Home() {
               <BlockPackCard
                 key={p.id}
                 pack={p}
-                onDuplicate={(id) => duplicatePack(id)}
+                onUpdate={updatePack}
                 onDelete={(pack) => setToDelete(pack)}
               />
             ))}

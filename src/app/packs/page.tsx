@@ -14,7 +14,7 @@ import type { BlockPack } from "@/types";
 
 export default function PacksPage() {
   const router = useRouter();
-  const { packs, ready, createPack, duplicatePack, deletePack } = usePacks();
+  const { packs, ready, createPack, updatePack, deletePack } = usePacks();
   const { show } = useToast();
   const [toDelete, setToDelete] = useState<BlockPack | null>(null);
 
@@ -57,7 +57,7 @@ export default function PacksPage() {
             <BlockPackCard
               key={p.id}
               pack={p}
-              onDuplicate={(id) => duplicatePack(id)}
+              onUpdate={updatePack}
               onDelete={(pack) => setToDelete(pack)}
             />
           ))}

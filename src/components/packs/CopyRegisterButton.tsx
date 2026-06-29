@@ -10,10 +10,12 @@ export function CopyRegisterButton({
   pack,
   className,
   full,
+  label = "사용하기",
 }: {
   pack: Pick<BlockPack, "name" | "blockIds" | "tagIds">;
   className?: string;
   full?: boolean;
+  label?: string;
 }) {
   const { show } = useToast();
   const disabled = pack.blockIds.length + (pack.tagIds?.length ?? 0) === 0;
@@ -23,7 +25,7 @@ export function CopyRegisterButton({
     if (!text) return;
     try {
       await navigator.clipboard.writeText(text);
-      show("복사했어요. 내가 쓰는 AI에 붙여넣으세요.");
+      show("블록팩 등록 문구를 복사했어요. 내가 사용하는 AI에 붙여넣으세요.");
     } catch {
       show("복사에 실패했어요. 다시 시도해주세요.");
     }
@@ -37,7 +39,7 @@ export function CopyRegisterButton({
       disabled={disabled}
       className={cn(full && "w-full", className)}
     >
-      블록팩 등록
+      {label}
     </Button>
   );
 }
