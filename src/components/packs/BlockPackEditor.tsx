@@ -75,7 +75,7 @@ export function BlockPackEditor({ packId }: { packId: string }) {
 
   if (!pack) {
     return (
-      <div className="mx-auto max-w-[1440px] px-6 py-16">
+      <div className="mx-auto max-w-[1440px] px-6 py-16 sm:px-10">
         <EmptyState
           title="블록팩을 찾을 수 없어요."
           description="삭제되었거나 잘못된 주소일 수 있어요."
@@ -125,7 +125,7 @@ export function BlockPackEditor({ packId }: { packId: string }) {
   const onSelectCategory = mode === "blocks" ? setBlockCategory : setTagCategory;
 
   return (
-    <div className="mx-auto max-w-[1440px] px-6 py-6">
+    <div className="mx-auto max-w-[1440px] px-6 py-6 sm:px-10">
       <div className="mb-4 flex items-center gap-2 text-[12px] text-muted">
         <Link href="/packs" className="hover:text-foreground">
           내 블록팩
@@ -134,7 +134,7 @@ export function BlockPackEditor({ packId }: { packId: string }) {
         <span className="text-foreground">{pack.name || "이름 없는 블록팩"}</span>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[180px_minmax(0,1fr)_320px] 2xl:grid-cols-[180px_minmax(720px,1fr)_320px]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[180px_minmax(0,1fr)_320px] xl:gap-8 2xl:grid-cols-[180px_minmax(760px,1fr)_320px]">
         <aside className="lg:sticky lg:top-20 lg:self-start">
           <p className="mb-2 hidden px-3 text-[11px] font-medium uppercase text-muted lg:block">
             카테고리

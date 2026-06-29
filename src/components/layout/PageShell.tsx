@@ -7,5 +7,5 @@ export function PageShell({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <div className={cn("mx-auto w-full max-w-[1200px] px-6", className)}>{children}</div>;
+  return <div className={cn("mx-auto w-full max-w-[1440px] px-6 sm:px-10", className)}>{children}</div>;
 }
