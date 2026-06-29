@@ -16,6 +16,13 @@ function isValidPack(x: unknown): x is BlockPack {
   );
 }
 
+function normalizePack(pack: BlockPack): BlockPack {
+  return {
+    ...pack,
+    tagIds: Array.isArray(pack.tagIds) ? pack.tagIds.filter((id) => typeof id === "string") : [],
+  };
+}
+
 export function loadPacks(): BlockPack[] {
   if (typeof window === "undefined") return [];
   try {
@@ -23,7 +30,7 @@ export function loadPacks(): BlockPack[] {
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
-    return parsed.filter(isValidPack);
+    return parsed.filter(isValidPack).map(normalizePack);
   } catch {
     return [];
   }

@@ -9,6 +9,17 @@ export type PromptBlock = {
   usedInPacks: string[];
 };
 
+export type PromptTag = {
+  id: string;
+  type: "modifier";
+  category: string;
+  tag: string;
+  labelKo: string;
+  meaning: string;
+  promptText: string;
+  aliases?: string[];
+};
+
 export type RecommendedBlockPack = {
   id: string;
   name: string;
@@ -22,6 +33,7 @@ export type BlockPack = {
   name: string;
   description: string;
   blockIds: number[];
+  tagIds: string[];
   createdAt: string;
   updatedAt: string;
 };

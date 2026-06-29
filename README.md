@@ -39,6 +39,7 @@ create table if not exists public.block_packs (
   name text not null,
   description text not null default '',
   block_ids integer[] not null default '{}',
+  tag_ids text[] not null default '{}',
   created_at timestamptz not null,
   updated_at timestamptz not null
 );
@@ -72,6 +73,13 @@ using (auth.uid() = user_id);
 ```
 
 Supabase Authentication에서 Email provider를 켜고, Site URL에 개발 중에는 `http://localhost:3047`을 등록합니다.
+
+이미 `block_packs` 테이블을 만든 뒤 조각 태그 기능을 추가하는 경우에는 아래 SQL만 추가로 실행합니다.
+
+```sql
+alter table public.block_packs
+add column if not exists tag_ids text[] not null default '{}';
+```
 
 ## 검사
 

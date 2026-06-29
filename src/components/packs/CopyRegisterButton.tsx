@@ -11,12 +11,12 @@ export function CopyRegisterButton({
   className,
   full,
 }: {
-  pack: Pick<BlockPack, "name" | "blockIds">;
+  pack: Pick<BlockPack, "name" | "blockIds" | "tagIds">;
   className?: string;
   full?: boolean;
 }) {
   const { show } = useToast();
-  const disabled = pack.blockIds.length === 0;
+  const disabled = pack.blockIds.length + (pack.tagIds?.length ?? 0) === 0;
 
   async function copy() {
     const text = generateRegisterPrompt(pack);

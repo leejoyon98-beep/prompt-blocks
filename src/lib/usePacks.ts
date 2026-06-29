@@ -18,6 +18,7 @@ type Row = {
   name: string;
   description: string;
   block_ids: number[];
+  tag_ids?: string[];
   created_at: string;
   updated_at: string;
 };
@@ -27,6 +28,7 @@ const rowToPack = (r: Row): BlockPack => ({
   name: r.name,
   description: r.description,
   blockIds: r.block_ids ?? [],
+  tagIds: r.tag_ids ?? [],
   createdAt: r.created_at,
   updatedAt: r.updated_at,
 });
@@ -37,6 +39,7 @@ const packToRow = (p: BlockPack, userId: string) => ({
   name: p.name,
   description: p.description,
   block_ids: p.blockIds,
+  tag_ids: p.tagIds ?? [],
   created_at: p.createdAt,
   updated_at: p.updatedAt,
 });
@@ -139,7 +142,7 @@ export function usePacks() {
   );
 
   const createPack = useCallback(
-    (input?: { name?: string; description?: string; blockIds?: number[] }): BlockPack => {
+    (input?: { name?: string; description?: string; blockIds?: number[]; tagIds?: string[] }): BlockPack => {
       const name = uniqueName(input?.name?.trim() || "새 블록팩", packs.map((p) => p.name));
       const ts = now();
       const pack: BlockPack = {
@@ -147,6 +150,7 @@ export function usePacks() {
         name,
         description: input?.description?.trim() || "",
         blockIds: input?.blockIds ? [...input.blockIds] : [],
+        tagIds: input?.tagIds ? [...input.tagIds] : [],
         createdAt: ts,
         updatedAt: ts,
       };
@@ -191,6 +195,7 @@ export function usePacks() {
         id: newId(),
         name: uniqueName(src.name, packs.map((p) => p.name)),
         blockIds: [...src.blockIds],
+        tagIds: [...(src.tagIds ?? [])],
         createdAt: ts,
         updatedAt: ts,
       };
@@ -210,6 +215,7 @@ export function usePacks() {
         name: uniqueName(rec.name, packs.map((p) => p.name)),
         description: rec.description,
         blockIds: [...rec.blockIds],
+        tagIds: [],
         createdAt: ts,
         updatedAt: ts,
       };
