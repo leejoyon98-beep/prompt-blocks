@@ -49,8 +49,13 @@ export default function Home() {
           나만의 블록팩을 만드세요.
         </h1>
         <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted">
-          자주 쓰는 AI 작업 방식을 블록팩으로 등록하고, 내가 사용하는 AI에 붙여넣어 사용할 수 있어요.
+          자주 쓰는 AI 작업 방식을 블록팩으로 묶고,
+          <br />
+          내가 사용하는 AI에 붙여넣어 반복 작업을 빠르게 요청할 수 있어요.
         </p>
+        <Link href="/guide" className="mt-4 inline-flex text-[13px] font-medium text-foreground hover:underline">
+          프롬프트 블록이 처음이라면? 사용 가이드 보기 →
+        </Link>
       </section>
 
       {/* Recommended */}
