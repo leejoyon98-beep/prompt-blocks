@@ -14,8 +14,8 @@ export function UseExampleCard({ command, request, details }: UseExampleCardProp
   return (
     <article className="group relative min-h-[178px] overflow-hidden rounded-[var(--radius-card)] border border-border bg-background p-5 [word-break:keep-all] transition-colors hover:border-border-strong sm:min-h-[190px]">
       <div className="flex h-full flex-col">
-        <p className="text-[13px] font-medium leading-[1.55] text-foreground [word-break:keep-all]">{command}</p>
-        <p className="mt-3 text-[13px] leading-[1.6] text-muted">{request}</p>
+        <p className="text-[15px] font-medium leading-[1.45] text-foreground [word-break:keep-all]">{command}</p>
+        <p className="mt-3 text-[14px] leading-[1.55] text-muted">{request}</p>
         <button
           type="button"
           className="mt-auto inline-flex w-fit pt-5 text-[12px] font-medium text-muted hover:text-foreground md:hidden"
@@ -33,8 +33,8 @@ export function UseExampleCard({ command, request, details }: UseExampleCardProp
         ].join(" ")}
         aria-hidden={!expanded}
       >
-        <p className="text-[13px] font-medium leading-[1.55] text-foreground">{command}</p>
-        <ul className="mt-3 space-y-2 text-[12px] leading-[1.55] text-muted">
+        <p className="text-[15px] font-medium leading-[1.45] text-foreground">{command}</p>
+        <ul className="mt-3 space-y-2 text-[13px] leading-[1.5] text-muted">
           {details.map((detail) => (
             <li key={detail} className="flex gap-2">
               <span className="mt-[0.58em] h-1 w-1 shrink-0 rounded-full bg-muted/60" aria-hidden="true" />

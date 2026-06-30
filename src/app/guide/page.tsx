@@ -58,7 +58,7 @@ const benefits = [
 const useExamples = [
   {
     command: "핵심요약 + ELI5 + table",
-    request: "아래 내용을 정리해줘.",
+    request: "긴 내용을 핵심만 쉽게, 표로 정리해줘.",
     details: [
       "핵심요약: 긴 내용에서 중요한 내용만 간단히 정리",
       "ELI5: 초보자도 이해할 수 있게 쉽게 설명",
@@ -67,7 +67,7 @@ const useExamples = [
   },
   {
     command: "고객분석 + 구매장벽분석 + benefits",
-    request: "이 제품을 고객 관점에서 분석해줘.",
+    request: "고객의 고민, 망설이는 이유, 체감 혜택까지 정리해줘.",
     details: [
       "고객분석: 타깃 고객의 니즈, 고민, 구매 동기 정리",
       "구매장벽분석: 구매를 망설이게 하는 이유 분석",
@@ -76,7 +76,7 @@ const useExamples = [
   },
   {
     command: "이미지프롬프트 + mood + lighting",
-    request: "아래 콘셉트를 이미지 생성용 프롬프트로 바꿔줘.",
+    request: "콘셉트, 분위기, 조명감까지 반영한 이미지 프롬프트로 바꿔줘.",
     details: [
       "이미지프롬프트: 이미지 생성 AI에 넣을 문장으로 변환",
       "mood: 원하는 분위기까지 반영",
@@ -85,7 +85,7 @@ const useExamples = [
   },
   {
     command: "딥리서치 + sources + evidence + next steps",
-    request: "아래 주제에 대해 근거 중심으로 조사하고 다음 액션까지 정리해줘.",
+    request: "출처와 근거를 바탕으로 조사하고, 다음 액션까지 제안해줘.",
     details: [
       "딥리서치: 주제를 깊이 있게 조사",
       "sources: 출처를 함께 제시",
@@ -128,7 +128,7 @@ export default function GuidePage() {
               {benefits.map((benefit) => (
                 <article key={benefit.title} className="rounded-[var(--radius-card)] border border-border bg-background p-5">
                   <h3 className="text-[15px] font-semibold leading-[1.5]">{benefit.title}</h3>
-                  <p className="mt-2 text-[13px] leading-[1.6] text-muted">{benefit.description}</p>
+                  <p className="mt-2 text-[13px] leading-[1.55] text-muted">{benefit.description}</p>
                 </article>
               ))}
             </div>
@@ -147,7 +147,7 @@ export default function GuidePage() {
                     <h3 className="mt-2 text-[20px] font-semibold leading-tight">{concept.title}</h3>
                   </div>
                   <div>
-                    <p className="max-w-[760px] text-[14px] leading-[1.62] text-muted">{concept.description}</p>
+                    <p className="max-w-[760px] text-[14px] leading-[1.55] text-muted">{concept.description}</p>
                     <div className="mt-5 flex flex-wrap gap-2">
                       {concept.examples.map((example) => (
                         <span
