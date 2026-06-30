@@ -53,7 +53,7 @@ export default function Home() {
           <br />
           내가 사용하는 AI에 붙여넣어 반복 작업을 빠르게 요청할 수 있어요.
         </p>
-        <div className="mt-10 mb-3">
+        <div className="mt-12 mb-3">
           <Link href="/guide" className="inline-flex text-[13px] font-medium text-foreground hover:underline">
             프롬프트 블록이 처음이라면? 사용 가이드 보기 →
           </Link>

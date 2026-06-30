@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/common/Button";
+import { TypewriterPromptBox } from "@/components/guide/TypewriterPromptBox";
 
 const repeatedRequests = [
   "핵심만 요약해줘",
@@ -20,7 +21,7 @@ const concepts = [
   {
     title: "조각 태그",
     description: "답변의 길이, 형식, 톤을 조정하는 작은 옵션이에요.",
-    examples: ["ELI5: 쉽게", "TL;DR: 짧게", "table: 표로", "redteam: 리스크 검토"],
+    examples: ["ELI5 · 쉽게", "TL;DR · 짧게", "table · 표로", "redteam · 리스크 검토"],
   },
   {
     title: "블록팩",
@@ -74,13 +75,7 @@ export default function GuidePage() {
       <main className="space-y-24 py-20">
         <section className="max-w-[820px]">
           <SectionHeading eyebrow="왜 필요한가요?" title="AI를 쓰다 보면 같은 말을 계속 반복하게 돼요." />
-          <div className="mt-8 flex max-w-[720px] flex-wrap gap-2.5">
-            {repeatedRequests.map((request) => (
-              <span key={request} className="rounded-full border border-border bg-background px-4 py-2 text-[13px] text-foreground">
-                {request}
-              </span>
-            ))}
-          </div>
+          <TypewriterPromptBox phrases={repeatedRequests} />
           <p className="mt-8 max-w-[640px] text-[15px] leading-[1.7] text-muted">
             프롬프트 블록은 이런 반복되는 요청 방식을 짧게 저장해두기 위한 방법이에요.
           </p>
@@ -90,12 +85,18 @@ export default function GuidePage() {
           <SectionHeading eyebrow="핵심 개념" title="세 가지만 알면 돼요." />
           <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
             {concepts.map((concept) => (
-              <article key={concept.title} className="rounded-[var(--radius-card)] border border-border bg-background p-5">
+              <article
+                key={concept.title}
+                className="rounded-[var(--radius-card)] border border-border bg-background p-5 [word-break:keep-all]"
+              >
                 <h3 className="text-[18px] font-semibold">{concept.title}</h3>
                 <p className="mt-3 text-[14px] leading-[1.7] text-muted">{concept.description}</p>
                 <div className="mt-5 flex flex-wrap gap-2">
                   {concept.examples.map((example) => (
-                    <span key={example} className="rounded-full bg-subtle px-3 py-1.5 text-[12px] text-muted">
+                    <span
+                      key={example}
+                      className="whitespace-nowrap rounded-full bg-subtle px-3 py-1.5 text-[12px] text-muted [word-break:keep-all]"
+                    >
                       {example}
                     </span>
                   ))}
@@ -151,8 +152,13 @@ export default function GuidePage() {
           />
           <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
             {useExamples.map((example) => (
-              <article key={example.command} className="rounded-[var(--radius-card)] border border-border bg-background p-5">
-                <p className="font-mono text-[13px] font-medium leading-[1.7] text-foreground">{example.command}</p>
+              <article
+                key={example.command}
+                className="rounded-[var(--radius-card)] border border-border bg-background p-5 [word-break:keep-all]"
+              >
+                <p className="text-[13px] font-medium leading-[1.7] text-foreground [word-break:keep-all]">
+                  {example.command}
+                </p>
                 <p className="mt-3 text-[13px] leading-[1.7] text-muted">{example.request}</p>
               </article>
             ))}
