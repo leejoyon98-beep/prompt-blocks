@@ -3,19 +3,23 @@
 import { useState } from "react";
 
 type UseExampleCardProps = {
+  title: string;
   command: string;
-  request: string;
-  details: string[];
+  longRequest: string[];
 };
 
-export function UseExampleCard({ command, request, details }: UseExampleCardProps) {
+export function UseExampleCard({ title, command, longRequest }: UseExampleCardProps) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <article className="group relative min-h-[178px] overflow-hidden rounded-[var(--radius-card)] border border-border bg-background p-5 [word-break:keep-all] transition-colors hover:border-border-strong sm:min-h-[190px]">
+    <article className="group relative min-h-[186px] overflow-hidden rounded-[var(--radius-card)] border border-border bg-background p-5 [word-break:keep-all] transition-colors hover:border-border-strong sm:min-h-[210px]">
       <div className="flex h-full flex-col">
-        <p className="text-[15px] font-medium leading-[1.45] text-foreground [word-break:keep-all]">{command}</p>
-        <p className="mt-3 text-[14px] leading-[1.55] text-muted">{request}</p>
+        <h3 className="max-w-[520px] text-[18px] font-semibold leading-[1.35] text-foreground [text-wrap:balance]">
+          {title}
+        </h3>
+        <p className="mt-5 inline-flex w-fit max-w-full rounded-[var(--radius-btn)] border border-border bg-subtle px-3 py-2 font-mono text-[14px] font-medium leading-[1.35] text-foreground [word-break:keep-all]">
+          {command}
+        </p>
         <button
           type="button"
           className="mt-auto inline-flex w-fit pt-5 text-[12px] font-medium text-muted hover:text-foreground md:hidden"
@@ -33,15 +37,18 @@ export function UseExampleCard({ command, request, details }: UseExampleCardProp
         ].join(" ")}
         aria-hidden={!expanded}
       >
-        <p className="text-[15px] font-medium leading-[1.45] text-foreground">{command}</p>
-        <ul className="mt-3 space-y-2 text-[13px] leading-[1.5] text-muted">
-          {details.map((detail) => (
-            <li key={detail} className="flex gap-2">
-              <span className="mt-[0.58em] h-1 w-1 shrink-0 rounded-full bg-muted/60" aria-hidden="true" />
-              <span>{detail}</span>
-            </li>
+        <p className="text-[13px] font-semibold leading-[1.45] text-foreground">원래는 이렇게 길게 써야 해요</p>
+        <div className="mt-3 space-y-1 text-[14px] leading-[1.55] text-muted">
+          {longRequest.map((line) => (
+            <p key={line}>{line}</p>
           ))}
-        </ul>
+        </div>
+        <div className="mt-5">
+          <p className="text-[12px] font-medium text-muted">짧게 쓰면:</p>
+          <p className="mt-2 inline-flex w-fit max-w-full rounded-[var(--radius-btn)] border border-border bg-subtle px-3 py-2 font-mono text-[14px] font-medium leading-[1.35] text-foreground">
+            {command}:
+          </p>
+        </div>
         <button
           type="button"
           className="mt-4 inline-flex w-fit text-[12px] font-medium text-muted hover:text-foreground md:hidden"
