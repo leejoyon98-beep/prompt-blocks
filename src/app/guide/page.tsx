@@ -20,8 +20,14 @@ const concepts = [
   },
   {
     title: "조각 태그",
-    description: "답변의 길이, 형식, 톤을 조정하는 작은 옵션이에요.",
-    examples: ["ELI5 · 쉽게", "TL;DR · 짧게", "table · 표로", "redteam · 리스크 검토"],
+    description: "AI가 어떤 방식으로 답할지 조정하는 옵션이에요.",
+    examples: [
+      "ELI5 · 아주 쉽게 설명",
+      "TL;DR · 짧은 요약 먼저",
+      "table · 표로 정리",
+      "redteam · 약점과 리스크 검토",
+      "polish · 문장을 자연스럽게 다듬기",
+    ],
   },
   {
     title: "블록팩",
@@ -58,134 +64,141 @@ const useExamples = [
 export default function GuidePage() {
   return (
     <PageShell className="py-14 [word-break:keep-all]">
-      <header className="border-b border-border pb-16">
-        <p className="mb-4 text-[13px] font-medium text-muted">사용 가이드</p>
-        <h1 className="max-w-[980px] text-[34px] font-semibold leading-tight [text-wrap:balance] sm:text-[44px] lg:text-[48px]">
-          매번 같은 프롬프트를 다시 쓰지 않도록
-        </h1>
-        <p className="mt-5 max-w-[720px] text-[15px] leading-[1.75] text-muted">
-          프롬프트 블록은 자주 쓰는 AI 요청 방식을 짧은 블록으로 저장해두는 방법이에요.
-          <br />
-          블록팩으로 묶어 내가 사용하는 AI에 붙여넣어두면,
-          <br />
-          짧은 조합만으로 반복 작업을 빠르게 요청할 수 있어요.
-        </p>
-      </header>
-
-      <main className="space-y-24 py-20">
-        <section className="max-w-[820px]">
-          <SectionHeading eyebrow="왜 필요한가요?" title="AI를 쓰다 보면 같은 말을 계속 반복하게 돼요." />
-          <TypewriterPromptBox phrases={repeatedRequests} />
-          <p className="mt-8 max-w-[640px] text-[15px] leading-[1.7] text-muted">
-            프롬프트 블록은 이런 반복되는 요청 방식을 짧게 저장해두기 위한 방법이에요.
+      <div className="mx-auto w-full max-w-[1200px]">
+        <header className="border-b border-border pb-16">
+          <p className="mb-4 text-[13px] font-medium text-muted">사용 가이드</p>
+          <h1 className="max-w-[980px] text-[34px] font-semibold leading-tight [text-wrap:balance] sm:text-[44px] lg:text-[48px]">
+            매번 같은 프롬프트를 다시 쓰지 않도록
+          </h1>
+          <p className="mt-5 max-w-[760px] text-[15px] leading-[1.75] text-muted">
+            프롬프트 블록은 자주 쓰는 AI 요청 방식을 짧은 블록으로 저장해두는 방법이에요.
+            <br />
+            블록팩으로 묶어 내가 사용하는 AI에 붙여넣어두면,
+            <br />
+            짧은 조합만으로 반복 작업을 빠르게 요청할 수 있어요.
           </p>
-        </section>
+        </header>
 
-        <section>
-          <SectionHeading eyebrow="핵심 개념" title="세 가지만 알면 돼요." />
-          <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
-            {concepts.map((concept) => (
-              <article
-                key={concept.title}
-                className="rounded-[var(--radius-card)] border border-border bg-background p-5 [word-break:keep-all]"
-              >
-                <h3 className="text-[18px] font-semibold">{concept.title}</h3>
-                <p className="mt-3 text-[14px] leading-[1.7] text-muted">{concept.description}</p>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {concept.examples.map((example) => (
-                    <span
-                      key={example}
-                      className="whitespace-nowrap rounded-full bg-subtle px-3 py-1.5 text-[12px] text-muted [word-break:keep-all]"
-                    >
-                      {example}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="max-w-[900px]">
-          <SectionHeading eyebrow="사용 방법" title="이렇게 사용해요." />
-          <div className="mt-10 space-y-0">
-            {steps.map((step, index) => (
-              <TimelineStep key={step.title} index={index + 1} isLast={index === steps.length - 1}>
-                <h3 className="text-[17px] font-semibold">{step.title}</h3>
-                <p className="mt-2 max-w-[620px] text-[14px] leading-[1.7] text-muted">{step.description}</p>
-              </TimelineStep>
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <SectionHeading eyebrow="좋은 점" title="반복 작업이 가벼워져요." />
-          <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
-            {benefits.map((benefit) => (
-              <article key={benefit.title} className="rounded-[var(--radius-card)] border border-border bg-background p-5">
-                <h3 className="text-[15px] font-semibold leading-[1.5]">{benefit.title}</h3>
-                <p className="mt-2 text-[13px] leading-[1.7] text-muted">{benefit.description}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="max-w-[900px]">
-          <div className="rounded-[var(--radius-card)] border border-border bg-subtle p-6 sm:p-8">
-            <h2 className="text-[24px] font-semibold [text-wrap:balance]">꼭 알아두세요.</h2>
-            <p className="mt-5 max-w-[720px] text-[14px] leading-[1.7] text-foreground">
-              블록팩 등록은 AI를 영구적으로 학습시키는 기능은 아니에요. 대화창에 붙여넣으면 보통 그 대화 안에서 작동하고,
-              맞춤 지침이나 프로젝트 설정에 넣으면 반복해서 쓰기 더 좋아요.
+        <main className="space-y-24 py-20">
+          <section>
+            <SectionHeading eyebrow="왜 필요한가요?" title="AI를 쓰다 보면 같은 말을 계속 반복하게 돼요." />
+            <TypewriterPromptBox phrases={repeatedRequests} />
+            <p className="mt-8 max-w-[760px] text-[15px] leading-[1.7] text-muted">
+              프롬프트 블록은 이런 반복되는 요청 방식을 짧게 저장해두기 위한 방법이에요.
             </p>
-            <p className="mt-4 max-w-[720px] text-[13px] leading-[1.7] text-muted">
-              AI 도구마다 지침을 기억하는 방식은 조금씩 달라요. 가장 안정적으로 쓰려면 새 대화에서 블록팩 등록 문구를 먼저 붙여넣거나,
-              해당 AI의 맞춤 지침/프로젝트 설정에 넣어주세요.
-            </p>
+          </section>
+
+          <section>
+            <SectionHeading eyebrow="좋은 점" title="반복 작업이 가벼워져요." />
+            <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+              {benefits.map((benefit) => (
+                <article key={benefit.title} className="rounded-[var(--radius-card)] border border-border bg-background p-5">
+                  <h3 className="text-[15px] font-semibold leading-[1.5]">{benefit.title}</h3>
+                  <p className="mt-2 text-[13px] leading-[1.7] text-muted">{benefit.description}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section>
+            <SectionHeading eyebrow="핵심 개념" title="세 가지만 알면 돼요." />
+            <div className="mt-8 space-y-4">
+              {concepts.map((concept, index) => (
+                <article
+                  key={concept.title}
+                  className="grid gap-5 rounded-[var(--radius-card)] border border-border bg-background p-5 [word-break:keep-all] sm:p-6 lg:grid-cols-[220px_1fr]"
+                >
+                  <div>
+                    <p className="text-[12px] font-medium text-muted">{index + 1}</p>
+                    <h3 className="mt-2 text-[20px] font-semibold leading-tight">{concept.title}</h3>
+                  </div>
+                  <div>
+                    <p className="max-w-[760px] text-[14px] leading-[1.7] text-muted">{concept.description}</p>
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {concept.examples.map((example) => (
+                        <span
+                          key={example}
+                          className="whitespace-nowrap rounded-full bg-subtle px-3 py-1.5 text-[12px] text-muted [word-break:keep-all]"
+                        >
+                          {example}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section>
+            <SectionHeading eyebrow="사용 방법" title="이렇게 사용해요." />
+            <div className="mt-10">
+              {steps.map((step, index) => (
+                <TimelineStep key={step.title} index={index + 1} isLast={index === steps.length - 1}>
+                  <h3 className="text-[17px] font-semibold">{step.title}</h3>
+                  <p className="mt-2 max-w-[760px] text-[14px] leading-[1.7] text-muted">{step.description}</p>
+                </TimelineStep>
+              ))}
+            </div>
+          </section>
+
+          <section>
+            <SectionHeading
+              eyebrow="사용 예시"
+              title="이렇게 써볼 수 있어요."
+              description="블록팩을 등록한 뒤에는 짧게 조합해서 요청할 수 있어요."
+            />
+            <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+              {useExamples.map((example) => (
+                <article
+                  key={example.command}
+                  className="rounded-[var(--radius-card)] border border-border bg-background p-5 [word-break:keep-all]"
+                >
+                  <p className="text-[13px] font-medium leading-[1.7] text-foreground [word-break:keep-all]">
+                    {example.command}
+                  </p>
+                  <p className="mt-3 text-[13px] leading-[1.7] text-muted">{example.request}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section>
+            <div className="rounded-[var(--radius-card)] border border-border bg-subtle p-6 sm:p-8">
+              <h2 className="text-[24px] font-semibold [text-wrap:balance]">꼭 알아두세요.</h2>
+              <p className="mt-5 max-w-[760px] text-[14px] leading-[1.7] text-foreground">
+                블록팩 등록은 AI를 영구적으로 학습시키는 기능은 아니에요. 대화창에 붙여넣으면 보통 그 대화 안에서 작동하고,
+                맞춤 지침이나 프로젝트 설정에 넣으면 반복해서 쓰기 더 좋아요.
+              </p>
+              <p className="mt-4 max-w-[760px] text-[13px] leading-[1.7] text-muted">
+                AI 도구마다 지침을 기억하는 방식은 조금씩 달라요. 가장 안정적으로 쓰려면 새 대화에서 블록팩 등록 문구를 먼저 붙여넣거나,
+                해당 AI의 맞춤 지침/프로젝트 설정에 넣어주세요.
+              </p>
+            </div>
+          </section>
+        </main>
+
+        <section className="rounded-[var(--radius-card)] border border-border bg-background p-6 sm:p-8">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h2 className="max-w-[760px] text-[24px] font-semibold leading-tight [text-wrap:balance]">
+                자주 쓰는 요청부터 블록팩으로 만들어보세요.
+              </h2>
+              <p className="mt-3 max-w-[760px] text-[14px] leading-[1.7] text-muted">
+                처음부터 완벽하게 만들 필요는 없어요. 자주 쓰는 블록 몇 개만 담아도 반복 작업이 훨씬 가벼워집니다.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Link href="/packs">
+                <Button variant="primary" size="md">내 블록팩으로 가기</Button>
+              </Link>
+              <Link href="/library">
+                <Button variant="outline" size="md">블록 라이브러리 보기</Button>
+              </Link>
+            </div>
           </div>
         </section>
-
-        <section>
-          <SectionHeading
-            eyebrow="사용 예시"
-            title="이렇게 써볼 수 있어요."
-            description="블록팩을 등록한 뒤에는 짧게 조합해서 요청할 수 있어요."
-          />
-          <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
-            {useExamples.map((example) => (
-              <article
-                key={example.command}
-                className="rounded-[var(--radius-card)] border border-border bg-background p-5 [word-break:keep-all]"
-              >
-                <p className="text-[13px] font-medium leading-[1.7] text-foreground [word-break:keep-all]">
-                  {example.command}
-                </p>
-                <p className="mt-3 text-[13px] leading-[1.7] text-muted">{example.request}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-      </main>
-
-      <section className="rounded-[var(--radius-card)] border border-border bg-background p-6 sm:p-8">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <h2 className="max-w-[680px] text-[24px] font-semibold leading-tight [text-wrap:balance]">
-              자주 쓰는 요청부터 블록팩으로 만들어보세요.
-            </h2>
-            <p className="mt-3 max-w-[620px] text-[14px] leading-[1.7] text-muted">
-              처음부터 완벽하게 만들 필요는 없어요. 자주 쓰는 블록 몇 개만 담아도 반복 작업이 훨씬 가벼워집니다.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Link href="/packs">
-              <Button variant="primary" size="md">내 블록팩으로 가기</Button>
-            </Link>
-            <Link href="/library">
-              <Button variant="outline" size="md">블록 라이브러리 보기</Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+      </div>
     </PageShell>
   );
 }
