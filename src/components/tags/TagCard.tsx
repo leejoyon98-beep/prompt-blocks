@@ -24,10 +24,7 @@ export function TagCard({
         </span>
       </div>
 
-      <p className="mt-2 line-clamp-2 text-[13px] leading-relaxed text-muted">{tag.meaning}</p>
-      <p className="mt-2 line-clamp-2 rounded-[10px] bg-subtle/70 px-2.5 py-2 text-[12px] leading-relaxed text-muted">
-        {tag.promptText}
-      </p>
+      <p className="mt-2 line-clamp-2 text-[13px] leading-[1.55] text-muted">{tag.meaning}</p>
 
       <div className="mt-auto flex items-end justify-between gap-2 pt-3">
         <div className="min-h-[18px] flex-1">
