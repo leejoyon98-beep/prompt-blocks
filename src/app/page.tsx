@@ -98,7 +98,7 @@ export default function Home() {
               type="button"
               onClick={handleCreate}
               aria-label="새 블록팩 만들기"
-              className="inline-flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full border border-border bg-background text-[13px] font-medium leading-none text-foreground transition-colors hover:border-border-strong hover:bg-subtle"
+              className="relative top-[3px] inline-flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full border border-border bg-background text-[13px] font-medium leading-none text-foreground transition-colors hover:border-border-strong hover:bg-subtle"
             >
               <span className="-translate-y-px">+</span>
             </button>
