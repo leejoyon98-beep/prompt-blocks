@@ -234,6 +234,28 @@ export const promptTags: PromptTag[] = [
     aliases: ["refine", "다듬기"],
   },
   {
+    id: "tag_humanize",
+    type: "modifier",
+    category: "문체/톤",
+    tag: "humanize",
+    labelKo: "AI티 줄이기",
+    meaning: "AI가 쓴 것처럼 과하게 정돈되고 평탄한 느낌을 줄이고, 사람이 직접 쓴 글처럼 자연스러운 문장 리듬과 흐름으로 작성",
+    promptText:
+      "AI가 쓴 것처럼 지나치게 정돈되고 평탄한 느낌을 줄이고, 사람이 직접 쓴 글처럼 자연스럽게 작성해줘. 문장 길이를 너무 균일하게 맞추지 말고, 짧은 문장과 긴 문장이 자연스럽게 섞이게 해줘. 같은 문단 구조나 정리형 연결어가 반복되지 않게 하고, 문맥에 맞게 강조 위치와 흐름을 조정해줘. 쉼표와 전환어를 과하게 규칙적으로 쓰지 말고, 실제 사람이 쓴 글처럼 자연스러운 호흡을 살려줘. 단, 일부러 오타를 넣거나 문법을 망가뜨리지는 말고, 글의 명확성과 품질은 유지해줘.",
+    aliases: [
+      "AI티 안나게",
+      "덜 AI스럽게",
+      "사람처럼",
+      "자연스럽게",
+      "자연스러운 글",
+      "human",
+      "natural",
+      "natural-writing",
+      "less-ai",
+      "AI 느낌 줄이기",
+    ],
+  },
+  {
     id: "tag_tone_formal",
     type: "modifier",
     category: "문체/톤",
