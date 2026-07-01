@@ -54,7 +54,7 @@ export function BlockLibrary({
             />
           </div>
         ) : (
-          <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="grid w-full grid-cols-1 justify-stretch gap-3 sm:grid-cols-[repeat(2,minmax(0,1fr))]">
             {filtered.map((b) => (
               <BlockCard key={b.id} block={b} added={selectedIds?.has(b.id)} onAdd={onAdd} />
             ))}

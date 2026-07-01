@@ -13,7 +13,7 @@ export function TagCard({
   onAdd?: (id: string) => void;
 }) {
   return (
-    <div className="flex h-full flex-col rounded-[var(--radius-card)] border border-border bg-background p-4 transition-colors hover:border-border-strong">
+    <div className="flex h-full w-full min-w-0 flex-col rounded-[var(--radius-card)] border border-border bg-background p-4 transition-colors hover:border-border-strong">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <h3 className="text-[14px] font-semibold tracking-tight text-foreground">{tag.tag}</h3>
