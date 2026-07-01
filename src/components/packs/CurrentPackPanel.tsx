@@ -48,13 +48,7 @@ export function CurrentPackPanel({
         />
       </div>
 
-      <div className="mt-4 flex items-center justify-between">
-        <span className="text-[12px] font-medium text-muted">
-          프롬프트 블록 {blocks.length}개 · 조각 태그 {tags.length}개
-        </span>
-      </div>
-
-      <div className="mt-2 flex-1">
+      <div className="mt-4 flex-1">
         {!hasItems ? (
           <EmptyState
             title="아직 추가한 항목이 없어요."
@@ -112,15 +106,13 @@ export function CurrentPackPanel({
       </div>
 
       <div className="mt-4 border-t border-border pt-4">
+        <p className="mb-3 text-center text-[12px] font-medium text-muted">
+          프롬프트 블록 {blocks.length}개 · 조각 태그 {tags.length}개
+        </p>
         <Button variant="primary" size="sm" className="w-full" onClick={onSave}>
           블록팩 저장
         </Button>
         <CopyRegisterButton pack={pack} full label="사용하기" variant="outline" className="mt-2" />
-        <p className="mt-2 text-center text-[12px] leading-relaxed text-muted">
-          블록팩 이름으로 불러 쓸 수 있도록 등록 문구를 복사해요.
-          <br />
-          복사한 내용을 내가 사용하는 AI에 붙여넣으면, 이후에는 블록팩 이름만 말해도 해당 조합으로 요청할 수 있어요.
-        </p>
       </div>
     </div>
   );
