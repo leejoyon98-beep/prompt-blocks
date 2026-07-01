@@ -117,7 +117,9 @@ export function CurrentPackPanel({
         </Button>
         <CopyRegisterButton pack={pack} full label="사용하기" variant="outline" className="mt-2" />
         <p className="mt-2 text-center text-[12px] leading-relaxed text-muted">
-          사용하기는 블록팩 등록 문구를 복사해 내가 사용하는 AI에 붙여넣을 수 있게 해요.
+          블록팩 이름으로 불러 쓸 수 있도록 등록 문구를 복사해요.
+          <br />
+          복사한 내용을 내가 사용하는 AI에 붙여넣으면, 이후에는 블록팩 이름만 말해도 해당 조합으로 요청할 수 있어요.
         </p>
       </div>
     </div>

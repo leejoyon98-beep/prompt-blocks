@@ -40,9 +40,9 @@ const concepts = [
 const steps = [
   { title: "블록팩을 만들어요", description: "직접 만들거나 추천 블록팩으로 시작해요." },
   { title: "필요한 블록과 태그를 담아요", description: "자주 쓰는 작업 방식과 답변 방식을 골라요." },
-  { title: "사용하기를 눌러요", description: "블록팩 등록 문구가 클립보드에 복사돼요." },
+  { title: "사용하기를 눌러요", description: "블록팩 이름을 호출어처럼 쓸 수 있게 등록 문구가 클립보드에 복사돼요." },
   { title: "내가 쓰는 AI에 붙여넣어요", description: "ChatGPT, Claude, Gemini 같은 AI에 붙여넣어 사용할 수 있어요." },
-  { title: "짧은 조합으로 요청해요", description: "이후에는 '핵심요약 + ELI5 + table'처럼 짧게 입력해도 돼요." },
+  { title: "블록팩 이름으로 요청해요", description: "이후에는 '상품기획 블록팩으로 정리해줘'처럼 블록팩 이름만 말해도 돼요." },
 ];
 
 const benefits = [
@@ -51,46 +51,41 @@ const benefits = [
     title: "답변 스타일을 일정하게 유지할 수 있어요",
     description: "요약은 짧게, 설명은 쉽게, 검토는 냉정하게 같은 기준을 미리 정해둘 수 있어요.",
   },
-  { title: "여러 요청을 쉽게 섞어 쓸 수 있어요", description: "고객분석 + 구매장벽분석 + benefits처럼 이어 붙여 사용할 수 있어요." },
+  { title: "작업 메뉴처럼 불러 쓸 수 있어요", description: "상품기획 블록팩, 딥리서치 블록팩처럼 이름만 말해도 담아둔 블록과 태그를 함께 적용할 수 있어요." },
   { title: "AI 도구가 바뀌어도 활용할 수 있어요", description: "복사한 등록 문구를 붙여넣는 방식이라 여러 AI에서 비슷하게 쓸 수 있어요." },
 ];
 
 const useExamples = [
   {
-    title: "긴 내용을 핵심만 쉽게, 표로 정리하고 싶을 때",
-    command: "핵심요약 + ELI5 + table",
+    title: "상품 기획 내용을 구조화하고 싶을 때",
+    command: "상품기획 블록팩으로 정리해줘",
     longRequest: [
-      "긴 자료에서 중요한 내용만 뽑아서 정리해줘.",
-      "초보자도 이해할 수 있게 쉽게 설명해주고,",
-      "핵심 내용은 표로 정리해줘.",
+      "타깃 고객, 구매 동기, 핵심 혜택, 구매 장벽을 함께 분석해줘.",
+      "상품 기획서에 바로 넣을 수 있게 구조화해서 정리해줘.",
     ],
   },
   {
-    title: "제품을 고객 관점에서 설득력 있게 분석하고 싶을 때",
-    command: "고객분석 + 구매장벽분석 + benefits",
+    title: "인물 사진이나 영상 컷을 연출하고 싶을 때",
+    command: "인물 연출컷 추천으로 해줘",
     longRequest: [
-      "이 제품의 타깃 고객이 어떤 고민을 가지고 있는지 분석해줘.",
-      "구매를 망설이게 하는 이유도 정리하고,",
-      "기능보다 고객이 체감하는 혜택 중심으로 설명해줘.",
+      "인물에게 어울리는 구도, 표정, 포즈, 배경, 조명, 카메라 무드를 추천해줘.",
+      "바로 이미지 제작이나 촬영 기획에 쓸 수 있게 구체적으로 정리해줘.",
     ],
   },
   {
-    title: "콘셉트를 이미지 생성용 프롬프트로 바꾸고 싶을 때",
-    command: "이미지프롬프트 + mood + lighting",
+    title: "주제를 근거 중심으로 깊게 조사하고 싶을 때",
+    command: "딥리서치 블록팩으로 조사해줘",
     longRequest: [
-      "아래 콘셉트를 이미지 생성 AI에 넣을 수 있는 프롬프트로 바꿔줘.",
-      "원하는 분위기와 시각 스타일을 살리고,",
-      "조명 느낌까지 포함해서 구체적으로 정리해줘.",
-    ],
-  },
-  {
-    title: "주제를 근거 중심으로 조사하고 다음 액션까지 보고 싶을 때",
-    command: "딥리서치 + sources + evidence + next steps",
-    longRequest: [
-      "아래 주제에 대해 깊이 조사해줘.",
-      "주장보다 근거를 중심으로 정리하고,",
-      "가능하면 참고할 만한 출처도 함께 제시해줘.",
+      "주장보다 근거를 중심으로 조사하고, 참고할 만한 출처도 함께 제시해줘.",
       "마지막에는 다음에 무엇을 해야 할지 액션까지 제안해줘.",
+    ],
+  },
+  {
+    title: "콘셉트를 이미지 생성 프롬프트로 바꾸고 싶을 때",
+    command: "이미지 작업 블록팩으로 프롬프트 만들어줘",
+    longRequest: [
+      "콘셉트, 분위기, 시각 스타일, 조명감을 반영해서 이미지 생성용 문장으로 바꿔줘.",
+      "생성 AI에 바로 넣기 좋은 형태로 구체적으로 정리해줘.",
     ],
   },
 ];
@@ -109,7 +104,7 @@ export default function GuidePage() {
             <br />
             블록팩으로 묶어 내가 사용하는 AI에 붙여넣어두면,
             <br />
-            짧은 조합만으로 반복 작업을 빠르게 요청할 수 있어요.
+            블록팩 이름만으로 반복 작업을 빠르게 요청할 수 있어요.
           </p>
         </header>
 
@@ -180,13 +175,17 @@ export default function GuidePage() {
             <SectionHeading
               eyebrow="사용 예시"
               title="이렇게 써볼 수 있어요."
-              description="블록팩을 등록해두면 긴 요청문 대신 짧은 조합으로 같은 의도를 전달할 수 있어요."
+              description="블록팩을 등록해두면 긴 요청문 대신 블록팩 이름으로 같은 의도를 전달할 수 있어요."
             />
             <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
               {useExamples.map((example) => (
                 <UseExampleCard key={example.command} {...example} />
               ))}
             </div>
+            <p className="mt-5 max-w-[760px] text-[13px] leading-[1.6] text-muted">
+              필요하면 보조적으로 <span className="font-medium text-foreground">핵심요약 + ELI5 + table</span>처럼 개별 프롬프트 블록과
+              조각 태그를 직접 조합해서 더 세밀하게 요청할 수도 있어요.
+            </p>
           </section>
 
           <section>

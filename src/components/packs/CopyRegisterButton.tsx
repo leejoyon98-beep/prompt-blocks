@@ -13,7 +13,7 @@ export function CopyRegisterButton({
   label = "사용하기",
   variant = "primary",
 }: {
-  pack: Pick<BlockPack, "name" | "blockIds" | "tagIds">;
+  pack: Pick<BlockPack, "name" | "description" | "blockIds" | "tagIds">;
   className?: string;
   full?: boolean;
   label?: string;

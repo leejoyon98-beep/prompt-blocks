@@ -2,7 +2,7 @@ import { blockById } from "@/data/promptBlocks";
 import { tagById } from "@/data/promptTags";
 import type { BlockPack, PromptBlock, PromptTag } from "@/types";
 
-type RegisterPack = Pick<BlockPack, "name" | "blockIds" | "tagIds">;
+type RegisterPack = Pick<BlockPack, "name" | "description" | "blockIds" | "tagIds">;
 
 function getBlocks(pack: Pick<BlockPack, "blockIds">): PromptBlock[] {
   return pack.blockIds
@@ -16,7 +16,7 @@ function getTags(pack: Pick<BlockPack, "tagIds">): PromptTag[] {
     .filter((tag): tag is PromptTag => tag != null);
 }
 
-export function generateBlockNames(pack: Pick<BlockPack, "blockIds" | "tagIds">): string {
+function generateBlockNames(pack: Pick<BlockPack, "blockIds" | "tagIds">): string {
   const blockNames = getBlocks(pack).map((block) => block.name);
   const tagNames = getTags(pack).map((tag) => tag.tag);
   return [...blockNames, ...tagNames].join(" + ");
@@ -34,25 +34,43 @@ export function generateRegisterPrompt(pack: RegisterPack): string {
       : ["- 선택된 프롬프트 블록 없음"];
   const tagLines =
     tags.length > 0
-      ? tags.map((tag) => `- ${tag.tag} (${tag.labelKo}): ${tag.meaning} → ${tag.promptText}`)
+      ? tags.map((tag) => `- ${tag.tag}: ${tag.meaning}`)
       : ["- 선택된 조각 태그 없음"];
-  const example = generateBlockNames(pack);
+  const packName = pack.name.trim() || "이 블록팩";
+  const packDescription = pack.description.trim() || "설명 없음";
+  const optionalCombination = generateBlockNames(pack);
 
   return [
-    "앞으로 내가 아래 블록팩 이름이나 조합을 쓰면 다음 의미로 해석해줘.",
-    "프롬프트 블록은 큰 작업 단위이고, 조각 태그는 답변 방식, 출력 형식, 톤, 검토 방식을 조정하는 modifier야.",
-    "프롬프트 블록 여러 개와 조각 태그 여러 개를 +로 연결하면 각각의 의도를 조합해서 답해줘.",
+    "앞으로 내가 아래 블록팩 이름을 말하면, 해당 블록팩에 포함된 프롬프트 블록과 조각 태그의 의도를 조합해서 답변해줘.",
     "",
-    `[블록팩: ${pack.name}]`,
+    "[블록팩 이름]",
+    packName,
     "",
-    "[프롬프트 블록]",
+    "[블록팩 설명]",
+    packDescription,
+    "",
+    "[포함된 프롬프트 블록]",
     ...blockLines,
     "",
-    "[조각 태그 / modifier]",
+    "[포함된 조각 태그]",
     ...tagLines,
     "",
-    "앞으로 내가 예를 들어",
-    `${example}:`,
-    "처럼 입력하면, 프롬프트 블록의 작업 목적에 조각 태그의 답변 방식을 붙여서 답해줘.",
+    "[사용 방식]",
+    `1. 내가 “${packName}으로 해줘”라고 말하면, 이 블록팩에 포함된 블록과 태그의 의도를 조합해서 답변해줘.`,
+    `2. 내가 블록팩 이름 뒤에 콜론(:)을 붙이고 내용을 입력하면, 그 내용을 대상으로 작업해줘. 예: “${packName}:”`,
+    "3. 필요하면 포함된 프롬프트 블록과 조각 태그를 기준으로 답변 형식, 관점, 톤, 출력 방식을 정해줘.",
+    "4. 내가 개별 프롬프트 블록이나 조각 태그를 따로 말하면, 그것도 같은 의미로 해석해줘.",
+    optionalCombination
+      ? `5. 보조적으로 “${optionalCombination}”처럼 개별 블록과 태그를 +로 조합해 말할 수도 있어.`
+      : "5. 보조적으로 개별 블록과 태그를 +로 조합해 말할 수도 있어.",
+    "",
+    "[사용 예시]",
+    `${packName}으로 해줘:`,
+    "{사용자가 넣을 내용}",
+    "",
+    "또는",
+    "",
+    `${packName}:`,
+    "{사용자가 넣을 내용}",
   ].join("\n");
 }
