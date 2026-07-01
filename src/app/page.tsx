@@ -92,13 +92,13 @@ export default function Home() {
         {/* My packs */}
       <section className="border-t border-border py-12">
         <div className="mb-5 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <h2 className="text-[20px] font-semibold tracking-tight">내 블록팩</h2>
             <button
               type="button"
               onClick={handleCreate}
               aria-label="새 블록팩 만들기"
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--radius-btn)] border border-border bg-background text-[18px] font-medium leading-none text-foreground transition-colors hover:bg-subtle hover:border-border-strong"
+              className="inline-flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full border border-border bg-background text-[13px] font-medium leading-none text-foreground transition-colors hover:border-border-strong hover:bg-subtle"
             >
               +
             </button>
