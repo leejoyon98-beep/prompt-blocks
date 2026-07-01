@@ -16,7 +16,7 @@ import type { BlockPack, RecommendedBlockPack } from "@/types";
 
 export default function Home() {
   const router = useRouter();
-  const { packs, ready, isLoading, error, createPack, updatePack, deletePack, startFromRecommended } = usePacks();
+  const { packs, ready, isLoading, error, updatePack, deletePack, startFromRecommended } = usePacks();
   const { show } = useToast();
   const [toDelete, setToDelete] = useState<BlockPack | null>(null);
 
@@ -26,15 +26,7 @@ export default function Home() {
   const isPacksEmpty = !isPacksLoading && !hasPacksError && blockPacks.length === 0;
   const hasPacks = !isPacksLoading && !hasPacksError && blockPacks.length > 0;
 
-  const handleCreate = async () => {
-    try {
-      const pack = await createPack();
-      router.push(`/packs/${pack.id}`);
-    } catch (error) {
-      console.error("[packs] create failed", error);
-      show("블록팩을 만들지 못했어요. 잠시 후 다시 시도해주세요.");
-    }
-  };
+  const handleCreate = () => router.push("/packs/new");
   const handleStart = async (rec: RecommendedBlockPack) => {
     try {
       const pack = await startFromRecommended(rec);
@@ -99,12 +91,19 @@ export default function Home() {
 
         {/* My packs */}
       <section className="border-t border-border py-12">
-        <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="text-[20px] font-semibold tracking-tight">내 블록팩</h2>
+        <div className="mb-5 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <h2 className="text-[20px] font-semibold tracking-tight">내 블록팩</h2>
+            <button
+              type="button"
+              onClick={handleCreate}
+              aria-label="새 블록팩 만들기"
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--radius-btn)] border border-border bg-background text-[18px] font-medium leading-none text-foreground transition-colors hover:bg-subtle hover:border-border-strong"
+            >
+              +
+            </button>
+          </div>
           <div className="flex flex-wrap items-center gap-2">
-            <Button variant="primary" size="sm" onClick={handleCreate}>
-              새 블록팩 만들기
-            </Button>
             <Link href="/packs" className="text-[13px] text-muted hover:text-foreground">
               전체 보기
             </Link>
@@ -125,9 +124,6 @@ export default function Home() {
             title="아직 만든 블록팩이 없어요."
             description={"추천 블록팩으로 시작하거나 새 블록팩을 만들어보세요."}
           >
-            <Button variant="primary" size="sm" onClick={handleCreate}>
-              새 블록팩 만들기
-            </Button>
             <a href="#recommended">
               <Button variant="outline" size="sm">
                 추천 블록팩 보기
