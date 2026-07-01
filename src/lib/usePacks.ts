@@ -123,20 +123,42 @@ async function migrateLocalToCloud(supabase: SupabaseClient, userId: string) {
 export function usePacks() {
   const [packs, setPacks] = useState<BlockPack[]>([]);
   const [ready, setReady] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<unknown>(null);
   const [userId, setUserId] = useState<string | null>(null);
 
   const reload = useCallback(async (uid: string | null) => {
     const supabase = getSupabase();
-    if (uid && supabase) {
-      const { data, error } = await supabase
-        .from(TABLE)
-        .select("*")
-        .order("updated_at", { ascending: false });
-      if (!error && data) setPacks((data as Row[]).map(rowToPack));
-    } else {
-      setPacks(loadPacks());
+    setReady(false);
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      if (uid && supabase) {
+        const { data, error: loadError } = await supabase
+          .from(TABLE)
+          .select("*")
+          .order("updated_at", { ascending: false });
+
+        if (loadError) {
+          console.error("[packs] load failed", loadError);
+          setError(loadError);
+          setPacks([]);
+          return;
+        }
+
+        setPacks((data as Row[] | null)?.map(rowToPack) ?? []);
+      } else {
+        setPacks(loadPacks());
+      }
+    } catch (loadError) {
+      console.error("[packs] load failed", loadError);
+      setError(loadError);
+      setPacks([]);
+    } finally {
+      setReady(true);
+      setIsLoading(false);
     }
-    setReady(true);
   }, []);
 
   useEffect(() => {
@@ -144,8 +166,17 @@ export function usePacks() {
 
     if (!supabase) {
       const syncLocal = () => {
-        setPacks(loadPacks());
-        setReady(true);
+        try {
+          setError(null);
+          setPacks(loadPacks());
+        } catch (loadError) {
+          console.error("[packs] load failed", loadError);
+          setError(loadError);
+          setPacks([]);
+        } finally {
+          setReady(true);
+          setIsLoading(false);
+        }
       };
       queueMicrotask(syncLocal);
       window.addEventListener("prompt-packs-changed", syncLocal);
@@ -164,7 +195,15 @@ export function usePacks() {
       await reload(uid);
     };
 
-    supabase.auth.getUser().then(({ data }) => handle(data.user?.id ?? null));
+    supabase.auth.getUser().then(({ data, error: authError }) => {
+      if (authError) {
+        console.error("[packs] user lookup failed", authError);
+      }
+      handle(data.user?.id ?? null);
+    }).catch((authError) => {
+      console.error("[packs] user lookup failed", authError);
+      handle(null);
+    });
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) =>
       handle(session?.user?.id ?? null)
     );
@@ -339,6 +378,8 @@ export function usePacks() {
   return {
     packs,
     ready,
+    isLoading,
+    error,
     createPack,
     updatePack,
     deletePack,

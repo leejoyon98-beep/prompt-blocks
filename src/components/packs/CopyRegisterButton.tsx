@@ -11,11 +11,13 @@ export function CopyRegisterButton({
   className,
   full,
   label = "사용하기",
+  variant = "primary",
 }: {
   pack: Pick<BlockPack, "name" | "blockIds" | "tagIds">;
   className?: string;
   full?: boolean;
   label?: string;
+  variant?: "primary" | "outline" | "ghost";
 }) {
   const { show } = useToast();
   const disabled = pack.blockIds.length + (pack.tagIds?.length ?? 0) === 0;
@@ -33,7 +35,7 @@ export function CopyRegisterButton({
 
   return (
     <Button
-      variant="primary"
+      variant={variant}
       size="sm"
       onClick={copy}
       disabled={disabled}

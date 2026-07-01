@@ -4,8 +4,6 @@ import type { BlockPack, PromptBlock, PromptTag } from "@/types";
 import { Button } from "@/components/common/Button";
 import { CopyRegisterButton } from "./CopyRegisterButton";
 import { EmptyState } from "@/components/common/EmptyState";
-import { useToast } from "@/components/common/Toast";
-import { generateBlockNames } from "@/lib/generateRegisterPrompt";
 
 export function CurrentPackPanel({
   pack,
@@ -17,8 +15,7 @@ export function CurrentPackPanel({
   onRemove,
   onMoveTag,
   onRemoveTag,
-  onDuplicate,
-  onDelete,
+  onSave,
 }: {
   pack: BlockPack;
   blocks: PromptBlock[];
@@ -29,22 +26,9 @@ export function CurrentPackPanel({
   onRemove: (id: number) => void;
   onMoveTag: (index: number, dir: -1 | 1) => void;
   onRemoveTag: (id: string) => void;
-  onDuplicate: () => void;
-  onDelete: () => void;
+  onSave: () => Promise<void> | void;
 }) {
-  const { show } = useToast();
   const hasItems = blocks.length + tags.length > 0;
-
-  async function copyNames() {
-    const text = generateBlockNames(pack);
-    if (!text) return;
-    try {
-      await navigator.clipboard.writeText(text);
-      show("블록팩 조합을 복사했어요.");
-    } catch {
-      show("복사에 실패했어요. 다시 시도해주세요.");
-    }
-  }
 
   return (
     <div className="flex h-full flex-col">
@@ -83,7 +67,7 @@ export function CurrentPackPanel({
                 {blocks.map((b, i) => (
                   <li
                     key={b.id}
-                    className="flex items-center gap-2 rounded-[var(--radius-btn)] border border-border bg-background px-2.5 py-2"
+                    className="group/item flex items-center gap-2 rounded-[var(--radius-btn)] border border-border bg-background px-2.5 py-2"
                   >
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-[13px] font-medium">{b.name}</p>
@@ -105,7 +89,7 @@ export function CurrentPackPanel({
                 {tags.map((tag, i) => (
                   <li
                     key={tag.id}
-                    className="flex items-center gap-2 rounded-[var(--radius-btn)] border border-border bg-subtle/50 px-2.5 py-2"
+                    className="group/item flex items-center gap-2 rounded-[var(--radius-btn)] border border-border bg-subtle/50 px-2.5 py-2"
                   >
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-[13px] font-medium">
@@ -128,26 +112,13 @@ export function CurrentPackPanel({
       </div>
 
       <div className="mt-4 border-t border-border pt-4">
-        <CopyRegisterButton pack={pack} full label="블록팩 등록" />
-        <button
-          onClick={copyNames}
-          disabled={!hasItems}
-          className="mt-2 w-full rounded-[var(--radius-btn)] border border-border bg-background py-1.5 text-[12px] font-medium text-foreground transition-colors hover:border-border-strong hover:bg-subtle disabled:pointer-events-none disabled:opacity-40"
-        >
-          블록명과 태그만 복사
-        </button>
+        <Button variant="primary" size="sm" className="w-full" onClick={onSave}>
+          블록팩 저장
+        </Button>
+        <CopyRegisterButton pack={pack} full label="사용하기" variant="outline" className="mt-2" />
         <p className="mt-2 text-center text-[12px] leading-relaxed text-muted">
-          복사한 내용을 내가 사용하는 AI에 붙여넣으면 블록팩으로 등록됩니다.
+          사용하기는 블록팩 등록 문구를 복사해 내가 사용하는 AI에 붙여넣을 수 있게 해요.
         </p>
-        <div className="mt-3 flex items-center justify-center gap-1">
-          <Button variant="ghost" size="sm" onClick={onDuplicate}>
-            복제
-          </Button>
-          <span className="text-border-strong">·</span>
-          <Button variant="ghost" size="sm" onClick={onDelete}>
-            삭제
-          </Button>
-        </div>
       </div>
     </div>
   );
@@ -175,10 +146,20 @@ function ItemControls({
 }) {
   return (
     <div className="flex shrink-0 items-center gap-0.5">
-      <IconBtn label="위로" disabled={index === 0} onClick={() => onMove(index, -1)}>
+      <IconBtn
+        label="위로"
+        disabled={index === 0}
+        className="opacity-0 group-hover/item:opacity-100 focus-visible:opacity-100"
+        onClick={() => onMove(index, -1)}
+      >
         ↑
       </IconBtn>
-      <IconBtn label="아래로" disabled={index === length - 1} onClick={() => onMove(index, 1)}>
+      <IconBtn
+        label="아래로"
+        disabled={index === length - 1}
+        className="opacity-0 group-hover/item:opacity-100 focus-visible:opacity-100"
+        onClick={() => onMove(index, 1)}
+      >
         ↓
       </IconBtn>
       <IconBtn label="삭제" onClick={onRemove}>
@@ -193,18 +174,25 @@ function IconBtn({
   onClick,
   disabled,
   label,
+  className,
 }: {
   children: React.ReactNode;
   onClick: () => void;
   disabled?: boolean;
   label: string;
+  className?: string;
 }) {
   return (
     <button
       onClick={onClick}
       disabled={disabled}
       aria-label={label}
-      className="flex h-7 w-7 items-center justify-center rounded-[8px] text-[13px] text-muted transition-colors hover:bg-subtle hover:text-foreground disabled:opacity-30 disabled:hover:bg-transparent"
+      className={[
+        "flex h-7 w-7 items-center justify-center rounded-[8px] text-[13px] text-muted transition-colors hover:bg-subtle hover:text-foreground disabled:opacity-30 disabled:hover:bg-transparent",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       {children}
     </button>

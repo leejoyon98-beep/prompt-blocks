@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { usePacks } from "@/lib/usePacks";
+import { useToast } from "@/components/common/Toast";
 import { promptBlocks, blockById } from "@/data/promptBlocks";
 import { promptTags, tagById, TAG_CATEGORIES } from "@/data/promptTags";
 import { normalizeCategory, UI_CATEGORIES } from "@/data/categories";
@@ -12,7 +12,6 @@ import { CategorySidebar, ALL } from "@/components/blocks/CategorySidebar";
 import { BlockLibrary } from "@/components/blocks/BlockLibrary";
 import { TagLibrary } from "@/components/tags/TagLibrary";
 import { CurrentPackPanel } from "./CurrentPackPanel";
-import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 import { EmptyState } from "@/components/common/EmptyState";
 import { Button } from "@/components/common/Button";
 import { cn } from "@/lib/utils";
@@ -37,14 +36,13 @@ const tagCategoryCounts: Record<string, number> = (() => {
 type LibraryMode = "blocks" | "tags";
 
 export function BlockPackEditor({ packId }: { packId: string }) {
-  const router = useRouter();
-  const { packs, ready, updatePack, deletePack, duplicatePack } = usePacks();
+  const { packs, ready, updatePack } = usePacks();
+  const { show } = useToast();
   const [mode, setMode] = useState<LibraryMode>("blocks");
   const [blockCategory, setBlockCategory] = useState<string>(ALL);
   const [tagCategory, setTagCategory] = useState<string>(ALL);
   const [blockSearch, setBlockSearch] = useState("");
   const [tagSearch, setTagSearch] = useState("");
-  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const pack = packs.find((p) => p.id === packId);
 
@@ -117,6 +115,29 @@ export function BlockPackEditor({ packId }: { packId: string }) {
     if (target < 0 || target >= next.length) return;
     [next[index], next[target]] = [next[target], next[index]];
     updatePack(pack.id, { tagIds: next });
+  };
+
+  const savePack = async () => {
+    const trimmedName = pack.name.trim();
+    if (!trimmedName) {
+      show("블록팩 이름을 입력해주세요.");
+      return;
+    }
+
+    const ok = await updatePack(pack.id, {
+      name: trimmedName,
+      description: pack.description.trim(),
+      blockIds: [...pack.blockIds],
+      tagIds: [...(pack.tagIds ?? [])],
+    });
+
+    if (!ok) {
+      console.error("[packs] explicit save failed", { packId: pack.id });
+      show("블록팩 저장에 실패했어요. 잠시 후 다시 시도해주세요.");
+      return;
+    }
+
+    show("내 블록팩에 저장되었어요.");
   };
 
   const categories = mode === "blocks" ? UI_CATEGORIES : TAG_CATEGORIES;
@@ -203,26 +224,11 @@ export function BlockPackEditor({ packId }: { packId: string }) {
               onRemove={removeBlock}
               onMoveTag={moveTag}
               onRemoveTag={removeTag}
-              onDuplicate={() => {
-                const copy = duplicatePack(pack.id);
-                if (copy) router.push(`/packs/${copy.id}`);
-              }}
-              onDelete={() => setConfirmDelete(true)}
+              onSave={savePack}
             />
           </div>
         </aside>
       </div>
-
-      <ConfirmDialog
-        open={confirmDelete}
-        title="이 블록팩을 삭제할까요?"
-        description={`"${pack.name}" 블록팩이 삭제됩니다. 되돌릴 수 없어요.`}
-        onConfirm={() => {
-          deletePack(pack.id);
-          router.push("/packs");
-        }}
-        onCancel={() => setConfirmDelete(false)}
-      />
     </div>
   );
 }

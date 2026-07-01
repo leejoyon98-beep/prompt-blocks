@@ -16,9 +16,15 @@ import type { BlockPack, RecommendedBlockPack } from "@/types";
 
 export default function Home() {
   const router = useRouter();
-  const { packs, ready, createPack, updatePack, deletePack, startFromRecommended } = usePacks();
+  const { packs, ready, isLoading, error, createPack, updatePack, deletePack, startFromRecommended } = usePacks();
   const { show } = useToast();
   const [toDelete, setToDelete] = useState<BlockPack | null>(null);
+
+  const blockPacks = Array.isArray(packs) ? packs : [];
+  const isPacksLoading = isLoading || !ready;
+  const hasPacksError = !isPacksLoading && error != null;
+  const isPacksEmpty = !isPacksLoading && !hasPacksError && blockPacks.length === 0;
+  const hasPacks = !isPacksLoading && !hasPacksError && blockPacks.length > 0;
 
   const handleCreate = async () => {
     try {
@@ -91,16 +97,30 @@ export default function Home() {
         </div>
       </section>
 
-      {/* My packs */}
+        {/* My packs */}
       <section className="border-t border-border py-12">
-        <div className="mb-5 flex items-baseline justify-between">
+        <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-[20px] font-semibold tracking-tight">내 블록팩</h2>
-          <Link href="/packs" className="text-[13px] text-muted hover:text-foreground">
-            전체 보기
-          </Link>
+          <div className="flex flex-wrap items-center gap-2">
+            <Button variant="primary" size="sm" onClick={handleCreate}>
+              새 블록팩 만들기
+            </Button>
+            <Link href="/packs" className="text-[13px] text-muted hover:text-foreground">
+              전체 보기
+            </Link>
+          </div>
         </div>
 
-        {!ready ? null : packs.length === 0 ? (
+        {isPacksLoading ? (
+          <div className="rounded-[var(--radius-card)] border border-dashed border-border px-6 py-14 text-center">
+            <p className="text-[15px] font-medium text-foreground">내 블록팩을 불러오는 중이에요.</p>
+          </div>
+        ) : hasPacksError ? (
+          <div className="rounded-[var(--radius-card)] border border-dashed border-border px-6 py-14 text-center">
+            <p className="text-[15px] font-medium text-foreground">블록팩을 불러오지 못했어요.</p>
+            <p className="mt-1.5 text-[13px] leading-relaxed text-muted">잠시 후 다시 시도해주세요.</p>
+          </div>
+        ) : isPacksEmpty ? (
           <EmptyState
             title="아직 만든 블록팩이 없어요."
             description={"추천 블록팩으로 시작하거나 새 블록팩을 만들어보세요."}
@@ -114,9 +134,9 @@ export default function Home() {
               </Button>
             </a>
           </EmptyState>
-        ) : (
+        ) : hasPacks ? (
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {packs.slice(0, 6).map((p) => (
+            {blockPacks.slice(0, 6).map((p) => (
               <BlockPackCard
                 key={p.id}
                 pack={p}
@@ -125,7 +145,7 @@ export default function Home() {
               />
             ))}
           </div>
-        )}
+        ) : null}
       </section>
 
       <ConfirmDialog
