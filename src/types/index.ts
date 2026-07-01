@@ -18,6 +18,10 @@ export type PromptTag = {
   meaning: string;
   promptText: string;
   aliases?: string[];
+  similarTags?: {
+    tag: string;
+    difference: string;
+  }[];
 };
 
 export type RecommendedBlockPack = {
