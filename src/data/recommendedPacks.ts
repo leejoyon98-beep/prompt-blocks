@@ -40,10 +40,6 @@ export const featuredPacks: RecommendedBlockPack[] = [
       198
     ],
     "tagIds": [
-      "tag_target",
-      "tag_usp",
-      "tag_benefits",
-      "tag_positioning",
       "tag_framework",
       "tag_priority"
     ]
@@ -61,14 +57,6 @@ export const featuredPacks: RecommendedBlockPack[] = [
       163,
       164,
       165
-    ],
-    "tagIds": [
-      "tag_positioning",
-      "tag_target",
-      "tag_usp",
-      "tag_benefits",
-      "tag_cta",
-      "tag_variation"
     ]
   },
   {
@@ -84,15 +72,6 @@ export const featuredPacks: RecommendedBlockPack[] = [
       105,
       106,
       120
-    ],
-    "tagIds": [
-      "tag_composition",
-      "tag_lighting",
-      "tag_camera",
-      "tag_texture",
-      "tag_realism",
-      "tag_product_lock",
-      "tag_identity_lock"
     ]
   },
   {
@@ -188,9 +167,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       15
     ],
     "tagIds": [
-      "tag_brainstorm",
-      "tag_variation",
-      "tag_cta",
       "tag_tone_casual"
     ]
   },
@@ -226,8 +202,7 @@ export const recommendedPacks: RecommendedBlockPack[] = [
     "tagIds": [
       "tag_script",
       "tag_flow",
-      "tag_friendly",
-      "tag_cta"
+      "tag_friendly"
     ]
   },
   {
@@ -242,10 +217,7 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       110
     ],
     "tagIds": [
-      "tag_script",
-      "tag_cta",
-      "tag_benefits",
-      "tag_lighting"
+      "tag_script"
     ]
   },
   {
@@ -331,9 +303,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       120
     ],
     "tagIds": [
-      "tag_composition",
-      "tag_lighting",
-      "tag_texture",
       "tag_improve"
     ]
   },
@@ -347,13 +316,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       103,
       97,
       120
-    ],
-    "tagIds": [
-      "tag_prompt",
-      "tag_composition",
-      "tag_lighting",
-      "tag_camera",
-      "tag_realism"
     ]
   },
   {
@@ -368,10 +330,7 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       87
     ],
     "tagIds": [
-      "tag_directions",
-      "tag_premium",
-      "tag_texture",
-      "tag_background"
+      "tag_premium"
     ]
   },
   {
@@ -387,9 +346,7 @@ export const recommendedPacks: RecommendedBlockPack[] = [
     ],
     "tagIds": [
       "tag_flow",
-      "tag_numbered",
-      "tag_camera",
-      "tag_lighting"
+      "tag_numbered"
     ]
   },
   {
@@ -402,12 +359,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       115,
       119,
       117
-    ],
-    "tagIds": [
-      "tag_product_lock",
-      "tag_lighting",
-      "tag_texture",
-      "tag_realism"
     ]
   },
   {
@@ -422,9 +373,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       82
     ],
     "tagIds": [
-      "tag_expression",
-      "tag_pose",
-      "tag_background",
       "tag_editorial"
     ]
   },
@@ -440,8 +388,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       140
     ],
     "tagIds": [
-      "tag_positioning",
-      "tag_directions",
       "tag_premium",
       "tag_flow"
     ]
@@ -459,9 +405,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       130
     ],
     "tagIds": [
-      "tag_target",
-      "tag_benefits",
-      "tag_usp",
       "tag_risk"
     ]
   },
@@ -478,8 +421,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       136
     ],
     "tagIds": [
-      "tag_benefits",
-      "tag_cta",
       "tag_framework",
       "tag_confident"
     ]
@@ -497,10 +438,7 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       152
     ],
     "tagIds": [
-      "tag_brainstorm",
-      "tag_variation",
-      "tag_timeline",
-      "tag_cta"
+      "tag_timeline"
     ]
   },
   {
@@ -518,8 +456,7 @@ export const recommendedPacks: RecommendedBlockPack[] = [
     "tagIds": [
       "tag_timeline",
       "tag_bullets",
-      "tag_friendly",
-      "tag_variation"
+      "tag_friendly"
     ]
   },
   {
@@ -535,9 +472,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       165
     ],
     "tagIds": [
-      "tag_cta",
-      "tag_benefits",
-      "tag_variation",
       "tag_tighten"
     ]
   },
@@ -554,7 +488,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       170
     ],
     "tagIds": [
-      "tag_positioning",
       "tag_compare",
       "tag_risk",
       "tag_improve"
@@ -589,12 +522,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       172,
       174,
       173
-    ],
-    "tagIds": [
-      "tag_brainstorm",
-      "tag_target",
-      "tag_positioning",
-      "tag_variation"
     ]
   },
   {
@@ -609,9 +536,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       199
     ],
     "tagIds": [
-      "tag_benefits",
-      "tag_usp",
-      "tag_target",
       "tag_practical"
     ]
   },
@@ -628,8 +552,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
     ],
     "tagIds": [
       "tag_framework",
-      "tag_benefits",
-      "tag_cta",
       "tag_table"
     ]
   },
@@ -699,9 +621,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       207
     ],
     "tagIds": [
-      "tag_variation",
-      "tag_benefits",
-      "tag_cta",
       "tag_premium"
     ]
   },
@@ -718,7 +637,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
     ],
     "tagIds": [
       "tag_evidence",
-      "tag_target",
       "tag_priority",
       "tag_decision"
     ]
