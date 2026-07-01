@@ -124,13 +124,6 @@ export function BlockPackEditor({
   };
   const removeBlock = (id: number) =>
     patchPack({ blockIds: pack.blockIds.filter((b) => b !== id) });
-  const moveBlock = (index: number, dir: -1 | 1) => {
-    const next = [...pack.blockIds];
-    const target = index + dir;
-    if (target < 0 || target >= next.length) return;
-    [next[index], next[target]] = [next[target], next[index]];
-    patchPack({ blockIds: next });
-  };
 
   const addTag = (id: string) => {
     const tagIds = pack.tagIds ?? [];
@@ -139,13 +132,6 @@ export function BlockPackEditor({
   };
   const removeTag = (id: string) =>
     patchPack({ tagIds: (pack.tagIds ?? []).filter((tagId) => tagId !== id) });
-  const moveTag = (index: number, dir: -1 | 1) => {
-    const next = [...(pack.tagIds ?? [])];
-    const target = index + dir;
-    if (target < 0 || target >= next.length) return;
-    [next[index], next[target]] = [next[target], next[index]];
-    patchPack({ tagIds: next });
-  };
 
   const savePack = async () => {
     const trimmedName = pack.name.trim();
@@ -205,9 +191,6 @@ export function BlockPackEditor({
 
       <div className="grid w-full grid-cols-1 items-start gap-6 lg:grid-cols-[180px_minmax(0,1fr)_320px] min-[1400px]:grid-cols-[180px_minmax(760px,1fr)_320px] xl:gap-8">
         <aside className="w-full min-w-0 lg:sticky lg:top-20 lg:w-[180px] lg:self-start">
-          <p className="mb-2 hidden px-3 text-[11px] font-medium uppercase text-muted lg:block">
-            카테고리
-          </p>
           <CategorySidebar
             categories={categories}
             active={activeCategory}
@@ -268,9 +251,7 @@ export function BlockPackEditor({
               tags={orderedTags}
               onRename={(v) => patchPack({ name: v })}
               onDescription={(v) => patchPack({ description: v })}
-              onMove={moveBlock}
               onRemove={removeBlock}
-              onMoveTag={moveTag}
               onRemoveTag={removeTag}
               onSave={savePack}
             />

@@ -11,9 +11,7 @@ export function CurrentPackPanel({
   tags,
   onRename,
   onDescription,
-  onMove,
   onRemove,
-  onMoveTag,
   onRemoveTag,
   onSave,
 }: {
@@ -22,9 +20,7 @@ export function CurrentPackPanel({
   tags: PromptTag[];
   onRename: (v: string) => void;
   onDescription: (v: string) => void;
-  onMove: (index: number, dir: -1 | 1) => void;
   onRemove: (id: number) => void;
-  onMoveTag: (index: number, dir: -1 | 1) => void;
   onRemoveTag: (id: string) => void;
   onSave: () => Promise<void> | void;
 }) {
@@ -58,7 +54,7 @@ export function CurrentPackPanel({
           <div className="space-y-4">
             {blocks.length > 0 && (
               <PackList title="프롬프트 블록">
-                {blocks.map((b, i) => (
+                {blocks.map((b) => (
                   <li
                     key={b.id}
                     className="group/item flex items-center gap-2 rounded-[var(--radius-btn)] border border-border bg-background px-2.5 py-2"
@@ -67,12 +63,9 @@ export function CurrentPackPanel({
                       <p className="truncate text-[13px] font-medium">{b.name}</p>
                       <p className="truncate text-[12px] text-muted">{b.description}</p>
                     </div>
-                    <ItemControls
-                      index={i}
-                      length={blocks.length}
-                      onMove={onMove}
-                      onRemove={() => onRemove(b.id)}
-                    />
+                    <IconBtn label="삭제" onClick={() => onRemove(b.id)}>
+                      ×
+                    </IconBtn>
                   </li>
                 ))}
               </PackList>
@@ -80,7 +73,7 @@ export function CurrentPackPanel({
 
             {tags.length > 0 && (
               <PackList title="조각 태그">
-                {tags.map((tag, i) => (
+                {tags.map((tag) => (
                   <li
                     key={tag.id}
                     className="group/item flex items-center gap-2 rounded-[var(--radius-btn)] border border-border bg-subtle/50 px-2.5 py-2"
@@ -91,12 +84,9 @@ export function CurrentPackPanel({
                       </p>
                       <p className="truncate text-[12px] text-muted">{tag.meaning}</p>
                     </div>
-                    <ItemControls
-                      index={i}
-                      length={tags.length}
-                      onMove={onMoveTag}
-                      onRemove={() => onRemoveTag(tag.id)}
-                    />
+                    <IconBtn label="삭제" onClick={() => onRemoveTag(tag.id)}>
+                      ×
+                    </IconBtn>
                   </li>
                 ))}
               </PackList>
@@ -127,66 +117,23 @@ function PackList({ title, children }: { title: string; children: React.ReactNod
   );
 }
 
-function ItemControls({
-  index,
-  length,
-  onMove,
-  onRemove,
-}: {
-  index: number;
-  length: number;
-  onMove: (index: number, dir: -1 | 1) => void;
-  onRemove: () => void;
-}) {
-  return (
-    <div className="flex shrink-0 items-center gap-0.5">
-      <IconBtn
-        label="위로"
-        disabled={index === 0}
-        className="opacity-0 group-hover/item:opacity-100 focus-visible:opacity-100"
-        onClick={() => onMove(index, -1)}
-      >
-        ↑
-      </IconBtn>
-      <IconBtn
-        label="아래로"
-        disabled={index === length - 1}
-        className="opacity-0 group-hover/item:opacity-100 focus-visible:opacity-100"
-        onClick={() => onMove(index, 1)}
-      >
-        ↓
-      </IconBtn>
-      <IconBtn label="삭제" onClick={onRemove}>
-        ×
-      </IconBtn>
-    </div>
-  );
-}
-
 function IconBtn({
   children,
   onClick,
   disabled,
   label,
-  className,
 }: {
   children: React.ReactNode;
   onClick: () => void;
   disabled?: boolean;
   label: string;
-  className?: string;
 }) {
   return (
     <button
       onClick={onClick}
       disabled={disabled}
       aria-label={label}
-      className={[
-        "flex h-7 w-7 items-center justify-center rounded-[8px] text-[13px] text-muted transition-colors hover:bg-subtle hover:text-foreground disabled:opacity-30 disabled:hover:bg-transparent",
-        className,
-      ]
-        .filter(Boolean)
-        .join(" ")}
+      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[8px] text-[13px] text-muted transition-colors hover:bg-subtle hover:text-foreground disabled:opacity-30 disabled:hover:bg-transparent"
     >
       {children}
     </button>
