@@ -4,6 +4,29 @@ import { useState } from "react";
 import type { PromptTag } from "@/types";
 import { cn } from "@/lib/utils";
 
+const shortSimilarDifferences: Record<string, Record<string, string>> = {
+  "TL;DR": {
+    "summary-first": "답변 전체를 결론 우선 구조로 정리",
+    concise: "전체 답변을 짧고 간결하게 정리",
+  },
+  "summary-first": {
+    "TL;DR": "긴 답변 앞에 붙는 1~2줄짜리 초압축 요약",
+  },
+  concise: {
+    "TL;DR": "긴 답변 앞에 붙는 1~2줄짜리 초압축 요약",
+  },
+};
+
+function getSimilarDifference(tag: PromptTag, similar: NonNullable<PromptTag["similarTags"]>[number]) {
+  const text = shortSimilarDifferences[tag.tag]?.[similar.tag] ?? similar.difference;
+
+  if (text.length <= 70) {
+    return text;
+  }
+
+  return `${text.slice(0, 70).trim()}...`;
+}
+
 export function TagCard({
   tag,
   added,
@@ -14,7 +37,8 @@ export function TagCard({
   onAdd?: (id: string) => void;
 }) {
   const [showSimilar, setShowSimilar] = useState(false);
-  const hasSimilar = tag.similarTags != null && tag.similarTags.length > 0;
+  const similarTags = tag.similarTags ?? [];
+  const hasSimilar = similarTags.length > 0;
 
   return (
     <div className="flex h-full w-full min-w-0 flex-col rounded-[var(--radius-card)] border border-border bg-background p-4 transition-colors hover:border-border-strong">
@@ -31,26 +55,25 @@ export function TagCard({
       <p className="mt-2 line-clamp-2 text-[13px] leading-[1.55] text-muted">{tag.meaning}</p>
 
       {hasSimilar && (
-        <div className="mt-2">
-          <button
-            type="button"
-            onClick={() => setShowSimilar((value) => !value)}
-            className="flex items-center gap-1 text-[11px] font-medium text-muted transition-colors hover:text-foreground"
-            aria-expanded={showSimilar}
-          >
-            <span className={cn("transition-transform", showSimilar && "rotate-90")}>›</span>
-            비슷한 태그 구분
-          </button>
-          {showSimilar && (
-            <ul className="mt-1.5 space-y-1.5">
-              {tag.similarTags?.map((similar) => (
-                <li key={similar.tag} className="text-[11px] leading-[1.5] text-muted">
-                  <span className="font-medium text-foreground">{similar.tag}</span> · {similar.difference}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        <button
+          type="button"
+          onClick={() => setShowSimilar((value) => !value)}
+          className="mt-2 flex w-fit items-center gap-1 text-[11px] text-muted transition-colors hover:text-foreground"
+          aria-expanded={showSimilar}
+        >
+          <span className={cn("transition-transform", showSimilar && "rotate-90")}>›</span>
+          비슷한 태그 구분 {similarTags.length}
+        </button>
+      )}
+      {showSimilar && hasSimilar && (
+        <ul className="mt-2 space-y-1.5 rounded-[10px] border border-border bg-subtle/60 p-2.5">
+          {similarTags.map((similar) => (
+            <li key={similar.tag} className="text-[11px] leading-relaxed text-muted">
+              <span className="font-medium text-foreground">{similar.tag}</span> ·{" "}
+              {getSimilarDifference(tag, similar)}
+            </li>
+          ))}
+        </ul>
       )}
 
       <div className="mt-auto flex items-end justify-between gap-2 pt-3">
