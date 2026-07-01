@@ -15,6 +15,13 @@ export const featuredPacks: RecommendedBlockPack[] = [
       46,
       49,
       39
+    ],
+    "tagIds": [
+      "tag_tldr",
+      "tag_table",
+      "tag_bullets",
+      "tag_concise",
+      "tag_next_steps"
     ]
   },
   {
@@ -31,6 +38,14 @@ export const featuredPacks: RecommendedBlockPack[] = [
       185,
       207,
       198
+    ],
+    "tagIds": [
+      "tag_target",
+      "tag_usp",
+      "tag_benefits",
+      "tag_positioning",
+      "tag_framework",
+      "tag_priority"
     ]
   },
   {
@@ -46,6 +61,14 @@ export const featuredPacks: RecommendedBlockPack[] = [
       163,
       164,
       165
+    ],
+    "tagIds": [
+      "tag_positioning",
+      "tag_target",
+      "tag_usp",
+      "tag_benefits",
+      "tag_cta",
+      "tag_variation"
     ]
   },
   {
@@ -61,6 +84,15 @@ export const featuredPacks: RecommendedBlockPack[] = [
       105,
       106,
       120
+    ],
+    "tagIds": [
+      "tag_composition",
+      "tag_lighting",
+      "tag_camera",
+      "tag_texture",
+      "tag_realism",
+      "tag_product_lock",
+      "tag_identity_lock"
     ]
   },
   {
@@ -77,6 +109,14 @@ export const featuredPacks: RecommendedBlockPack[] = [
       220,
       223,
       238
+    ],
+    "tagIds": [
+      "tag_deep_dive",
+      "tag_sources",
+      "tag_evidence",
+      "tag_compare",
+      "tag_risk",
+      "tag_next_steps"
     ]
   }
 ];
@@ -92,6 +132,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       3,
       6,
       7
+    ],
+    "tagIds": [
+      "tag_context_first",
+      "tag_tldr",
+      "tag_eli5",
+      "tag_evidence"
     ]
   },
   {
@@ -104,6 +150,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       4,
       42,
       7
+    ],
+    "tagIds": [
+      "tag_tldr",
+      "tag_framework",
+      "tag_table",
+      "tag_next_steps"
     ]
   },
   {
@@ -116,6 +168,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       51,
       70,
       71
+    ],
+    "tagIds": [
+      "tag_eli5",
+      "tag_examples",
+      "tag_plain_language",
+      "tag_analogy"
     ]
   },
   {
@@ -128,6 +186,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       9,
       13,
       15
+    ],
+    "tagIds": [
+      "tag_brainstorm",
+      "tag_variation",
+      "tag_cta",
+      "tag_tone_casual"
     ]
   },
   {
@@ -140,6 +204,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       11,
       75,
       15
+    ],
+    "tagIds": [
+      "tag_tldr",
+      "tag_bullets",
+      "tag_flow",
+      "tag_table"
     ]
   },
   {
@@ -152,6 +222,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       90,
       93,
       109
+    ],
+    "tagIds": [
+      "tag_script",
+      "tag_flow",
+      "tag_friendly",
+      "tag_cta"
     ]
   },
   {
@@ -164,6 +240,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       118,
       111,
       110
+    ],
+    "tagIds": [
+      "tag_script",
+      "tag_cta",
+      "tag_benefits",
+      "tag_lighting"
     ]
   },
   {
@@ -176,6 +258,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       16,
       21,
       20
+    ],
+    "tagIds": [
+      "tag_framework",
+      "tag_criteria",
+      "tag_priority",
+      "tag_table"
     ]
   },
   {
@@ -188,6 +276,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       18,
       30,
       20
+    ],
+    "tagIds": [
+      "tag_actionable",
+      "tag_risk",
+      "tag_timeline",
+      "tag_next_steps"
     ]
   },
   {
@@ -200,6 +294,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       47,
       30,
       18
+    ],
+    "tagIds": [
+      "tag_tldr",
+      "tag_table",
+      "tag_risk",
+      "tag_next_steps"
     ]
   },
   {
@@ -211,6 +311,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       48,
       79,
       80
+    ],
+    "tagIds": [
+      "tag_checklist",
+      "tag_pros_cons",
+      "tag_script",
+      "tag_next_steps"
     ]
   },
   {
@@ -223,6 +329,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       83,
       94,
       120
+    ],
+    "tagIds": [
+      "tag_composition",
+      "tag_lighting",
+      "tag_texture",
+      "tag_improve"
     ]
   },
   {
@@ -235,6 +347,13 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       103,
       97,
       120
+    ],
+    "tagIds": [
+      "tag_prompt",
+      "tag_composition",
+      "tag_lighting",
+      "tag_camera",
+      "tag_realism"
     ]
   },
   {
@@ -247,6 +366,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       102,
       86,
       87
+    ],
+    "tagIds": [
+      "tag_directions",
+      "tag_premium",
+      "tag_texture",
+      "tag_background"
     ]
   },
   {
@@ -259,6 +384,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       91,
       107,
       108
+    ],
+    "tagIds": [
+      "tag_flow",
+      "tag_numbered",
+      "tag_camera",
+      "tag_lighting"
     ]
   },
   {
@@ -271,6 +402,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       115,
       119,
       117
+    ],
+    "tagIds": [
+      "tag_product_lock",
+      "tag_lighting",
+      "tag_texture",
+      "tag_realism"
     ]
   },
   {
@@ -283,6 +420,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       113,
       112,
       82
+    ],
+    "tagIds": [
+      "tag_expression",
+      "tag_pose",
+      "tag_background",
+      "tag_editorial"
     ]
   },
   {
@@ -295,6 +438,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       138,
       139,
       140
+    ],
+    "tagIds": [
+      "tag_positioning",
+      "tag_directions",
+      "tag_premium",
+      "tag_flow"
     ]
   },
   {
@@ -308,6 +457,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       126,
       131,
       130
+    ],
+    "tagIds": [
+      "tag_target",
+      "tag_benefits",
+      "tag_usp",
+      "tag_risk"
     ]
   },
   {
@@ -321,6 +476,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       134,
       135,
       136
+    ],
+    "tagIds": [
+      "tag_benefits",
+      "tag_cta",
+      "tag_framework",
+      "tag_confident"
     ]
   },
   {
@@ -334,6 +495,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       147,
       151,
       152
+    ],
+    "tagIds": [
+      "tag_brainstorm",
+      "tag_variation",
+      "tag_timeline",
+      "tag_cta"
     ]
   },
   {
@@ -347,6 +514,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       155,
       89,
       93
+    ],
+    "tagIds": [
+      "tag_timeline",
+      "tag_bullets",
+      "tag_friendly",
+      "tag_variation"
     ]
   },
   {
@@ -360,6 +533,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       9,
       13,
       165
+    ],
+    "tagIds": [
+      "tag_cta",
+      "tag_benefits",
+      "tag_variation",
+      "tag_tighten"
     ]
   },
   {
@@ -373,6 +552,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       129,
       169,
       170
+    ],
+    "tagIds": [
+      "tag_positioning",
+      "tag_compare",
+      "tag_risk",
+      "tag_improve"
     ]
   },
   {
@@ -386,6 +571,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       42,
       31,
       18
+    ],
+    "tagIds": [
+      "tag_evidence",
+      "tag_table",
+      "tag_priority",
+      "tag_next_steps"
     ]
   },
   {
@@ -398,6 +589,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       172,
       174,
       173
+    ],
+    "tagIds": [
+      "tag_brainstorm",
+      "tag_target",
+      "tag_positioning",
+      "tag_variation"
     ]
   },
   {
@@ -410,6 +607,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       176,
       178,
       199
+    ],
+    "tagIds": [
+      "tag_benefits",
+      "tag_usp",
+      "tag_target",
+      "tag_practical"
     ]
   },
   {
@@ -422,6 +625,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       185,
       207,
       198
+    ],
+    "tagIds": [
+      "tag_framework",
+      "tag_benefits",
+      "tag_cta",
+      "tag_table"
     ]
   },
   {
@@ -434,6 +643,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       180,
       182,
       181
+    ],
+    "tagIds": [
+      "tag_compare",
+      "tag_criteria",
+      "tag_table",
+      "tag_decision"
     ]
   },
   {
@@ -446,6 +661,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       187,
       186,
       188
+    ],
+    "tagIds": [
+      "tag_checklist",
+      "tag_timeline",
+      "tag_risk",
+      "tag_next_steps"
     ]
   },
   {
@@ -458,6 +679,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       191,
       193,
       200
+    ],
+    "tagIds": [
+      "tag_improve",
+      "tag_risk",
+      "tag_compare",
+      "tag_actionable"
     ]
   },
   {
@@ -470,6 +697,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       190,
       180,
       207
+    ],
+    "tagIds": [
+      "tag_variation",
+      "tag_benefits",
+      "tag_cta",
+      "tag_premium"
     ]
   },
   {
@@ -482,6 +715,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       202,
       203,
       205
+    ],
+    "tagIds": [
+      "tag_evidence",
+      "tag_target",
+      "tag_priority",
+      "tag_decision"
     ]
   },
   {
@@ -494,6 +733,13 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       219,
       211,
       213
+    ],
+    "tagIds": [
+      "tag_deep_dive",
+      "tag_sources",
+      "tag_evidence",
+      "tag_framework",
+      "tag_next_steps"
     ]
   },
   {
@@ -506,6 +752,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       213,
       222,
       240
+    ],
+    "tagIds": [
+      "tag_sources",
+      "tag_evidence",
+      "tag_fact_check",
+      "tag_md"
     ]
   },
   {
@@ -518,6 +770,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       216,
       234,
       224
+    ],
+    "tagIds": [
+      "tag_compare",
+      "tag_pros_cons",
+      "tag_redteam",
+      "tag_neutral"
     ]
   },
   {
@@ -530,6 +788,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       121,
       229,
       225
+    ],
+    "tagIds": [
+      "tag_deep_dive",
+      "tag_framework",
+      "tag_evidence",
+      "tag_timeline"
     ]
   },
   {
@@ -542,6 +806,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       215,
       226,
       238
+    ],
+    "tagIds": [
+      "tag_risk",
+      "tag_compare",
+      "tag_evidence",
+      "tag_next_steps"
     ]
   },
   {
@@ -554,6 +824,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       231,
       237,
       238
+    ],
+    "tagIds": [
+      "tag_examples",
+      "tag_compare",
+      "tag_evidence",
+      "tag_next_steps"
     ]
   },
   {
@@ -566,6 +842,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       51,
       70,
       239
+    ],
+    "tagIds": [
+      "tag_eli5",
+      "tag_examples",
+      "tag_plain_language",
+      "tag_tldr"
     ]
   },
   {
@@ -578,6 +860,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       220,
       239,
       62
+    ],
+    "tagIds": [
+      "tag_compare",
+      "tag_criteria",
+      "tag_table",
+      "tag_tldr"
     ]
   }
 ];

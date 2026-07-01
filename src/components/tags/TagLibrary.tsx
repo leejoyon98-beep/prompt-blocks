@@ -37,22 +37,24 @@ export function TagLibrary({
   }, [tags, category, search]);
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex items-center gap-3">
-        <div className="flex-1">
+    <div className="flex h-full w-full min-w-0 flex-col">
+      <div className="flex w-full min-w-0 items-center gap-3">
+        <div className="min-w-0 flex-1">
           <SearchInput value={search} onChange={onSearchChange} />
         </div>
         <span className="shrink-0 text-[12px] tabular-nums text-muted">{filtered.length}개</span>
       </div>
 
-      <div className="mt-4 flex-1">
+      <div className="mt-4 w-full min-w-0 flex-1">
         {filtered.length === 0 ? (
-          <EmptyState
-            title="검색 결과가 없어요."
-            description="다른 검색어나 카테고리로 조각 태그를 찾아보세요."
-          />
+          <div className="w-full">
+            <EmptyState
+              title="검색 결과가 없어요."
+              description="다른 검색어나 카테고리로 조각 태그를 찾아보세요."
+            />
+          </div>
         ) : (
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
             {filtered.map((tag) => (
               <TagCard key={tag.id} tag={tag} added={selectedIds?.has(tag.id)} onAdd={onAdd} />
             ))}

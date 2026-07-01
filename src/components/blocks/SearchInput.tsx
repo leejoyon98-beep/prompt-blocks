@@ -10,7 +10,7 @@ export function SearchInput({
   placeholder?: string;
 }) {
   return (
-    <div className="relative">
+    <div className="relative w-full min-w-0">
       <svg
         className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted"
         width="15"

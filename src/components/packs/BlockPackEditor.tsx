@@ -146,7 +146,7 @@ export function BlockPackEditor({ packId }: { packId: string }) {
   const onSelectCategory = mode === "blocks" ? setBlockCategory : setTagCategory;
 
   return (
-    <div className="mx-auto max-w-[1440px] px-6 py-6 sm:px-10">
+    <div className="mx-auto w-full max-w-[1440px] px-6 py-6 sm:px-10">
       <div className="mb-4 flex items-center gap-2 text-[12px] text-muted">
         <Link href="/packs" className="hover:text-foreground">
           내 블록팩
@@ -155,8 +155,8 @@ export function BlockPackEditor({ packId }: { packId: string }) {
         <span className="text-foreground">{pack.name || "이름 없는 블록팩"}</span>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[180px_minmax(0,1fr)_320px] xl:gap-8 2xl:grid-cols-[180px_minmax(760px,1fr)_320px]">
-        <aside className="lg:sticky lg:top-20 lg:self-start">
+      <div className="grid w-full grid-cols-1 items-start gap-6 lg:grid-cols-[180px_minmax(0,1fr)_320px] min-[1400px]:grid-cols-[180px_minmax(760px,1fr)_320px] xl:gap-8">
+        <aside className="w-full min-w-0 lg:sticky lg:top-20 lg:w-[180px] lg:self-start">
           <p className="mb-2 hidden px-3 text-[11px] font-medium uppercase text-muted lg:block">
             카테고리
           </p>
@@ -169,8 +169,8 @@ export function BlockPackEditor({ packId }: { packId: string }) {
           />
         </aside>
 
-        <section className="min-w-0">
-          <div className="mb-4 grid grid-cols-2 gap-1 rounded-[var(--radius-card)] border border-border bg-subtle p-1">
+        <section className="w-full min-w-0">
+          <div className="mb-4 grid w-full grid-cols-2 gap-1 rounded-[var(--radius-card)] border border-border bg-subtle p-1">
             <button
               onClick={() => setMode("blocks")}
               className={cn(
@@ -212,8 +212,8 @@ export function BlockPackEditor({ packId }: { packId: string }) {
           )}
         </section>
 
-        <aside className="lg:sticky lg:top-20 lg:self-start lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
-          <div className="rounded-[var(--radius-card)] border border-border bg-background p-4">
+        <aside className="w-full min-w-0 lg:sticky lg:top-20 lg:w-[320px] lg:self-start lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
+          <div className="w-full rounded-[var(--radius-card)] border border-border bg-background p-4">
             <CurrentPackPanel
               pack={pack}
               blocks={orderedBlocks}

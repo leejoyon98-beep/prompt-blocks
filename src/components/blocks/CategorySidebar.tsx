@@ -19,7 +19,7 @@ export function CategorySidebar({
 }) {
   const items = [ALL, ...categories];
   return (
-    <nav className={cn("flex gap-0.5", className)}>
+    <nav className={cn("flex w-full min-w-0 gap-0.5", className)}>
       {items.map((c) => {
         const isActive = c === active;
         return (
@@ -27,7 +27,7 @@ export function CategorySidebar({
             key={c}
             onClick={() => onSelect(c)}
             className={cn(
-              "flex shrink-0 items-center justify-between gap-1 rounded-[var(--radius-btn)] px-3 py-1.5 text-left text-[13px] transition-colors",
+              "flex w-auto shrink-0 items-center justify-between gap-1 rounded-[var(--radius-btn)] px-3 py-1.5 text-left text-[13px] transition-colors lg:w-full lg:shrink",
               isActive ? "bg-subtle font-medium text-foreground" : "text-muted hover:bg-subtle hover:text-foreground"
             )}
           >
