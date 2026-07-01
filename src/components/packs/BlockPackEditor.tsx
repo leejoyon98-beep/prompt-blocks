@@ -2,12 +2,13 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { usePacks } from "@/lib/usePacks";
 import { useToast } from "@/components/common/Toast";
 import { promptBlocks, blockById } from "@/data/promptBlocks";
 import { promptTags, tagById, TAG_CATEGORIES } from "@/data/promptTags";
 import { normalizeCategory, UI_CATEGORIES } from "@/data/categories";
-import type { PromptBlock, PromptTag } from "@/types";
+import type { BlockPack, PromptBlock, PromptTag } from "@/types";
 import { CategorySidebar, ALL } from "@/components/blocks/CategorySidebar";
 import { BlockLibrary } from "@/components/blocks/BlockLibrary";
 import { TagLibrary } from "@/components/tags/TagLibrary";
@@ -35,16 +36,37 @@ const tagCategoryCounts: Record<string, number> = (() => {
 
 type LibraryMode = "blocks" | "tags";
 
-export function BlockPackEditor({ packId }: { packId: string }) {
-  const { packs, ready, updatePack } = usePacks();
+function createDraftPack(): BlockPack {
+  const ts = new Date().toISOString();
+  return {
+    id: "__new__",
+    name: "새 블록팩",
+    description: "",
+    blockIds: [],
+    tagIds: [],
+    createdAt: ts,
+    updatedAt: ts,
+  };
+}
+
+export function BlockPackEditor({
+  packId,
+  isNew = false,
+}: {
+  packId?: string;
+  isNew?: boolean;
+}) {
+  const router = useRouter();
+  const { packs, ready, createPack, updatePack } = usePacks();
   const { show } = useToast();
+  const [draftPack, setDraftPack] = useState<BlockPack>(() => createDraftPack());
   const [mode, setMode] = useState<LibraryMode>("blocks");
   const [blockCategory, setBlockCategory] = useState<string>(ALL);
   const [tagCategory, setTagCategory] = useState<string>(ALL);
   const [blockSearch, setBlockSearch] = useState("");
   const [tagSearch, setTagSearch] = useState("");
 
-  const pack = packs.find((p) => p.id === packId);
+  const pack = isNew ? draftPack : packs.find((p) => p.id === packId);
 
   const orderedBlocks = useMemo(
     () =>
@@ -67,7 +89,7 @@ export function BlockPackEditor({ packId }: { packId: string }) {
   const selectedBlockIds = useMemo(() => new Set(pack?.blockIds ?? []), [pack]);
   const selectedTagIds = useMemo(() => new Set(pack?.tagIds ?? []), [pack]);
 
-  if (!ready) {
+  if (!isNew && !ready) {
     return <div className="px-6 py-20 text-center text-[13px] text-muted">불러오는 중...</div>;
   }
 
@@ -88,33 +110,41 @@ export function BlockPackEditor({ packId }: { packId: string }) {
     );
   }
 
+  const patchPack = (patch: Partial<Omit<BlockPack, "id" | "createdAt">>) => {
+    if (isNew) {
+      setDraftPack((prev) => ({ ...prev, ...patch, updatedAt: new Date().toISOString() }));
+      return;
+    }
+    updatePack(pack.id, patch);
+  };
+
   const addBlock = (id: number) => {
     if (pack.blockIds.includes(id)) return;
-    updatePack(pack.id, { blockIds: [...pack.blockIds, id] });
+    patchPack({ blockIds: [...pack.blockIds, id] });
   };
   const removeBlock = (id: number) =>
-    updatePack(pack.id, { blockIds: pack.blockIds.filter((b) => b !== id) });
+    patchPack({ blockIds: pack.blockIds.filter((b) => b !== id) });
   const moveBlock = (index: number, dir: -1 | 1) => {
     const next = [...pack.blockIds];
     const target = index + dir;
     if (target < 0 || target >= next.length) return;
     [next[index], next[target]] = [next[target], next[index]];
-    updatePack(pack.id, { blockIds: next });
+    patchPack({ blockIds: next });
   };
 
   const addTag = (id: string) => {
     const tagIds = pack.tagIds ?? [];
     if (tagIds.includes(id)) return;
-    updatePack(pack.id, { tagIds: [...tagIds, id] });
+    patchPack({ tagIds: [...tagIds, id] });
   };
   const removeTag = (id: string) =>
-    updatePack(pack.id, { tagIds: (pack.tagIds ?? []).filter((tagId) => tagId !== id) });
+    patchPack({ tagIds: (pack.tagIds ?? []).filter((tagId) => tagId !== id) });
   const moveTag = (index: number, dir: -1 | 1) => {
     const next = [...(pack.tagIds ?? [])];
     const target = index + dir;
     if (target < 0 || target >= next.length) return;
     [next[index], next[target]] = [next[target], next[index]];
-    updatePack(pack.id, { tagIds: next });
+    patchPack({ tagIds: next });
   };
 
   const savePack = async () => {
@@ -124,20 +154,38 @@ export function BlockPackEditor({ packId }: { packId: string }) {
       return;
     }
 
-    const ok = await updatePack(pack.id, {
-      name: trimmedName,
-      description: pack.description.trim(),
-      blockIds: [...pack.blockIds],
-      tagIds: [...(pack.tagIds ?? [])],
-    });
+    try {
+      if (isNew) {
+        const created = await createPack({
+          name: trimmedName,
+          description: pack.description.trim(),
+          blockIds: [...pack.blockIds],
+          tagIds: [...(pack.tagIds ?? [])],
+        });
 
-    if (!ok) {
-      console.error("[packs] explicit save failed", { packId: pack.id });
+        show("내 블록팩에 저장되었어요.");
+        router.replace(`/packs/${created.id}`);
+        return;
+      }
+
+      const ok = await updatePack(pack.id, {
+        name: trimmedName,
+        description: pack.description.trim(),
+        blockIds: [...pack.blockIds],
+        tagIds: [...(pack.tagIds ?? [])],
+      });
+
+      if (!ok) {
+        console.error("[packs] explicit save failed", { packId: pack.id });
+        show("블록팩 저장에 실패했어요. 잠시 후 다시 시도해주세요.");
+        return;
+      }
+
+      show("내 블록팩에 저장되었어요.");
+    } catch (error) {
+      console.error("[packs] explicit save failed", error);
       show("블록팩 저장에 실패했어요. 잠시 후 다시 시도해주세요.");
-      return;
     }
-
-    show("내 블록팩에 저장되었어요.");
   };
 
   const categories = mode === "blocks" ? UI_CATEGORIES : TAG_CATEGORIES;
@@ -152,7 +200,7 @@ export function BlockPackEditor({ packId }: { packId: string }) {
           내 블록팩
         </Link>
         <span>/</span>
-        <span className="text-foreground">{pack.name || "이름 없는 블록팩"}</span>
+        <span className="text-foreground">{isNew ? "새 블록팩 만들기" : pack.name || "이름 없는 블록팩"}</span>
       </div>
 
       <div className="grid w-full grid-cols-1 items-start gap-6 lg:grid-cols-[180px_minmax(0,1fr)_320px] min-[1400px]:grid-cols-[180px_minmax(760px,1fr)_320px] xl:gap-8">
@@ -218,8 +266,8 @@ export function BlockPackEditor({ packId }: { packId: string }) {
               pack={pack}
               blocks={orderedBlocks}
               tags={orderedTags}
-              onRename={(v) => updatePack(pack.id, { name: v })}
-              onDescription={(v) => updatePack(pack.id, { description: v })}
+              onRename={(v) => patchPack({ name: v })}
+              onDescription={(v) => patchPack({ description: v })}
               onMove={moveBlock}
               onRemove={removeBlock}
               onMoveTag={moveTag}

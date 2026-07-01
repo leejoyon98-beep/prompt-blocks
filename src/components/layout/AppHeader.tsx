@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AuthButton } from "@/components/auth/AuthButton";
 import { useToast } from "@/components/common/Toast";
-import { usePacks } from "@/lib/usePacks";
 import { getSupabase } from "@/lib/supabase";
 
 const navLinkClass =
@@ -14,7 +13,6 @@ const navLinkClass =
 export function AppHeader() {
   const router = useRouter();
   const { show } = useToast();
-  const { packs, ready, createPack } = usePacks();
   const [openingLibrary, setOpeningLibrary] = useState(false);
 
   const openBlockLibrary = async () => {
@@ -33,21 +31,7 @@ export function AppHeader() {
         }
       }
 
-      if (!ready) {
-        show("블록팩을 불러오는 중이에요. 잠시 후 다시 눌러주세요.");
-        return;
-      }
-
-      if (packs.length > 0) {
-        const latest = [...packs].sort(
-          (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-        )[0];
-        router.push(`/packs/${latest.id}`);
-        return;
-      }
-
-      const createdPack = await createPack();
-      router.push(`/packs/${createdPack.id}`);
+      router.push("/packs/new");
     } catch (error) {
       console.error("[nav] open block library failed", error);
       show("블록팩 조립 화면을 열지 못했어요. 잠시 후 다시 시도해주세요.");
