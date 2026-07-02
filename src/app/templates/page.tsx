@@ -4,13 +4,11 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/common/Button";
-import { useToast } from "@/components/common/Toast";
 import { SearchInput } from "@/components/blocks/SearchInput";
 import { recommendedPacks } from "@/data/recommendedPacks";
 import { blockById } from "@/data/promptBlocks";
 import { tagById } from "@/data/promptTags";
 import { CATEGORY_ORDER, normalizeCategory } from "@/data/categories";
-import { isPackAuthRequiredError, usePacks } from "@/lib/usePacks";
 import type { RecommendedBlockPack } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -54,8 +52,6 @@ function matchesSearch(pack: RecommendedBlockPack, query: string) {
 
 export default function TemplatesPage() {
   const router = useRouter();
-  const { show } = useToast();
-  const { startFromRecommended } = usePacks();
   const [activeFilter, setActiveFilter] = useState("전체");
   const [search, setSearch] = useState("");
   const [startingId, setStartingId] = useState<string | null>(null);
@@ -66,21 +62,8 @@ export default function TemplatesPage() {
   );
 
   const handleStart = async (pack: RecommendedBlockPack) => {
-    try {
-      setStartingId(pack.id);
-      const created = await startFromRecommended(pack);
-      router.push(`/packs/${created.id}`);
-    } catch (error) {
-      console.error("[templates] start failed", error);
-      if (isPackAuthRequiredError(error)) {
-        show("블록팩을 저장하려면 먼저 로그인해주세요.");
-        window.dispatchEvent(new Event("prompt-auth-open"));
-        return;
-      }
-      show("블록팩을 만들지 못했어요. 잠시 후 다시 시도해주세요.");
-    } finally {
-      setStartingId(null);
-    }
+    setStartingId(pack.id);
+    router.push(`/packs/new?template=${pack.id}`);
   };
 
   return (

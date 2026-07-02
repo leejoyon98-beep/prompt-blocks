@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { isPackAuthRequiredError, usePacks } from "@/lib/usePacks";
+import { usePacks } from "@/lib/usePacks";
+import { getSupabase } from "@/lib/supabase";
 import { featuredPacks } from "@/data/recommendedPacks";
 import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/common/Button";
@@ -10,15 +11,38 @@ import { RecommendedPackCard } from "@/components/packs/RecommendedPackCard";
 import { BlockPackCard } from "@/components/packs/BlockPackCard";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ConfirmDialog } from "@/components/common/ConfirmDialog";
-import { useToast } from "@/components/common/Toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { BlockPack, RecommendedBlockPack } from "@/types";
 
 export default function Home() {
   const router = useRouter();
-  const { packs, ready, isLoading, error, updatePack, deletePack, startFromRecommended } = usePacks();
-  const { show } = useToast();
+  const { packs, ready, isLoading, error, updatePack, deletePack } = usePacks();
   const [toDelete, setToDelete] = useState<BlockPack | null>(null);
+  const [authAllowed, setAuthAllowed] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    const supabase = getSupabase();
+    if (!supabase) {
+      queueMicrotask(() => {
+        setAuthAllowed(true);
+        setAuthChecked(true);
+      });
+      return;
+    }
+
+    supabase.auth.getUser().then(({ data }) => {
+      setAuthAllowed(Boolean(data.user));
+      setAuthChecked(true);
+    });
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAuthAllowed(Boolean(session?.user));
+      setAuthChecked(true);
+    });
+
+    return () => sub.subscription.unsubscribe();
+  }, []);
 
   const blockPacks = Array.isArray(packs) ? packs : [];
   const isPacksLoading = isLoading || !ready;
@@ -27,20 +51,7 @@ export default function Home() {
   const hasPacks = !isPacksLoading && !hasPacksError && blockPacks.length > 0;
 
   const handleCreate = () => router.push("/packs/new");
-  const handleStart = async (rec: RecommendedBlockPack) => {
-    try {
-      const pack = await startFromRecommended(rec);
-      router.push(`/packs/${pack.id}`);
-    } catch (error) {
-      console.error("[packs] recommended start failed", error);
-      if (isPackAuthRequiredError(error)) {
-        show("블록팩을 저장하려면 먼저 로그인해주세요.");
-        window.dispatchEvent(new Event("prompt-auth-open"));
-        return;
-      }
-      show("블록팩을 만들지 못했어요. 잠시 후 다시 시도해주세요.");
-    }
-  };
+  const handleStart = (rec: RecommendedBlockPack) => router.push(`/packs/new?template=${rec.id}`);
 
   return (
     <PageShell className="py-12">
@@ -115,7 +126,29 @@ export default function Home() {
           </div>
         </div>
 
-        {isPacksLoading ? (
+        {!authChecked ? (
+          <div className="rounded-[var(--radius-card)] border border-dashed border-border px-6 py-14 text-center">
+            <p className="text-[15px] font-medium text-foreground">내 블록팩을 확인하는 중이에요.</p>
+          </div>
+        ) : !authAllowed ? (
+          <EmptyState
+            title="내 블록팩은 로그인 후 볼 수 있어요."
+            description="추천 블록팩을 바로 조립하고 사용해볼 수는 있어요."
+          >
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => window.dispatchEvent(new Event("prompt-auth-open"))}
+            >
+              로그인하기
+            </Button>
+            <a href="#recommended">
+              <Button variant="outline" size="sm">
+                추천 블록팩 보기
+              </Button>
+            </a>
+          </EmptyState>
+        ) : isPacksLoading ? (
           <div className="rounded-[var(--radius-card)] border border-dashed border-border px-6 py-14 text-center">
             <p className="text-[15px] font-medium text-foreground">내 블록팩을 불러오는 중이에요.</p>
           </div>

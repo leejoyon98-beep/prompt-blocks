@@ -20,9 +20,13 @@ export function CopyRegisterButton({
   variant?: "primary" | "outline" | "ghost";
 }) {
   const { show } = useToast();
-  const disabled = pack.blockIds.length + (pack.tagIds?.length ?? 0) === 0;
+  const isEmpty = pack.blockIds.length + (pack.tagIds?.length ?? 0) === 0;
 
   async function copy() {
+    if (isEmpty) {
+      show("먼저 프롬프트 블록이나 조각 태그를 추가해주세요.");
+      return;
+    }
     const text = generateRegisterPrompt(pack);
     if (!text) return;
     try {
@@ -38,7 +42,6 @@ export function CopyRegisterButton({
       variant={variant}
       size="sm"
       onClick={copy}
-      disabled={disabled}
       className={cn(full && "w-full", className)}
     >
       {label}

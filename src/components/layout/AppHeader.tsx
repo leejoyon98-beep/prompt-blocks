@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { AuthButton } from "@/components/auth/AuthButton";
 import { useToast } from "@/components/common/Toast";
 import { getSupabase } from "@/lib/supabase";
@@ -13,30 +12,24 @@ const navLinkClass =
 export function AppHeader() {
   const router = useRouter();
   const { show } = useToast();
-  const [openingLibrary, setOpeningLibrary] = useState(false);
 
-  const openBlockLibrary = async () => {
-    if (openingLibrary) return;
-    setOpeningLibrary(true);
-
+  const openMyPacks = async () => {
     try {
       const supabase = getSupabase();
       if (supabase) {
         const { data, error } = await supabase.auth.getUser();
         if (error) throw error;
         if (!data.user) {
-          show("블록 라이브러리를 사용하려면 먼저 로그인해주세요.");
+          show("내 블록팩을 보려면 로그인해주세요.");
           window.dispatchEvent(new Event("prompt-auth-open"));
           return;
         }
       }
 
-      router.push("/packs/new");
+      router.push("/packs");
     } catch (error) {
-      console.error("[nav] open block library failed", error);
-      show("블록팩 조립 화면을 열지 못했어요. 잠시 후 다시 시도해주세요.");
-    } finally {
-      setOpeningLibrary(false);
+      console.error("[nav] open my packs failed", error);
+      show("내 블록팩을 열지 못했어요. 잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -53,12 +46,12 @@ export function AppHeader() {
           <Link href="/guide" className={navLinkClass}>
             사용 가이드
           </Link>
-          <button type="button" onClick={openBlockLibrary} disabled={openingLibrary} className={navLinkClass}>
-            {openingLibrary ? "여는 중..." : "블록 라이브러리"}
+          <button type="button" onClick={() => router.push("/packs/new")} className={navLinkClass}>
+            블록 라이브러리
           </button>
-          <Link href="/packs" className={navLinkClass}>
+          <button type="button" onClick={openMyPacks} className={navLinkClass}>
             내 블록팩
-          </Link>
+          </button>
           <span className="mx-1 h-4 w-px bg-border" />
           <AuthButton />
         </nav>

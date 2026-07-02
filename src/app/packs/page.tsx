@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { isPackAuthRequiredError, usePacks } from "@/lib/usePacks";
+import { getSupabase } from "@/lib/supabase";
 import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/common/Button";
 import { BlockPackCard } from "@/components/packs/BlockPackCard";
@@ -17,6 +18,42 @@ export default function PacksPage() {
   const { packs, ready, createPack, updatePack, deletePack } = usePacks();
   const { show } = useToast();
   const [toDelete, setToDelete] = useState<BlockPack | null>(null);
+  const [authAllowed, setAuthAllowed] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    const supabase = getSupabase();
+    if (!supabase) {
+      queueMicrotask(() => {
+        setAuthAllowed(true);
+        setAuthChecked(true);
+      });
+      return;
+    }
+
+    let active = true;
+    supabase.auth.getUser().then(({ data, error }) => {
+      if (!active) return;
+      if (error) console.error("[packs] user lookup failed", error);
+      const allowed = Boolean(data.user);
+      setAuthAllowed(allowed);
+      setAuthChecked(true);
+      if (!allowed) {
+        show("내 블록팩을 보려면 로그인해주세요.");
+        window.dispatchEvent(new Event("prompt-auth-open"));
+      }
+    });
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAuthAllowed(Boolean(session?.user));
+      setAuthChecked(true);
+    });
+
+    return () => {
+      active = false;
+      sub.subscription.unsubscribe();
+    };
+  }, [show]);
 
   const handleCreate = async () => {
     try {
@@ -25,11 +62,11 @@ export default function PacksPage() {
     } catch (error) {
       console.error("[packs] create failed", error);
       if (isPackAuthRequiredError(error)) {
-        show("블록팩을 저장하려면 먼저 로그인해주세요.");
+        show("내 블록팩에 저장하려면 먼저 로그인해주세요.");
         window.dispatchEvent(new Event("prompt-auth-open"));
         return;
       }
-      show("블록팩을 만들지 못했어요. 잠시 후 다시 시도해주세요.");
+      show("블록팩을 저장하지 못했어요. 잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -42,7 +79,25 @@ export default function PacksPage() {
         </Button>
       </div>
 
-      {!ready ? null : packs.length === 0 ? (
+      {!authChecked ? null : !authAllowed ? (
+        <EmptyState
+          title="로그인이 필요해요."
+          description="내 블록팩을 저장하고 불러오려면 먼저 로그인해주세요."
+        >
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => window.dispatchEvent(new Event("prompt-auth-open"))}
+          >
+            로그인하기
+          </Button>
+          <Link href="/packs/new">
+            <Button variant="outline" size="sm">
+              저장 없이 조립해보기
+            </Button>
+          </Link>
+        </EmptyState>
+      ) : !ready ? null : packs.length === 0 ? (
         <EmptyState
           title="아직 만든 블록팩이 없어요."
           description={"추천 블록팩으로 시작하거나 새 블록팩을 만들어보세요."}

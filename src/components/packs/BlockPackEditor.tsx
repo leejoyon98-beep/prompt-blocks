@@ -2,13 +2,14 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { isPackAuthRequiredError, usePacks } from "@/lib/usePacks";
 import { useToast } from "@/components/common/Toast";
 import { promptBlocks, blockById } from "@/data/promptBlocks";
 import { promptTags, tagById, TAG_CATEGORIES } from "@/data/promptTags";
+import { featuredPacks, recommendedPacks } from "@/data/recommendedPacks";
 import { normalizeCategory, UI_CATEGORIES } from "@/data/categories";
-import type { BlockPack, PromptBlock, PromptTag } from "@/types";
+import type { BlockPack, PromptBlock, PromptTag, RecommendedBlockPack } from "@/types";
 import { CategorySidebar, ALL } from "@/components/blocks/CategorySidebar";
 import { BlockLibrary } from "@/components/blocks/BlockLibrary";
 import { TagLibrary } from "@/components/tags/TagLibrary";
@@ -36,14 +37,14 @@ const tagCategoryCounts: Record<string, number> = (() => {
 
 type LibraryMode = "blocks" | "tags";
 
-function createDraftPack(): BlockPack {
+function createDraftPack(template?: RecommendedBlockPack): BlockPack {
   const ts = new Date().toISOString();
   return {
     id: "__new__",
-    name: "새 블록팩",
-    description: "",
-    blockIds: [],
-    tagIds: [],
+    name: template?.name ?? "새 블록팩",
+    description: template?.description ?? "",
+    blockIds: template ? [...template.blockIds] : [],
+    tagIds: template ? [...(template.tagIds ?? [])] : [],
     createdAt: ts,
     updatedAt: ts,
   };
@@ -57,9 +58,18 @@ export function BlockPackEditor({
   isNew?: boolean;
 }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { packs, ready, createPack, updatePack } = usePacks();
   const { show } = useToast();
-  const [draftPack, setDraftPack] = useState<BlockPack>(() => createDraftPack());
+  const templateId = isNew ? searchParams.get("template") : null;
+  const templatePack = useMemo(
+    () =>
+      templateId
+        ? [...featuredPacks, ...recommendedPacks].find((template) => template.id === templateId)
+        : undefined,
+    [templateId]
+  );
+  const [draftPack, setDraftPack] = useState<BlockPack>(() => createDraftPack(templatePack));
   const [mode, setMode] = useState<LibraryMode>("blocks");
   const [blockCategory, setBlockCategory] = useState<string>(ALL);
   const [tagCategory, setTagCategory] = useState<string>(ALL);
@@ -163,7 +173,7 @@ export function BlockPackEditor({
 
       if (!ok) {
         console.error("[packs] explicit save failed", { packId: pack.id });
-        show("블록팩 저장에 실패했어요. 잠시 후 다시 시도해주세요.");
+        show("블록팩을 저장하지 못했어요. 잠시 후 다시 시도해주세요.");
         return;
       }
 
@@ -171,11 +181,11 @@ export function BlockPackEditor({
     } catch (error) {
       console.error("[packs] explicit save failed", error);
       if (isPackAuthRequiredError(error)) {
-        show("블록팩을 저장하려면 먼저 로그인해주세요.");
+        show("내 블록팩에 저장하려면 먼저 로그인해주세요.");
         window.dispatchEvent(new Event("prompt-auth-open"));
         return;
       }
-      show("블록팩 저장에 실패했어요. 잠시 후 다시 시도해주세요.");
+      show("블록팩을 저장하지 못했어요. 잠시 후 다시 시도해주세요.");
     }
   };
 
