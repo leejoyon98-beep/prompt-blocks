@@ -195,7 +195,7 @@ export function BlockPackEditor({
   const onSelectCategory = mode === "blocks" ? setBlockCategory : setTagCategory;
 
   return (
-    <div className="mx-auto w-full max-w-[1440px] px-6 py-6 sm:px-10">
+    <div className="mx-auto w-full max-w-[1440px] px-5 py-5 md:px-10 md:py-6">
       <div className="mb-4 flex items-center gap-2 text-[12px] text-muted">
         <Link href="/packs" className="hover:text-foreground">
           내 블록팩

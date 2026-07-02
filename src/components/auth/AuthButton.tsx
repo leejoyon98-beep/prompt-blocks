@@ -77,7 +77,7 @@ export function AuthButton() {
         <span className="hidden max-w-[160px] truncate text-[12px] text-muted sm:inline">{email}</span>
         <button
           onClick={() => supabase.auth.signOut()}
-          className="rounded-[var(--radius-btn)] px-3 py-1.5 text-[13px] text-muted hover:bg-subtle hover:text-foreground"
+          className="min-w-fit whitespace-nowrap rounded-[var(--radius-btn)] px-3 py-1.5 text-[13px] text-muted hover:bg-subtle hover:text-foreground"
         >
           로그아웃
         </button>
@@ -89,7 +89,7 @@ export function AuthButton() {
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen((v) => !v)}
-        className="rounded-[var(--radius-btn)] bg-ink px-3 py-1.5 text-[13px] font-medium text-white hover:bg-ink/90"
+        className="min-w-fit whitespace-nowrap rounded-[var(--radius-btn)] bg-ink px-3 py-1.5 text-[13px] font-medium text-white hover:bg-ink/90"
       >
         로그인
       </button>

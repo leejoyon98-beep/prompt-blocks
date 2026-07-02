@@ -25,12 +25,12 @@ export function RecommendedPackCard({
   return (
     <div className="flex h-full flex-col rounded-[var(--radius-card)] border border-border bg-background p-4 transition-colors hover:border-border-strong">
       <div className="flex items-start justify-between gap-3">
-        <h3 className="text-[14px] font-semibold tracking-tight">{pack.name}</h3>
+        <h3 className="text-[14px] font-semibold tracking-tight [word-break:keep-all]">{pack.name}</h3>
         <span className="shrink-0 rounded-full bg-subtle px-2 py-0.5 text-[11px] text-muted">
           {category}
         </span>
       </div>
-      <p className="mt-1.5 text-[13px] leading-relaxed text-muted">{pack.description}</p>
+      <p className="mt-1.5 text-[13px] leading-relaxed text-muted [word-break:keep-all]">{pack.description}</p>
 
       <div className="mt-3 flex flex-wrap gap-1.5">
         {names.slice(0, 4).map((n) => (

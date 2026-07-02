@@ -54,21 +54,23 @@ export default function Home() {
   const handleStart = (rec: RecommendedBlockPack) => router.push(`/packs/new?template=${rec.id}`);
 
   return (
-    <PageShell className="py-12">
+    <PageShell className="py-9 md:py-12">
       {/* Hero */}
-      <section className="border-b border-border pb-3">
-        <h1 className="max-w-2xl text-[40px] font-semibold leading-[1.12] tracking-[-0.02em] sm:text-[48px]">
+      <section className="border-b border-border pb-3 [word-break:keep-all]">
+        <h1 className="max-w-[720px] text-[34px] font-semibold leading-[1.13] tracking-[-0.02em] [word-break:keep-all] sm:text-[40px] md:text-[48px] md:leading-[1.12]">
           프롬프트 블록을 골라
-          <br />
+          <br className="hidden sm:block" />
+          <span className="sm:hidden"> </span>
           나만의 블록팩을 만드세요.
         </h1>
-        <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted">
+        <p className="mt-5 max-w-[340px] text-[15px] leading-[1.65] text-muted [word-break:keep-all] sm:max-w-xl">
           자주 쓰는 AI 작업 방식을 블록팩으로 묶고,
-          <br />
+          <br className="hidden sm:block" />
+          <span className="sm:hidden"> </span>
           내가 사용하는 AI에 붙여넣어 반복 작업을 빠르게 요청할 수 있어요.
         </p>
         <div className="mt-12 mb-3">
-          <Link href="/guide" className="inline-flex text-[13px] font-medium text-foreground hover:underline">
+          <Link href="/guide" className="inline-flex whitespace-nowrap text-[13px] font-medium text-foreground hover:underline">
             프롬프트 블록이 처음이라면? 사용 가이드 보기 →
           </Link>
         </div>
@@ -76,13 +78,13 @@ export default function Home() {
 
       {/* Recommended */}
       <section id="recommended" className="scroll-mt-20 py-12">
-        <div className="mb-5 flex items-baseline justify-between">
-          <h2 className="text-[20px] font-semibold tracking-tight">추천 블록팩</h2>
-          <Link href="/templates" className="text-[13px] text-muted hover:text-foreground">
+        <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+          <h2 className="text-[20px] font-semibold tracking-tight [word-break:keep-all]">추천 블록팩</h2>
+          <Link href="/templates" className="whitespace-nowrap text-[13px] text-muted hover:text-foreground">
             모든 블록팩 보기 →
           </Link>
         </div>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {featuredPacks.map((p) => (
             <RecommendedPackCard key={p.id} pack={p} onStart={handleStart} />
           ))}
@@ -91,13 +93,13 @@ export default function Home() {
             className="flex h-full min-h-[218px] flex-col rounded-[var(--radius-card)] border border-border bg-background p-4 transition-colors hover:border-border-strong hover:bg-subtle/40"
           >
             <div>
-              <h3 className="text-[14px] font-semibold tracking-tight">모든 블록팩 보기</h3>
+              <h3 className="text-[14px] font-semibold tracking-tight [word-break:keep-all]">모든 블록팩 보기</h3>
               <p className="mt-1.5 text-[13px] leading-relaxed text-muted">
                 상품기획, 리서치, 이미지 작업, 마케팅 등 목적별 기본 블록팩을 둘러보고 바로 시작해보세요.
               </p>
             </div>
             <div className="mt-auto pt-4">
-              <span className="inline-flex h-8 items-center justify-center rounded-[var(--radius-btn)] bg-ink px-3 text-[13px] font-medium text-white">
+              <span className="inline-flex h-8 items-center justify-center whitespace-nowrap rounded-[var(--radius-btn)] bg-ink px-3 text-[13px] font-medium text-white">
                 둘러보기
               </span>
             </div>
@@ -109,7 +111,7 @@ export default function Home() {
       <section className="border-t border-border py-12">
         <div className="mb-5 flex items-center justify-between gap-3">
           <div className="flex items-center gap-1.5">
-            <h2 className="text-[20px] font-semibold leading-none tracking-tight">내 블록팩</h2>
+            <h2 className="text-[20px] font-semibold leading-none tracking-tight [word-break:keep-all]">내 블록팩</h2>
             <button
               type="button"
               onClick={handleCreate}
@@ -120,7 +122,7 @@ export default function Home() {
             </button>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <Link href="/packs" className="text-[13px] text-muted hover:text-foreground">
+            <Link href="/packs" className="whitespace-nowrap text-[13px] text-muted hover:text-foreground">
               전체 보기
             </Link>
           </div>
