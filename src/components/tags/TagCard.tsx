@@ -6,14 +6,14 @@ import { cn } from "@/lib/utils";
 
 const shortSimilarDifferences: Record<string, Record<string, string>> = {
   "TL;DR": {
-    "summary-first": "답변 전체를 결론 우선 구조로 정리",
-    concise: "전체 답변을 짧고 간결하게 정리",
+    "summary-first": "TL;DR은 긴 답변 앞에 붙는 1~2줄짜리 초압축 요약. summary-first는 답변 전체를 결론 우선 구조로 정리.",
+    concise: "TL;DR은 긴 답변 앞에 붙는 1~2줄짜리 초압축 요약. concise는 전체 답변을 짧고 간결하게 정리.",
   },
   "summary-first": {
-    "TL;DR": "긴 답변 앞에 붙는 1~2줄짜리 초압축 요약",
+    "TL;DR": "summary-first는 답변 전체를 결론 우선 구조로 정리. TL;DR은 긴 답변 앞에 붙는 1~2줄짜리 초압축 요약.",
   },
   concise: {
-    "TL;DR": "긴 답변 앞에 붙는 1~2줄짜리 초압축 요약",
+    "TL;DR": "concise는 전체 답변을 짧고 간결하게 정리. TL;DR은 긴 답변 앞에 붙는 1~2줄짜리 초압축 요약.",
   },
 };
 
@@ -69,7 +69,7 @@ export function TagCard({
         <ul className="mt-2 space-y-1.5 rounded-[10px] border border-border bg-subtle/60 p-2.5">
           {similarTags.map((similar) => (
             <li key={similar.tag} className="text-[11px] leading-relaxed text-muted">
-              <span className="font-medium text-foreground">{similar.tag}</span> ·{" "}
+              <span className="font-medium text-foreground">vs {similar.tag}</span> ·{" "}
               {getSimilarDifference(tag, similar)}
             </li>
           ))}
