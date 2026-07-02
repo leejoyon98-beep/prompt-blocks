@@ -8,6 +8,18 @@ import { newId, uniqueName } from "./utils";
 import { getSupabase } from "./supabase";
 
 const TABLE = "block_packs";
+const AUTH_REQUIRED_MESSAGE = "블록팩을 저장하려면 먼저 로그인해주세요.";
+
+export class PackAuthRequiredError extends Error {
+  constructor() {
+    super(AUTH_REQUIRED_MESSAGE);
+    this.name = "PackAuthRequiredError";
+  }
+}
+
+export function isPackAuthRequiredError(error: unknown): error is PackAuthRequiredError {
+  return error instanceof PackAuthRequiredError;
+}
 
 function now() {
   return new Date().toISOString();
@@ -60,6 +72,16 @@ function isMissingTagIdsColumn(error: { message?: string; details?: string; hint
   return text.includes("tag_ids");
 }
 
+function logSupabaseError(label: string, error: unknown) {
+  const e = error as { code?: string; message?: string; details?: string; hint?: string } | null;
+  console.error(label, {
+    code: e?.code,
+    message: e?.message,
+    details: e?.details,
+    hint: e?.hint,
+  });
+}
+
 async function upsertPack(supabase: SupabaseClient, pack: BlockPack, userId: string): Promise<boolean> {
   const { error } = await supabase.from(TABLE).upsert(packToRow(pack, userId));
   if (!error) return true;
@@ -69,10 +91,10 @@ async function upsertPack(supabase: SupabaseClient, pack: BlockPack, userId: str
       console.warn("[packs] tag_ids column is missing; saved without 조각 태그 sync.");
       return true;
     }
-    console.error("[packs] save failed", retry.error.message);
+    logSupabaseError("[packs] save failed", retry.error);
     return false;
   }
-  console.error("[packs] save failed", error.message);
+  logSupabaseError("[packs] save failed", error);
   return false;
 }
 
@@ -92,11 +114,11 @@ async function insertPack(supabase: SupabaseClient, pack: BlockPack, userId: str
       .select("*")
       .single();
     if (!retry.error && retry.data) return rowToPack(retry.data as Row);
-    console.error("[packs] create failed", retry.error?.message);
+    logSupabaseError("[packs] create failed", retry.error);
     throw retry.error ?? error;
   }
 
-  console.error("[packs] create failed", error?.message);
+  logSupabaseError("[packs] create failed", error);
   throw error;
 }
 
@@ -271,10 +293,11 @@ export function usePacks() {
           }
           uid = data.user?.id ?? null;
         }
-        if (uid) {
-          created = await insertPack(supabase, pack, uid);
-          savedInCloud = true;
+        if (!uid) {
+          throw new PackAuthRequiredError();
         }
+        created = await insertPack(supabase, pack, uid);
+        savedInCloud = true;
       }
 
       const next = [created, ...packs];
@@ -359,10 +382,11 @@ export function usePacks() {
           }
           uid = data.user?.id ?? null;
         }
-        if (uid) {
-          created = await insertPack(supabase, pack, uid);
-          savedInCloud = true;
+        if (!uid) {
+          throw new PackAuthRequiredError();
         }
+        created = await insertPack(supabase, pack, uid);
+        savedInCloud = true;
       }
 
       const next = [created, ...packs];

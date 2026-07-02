@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { usePacks } from "@/lib/usePacks";
+import { isPackAuthRequiredError, usePacks } from "@/lib/usePacks";
 import { useToast } from "@/components/common/Toast";
 import { promptBlocks, blockById } from "@/data/promptBlocks";
 import { promptTags, tagById, TAG_CATEGORIES } from "@/data/promptTags";
@@ -170,6 +170,11 @@ export function BlockPackEditor({
       show("내 블록팩에 저장되었어요.");
     } catch (error) {
       console.error("[packs] explicit save failed", error);
+      if (isPackAuthRequiredError(error)) {
+        show("블록팩을 저장하려면 먼저 로그인해주세요.");
+        window.dispatchEvent(new Event("prompt-auth-open"));
+        return;
+      }
       show("블록팩 저장에 실패했어요. 잠시 후 다시 시도해주세요.");
     }
   };

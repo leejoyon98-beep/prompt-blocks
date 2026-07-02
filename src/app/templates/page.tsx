@@ -10,7 +10,7 @@ import { recommendedPacks } from "@/data/recommendedPacks";
 import { blockById } from "@/data/promptBlocks";
 import { tagById } from "@/data/promptTags";
 import { CATEGORY_ORDER, normalizeCategory } from "@/data/categories";
-import { usePacks } from "@/lib/usePacks";
+import { isPackAuthRequiredError, usePacks } from "@/lib/usePacks";
 import type { RecommendedBlockPack } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -72,6 +72,11 @@ export default function TemplatesPage() {
       router.push(`/packs/${created.id}`);
     } catch (error) {
       console.error("[templates] start failed", error);
+      if (isPackAuthRequiredError(error)) {
+        show("블록팩을 저장하려면 먼저 로그인해주세요.");
+        window.dispatchEvent(new Event("prompt-auth-open"));
+        return;
+      }
       show("블록팩을 만들지 못했어요. 잠시 후 다시 시도해주세요.");
     } finally {
       setStartingId(null);

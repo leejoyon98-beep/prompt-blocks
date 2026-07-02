@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { usePacks } from "@/lib/usePacks";
+import { isPackAuthRequiredError, usePacks } from "@/lib/usePacks";
 import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/common/Button";
 import { BlockPackCard } from "@/components/packs/BlockPackCard";
@@ -24,6 +24,11 @@ export default function PacksPage() {
       router.push(`/packs/${pack.id}`);
     } catch (error) {
       console.error("[packs] create failed", error);
+      if (isPackAuthRequiredError(error)) {
+        show("블록팩을 저장하려면 먼저 로그인해주세요.");
+        window.dispatchEvent(new Event("prompt-auth-open"));
+        return;
+      }
       show("블록팩을 만들지 못했어요. 잠시 후 다시 시도해주세요.");
     }
   };
