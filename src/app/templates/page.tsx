@@ -8,6 +8,7 @@ import { useToast } from "@/components/common/Toast";
 import { SearchInput } from "@/components/blocks/SearchInput";
 import { recommendedPacks } from "@/data/recommendedPacks";
 import { blockById } from "@/data/promptBlocks";
+import { tagById } from "@/data/promptTags";
 import { CATEGORY_ORDER, normalizeCategory } from "@/data/categories";
 import { usePacks } from "@/lib/usePacks";
 import type { RecommendedBlockPack } from "@/types";
@@ -29,10 +30,14 @@ function packBlockNames(pack: RecommendedBlockPack): string[] {
   return pack.blockIds.map((id) => blockById.get(id)?.name).filter((name): name is string => Boolean(name));
 }
 
+function packTagNames(pack: RecommendedBlockPack): string[] {
+  return (pack.tagIds ?? []).map((id) => tagById.get(id)?.tag).filter((name): name is string => Boolean(name));
+}
+
 function matchesFilter(pack: RecommendedBlockPack, filter: string) {
   if (filter === "전체") return true;
   const keywords = filterKeywords[filter] ?? [filter];
-  const haystack = [pack.name, pack.description, normalizeCategory(pack.category), ...packBlockNames(pack)]
+  const haystack = [pack.name, pack.description, normalizeCategory(pack.category), ...packBlockNames(pack), ...packTagNames(pack)]
     .join(" ")
     .toLowerCase();
   return keywords.some((keyword) => haystack.includes(keyword.toLowerCase()));
@@ -41,7 +46,7 @@ function matchesFilter(pack: RecommendedBlockPack, filter: string) {
 function matchesSearch(pack: RecommendedBlockPack, query: string) {
   const q = query.trim().toLowerCase();
   if (!q) return true;
-  const haystack = [pack.name, pack.description, normalizeCategory(pack.category), ...packBlockNames(pack)]
+  const haystack = [pack.name, pack.description, normalizeCategory(pack.category), ...packBlockNames(pack), ...packTagNames(pack)]
     .join(" ")
     .toLowerCase();
   return haystack.includes(q);
@@ -144,8 +149,10 @@ function TemplatePackCard({
   onStart: () => void;
 }) {
   const names = packBlockNames(pack);
+  const tagNames = packTagNames(pack);
   const tagCount = pack.tagIds?.length ?? 0;
   const category = normalizeCategory(pack.category);
+  const hiddenCount = Math.max(0, names.length - 4) + Math.max(0, tagNames.length - 3);
 
   return (
     <div className="flex h-full flex-col rounded-[var(--radius-card)] border border-border bg-background p-4 transition-colors hover:border-border-strong">
@@ -156,12 +163,17 @@ function TemplatePackCard({
       <p className="mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-muted">{pack.description}</p>
 
       <div className="mt-3 flex flex-wrap gap-1.5">
-        {names.slice(0, 5).map((name) => (
+        {names.slice(0, 4).map((name) => (
           <span key={name} className="rounded-full border border-border px-2 py-0.5 text-[11px] text-foreground/80">
             {name}
           </span>
         ))}
-        {names.length > 5 && <span className="px-1 py-0.5 text-[11px] text-muted">+{names.length - 5}</span>}
+        {tagNames.slice(0, 3).map((name) => (
+          <span key={name} className="rounded-full bg-subtle px-2 py-0.5 text-[11px] text-muted">
+            {name}
+          </span>
+        ))}
+        {hiddenCount > 0 && <span className="px-1 py-0.5 text-[11px] text-muted">+{hiddenCount}</span>}
       </div>
 
       <div className="mt-auto flex items-center justify-between gap-3 pt-4">

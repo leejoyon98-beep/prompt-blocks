@@ -5,8 +5,8 @@ export const featuredPacks: RecommendedBlockPack[] = [
   {
     "id": "rec_home_01",
     "name": "직장인 기본 블록팩",
-    "description": "보고·메일·회의 등 매일 쓰는 업무 작업을 한 번에",
-    "category": "기획/보고",
+    "description": "보고·메일·회의 등 매일 쓰는 업무 작업을 한 번에 정리",
+    "category": "범용 작업",
     "blockIds": [
       4,
       54,
@@ -18,16 +18,17 @@ export const featuredPacks: RecommendedBlockPack[] = [
     ],
     "tagIds": [
       "tag_tldr",
+      "tag_concise",
       "tag_table",
       "tag_bullets",
-      "tag_concise",
-      "tag_next_steps"
+      "tag_next_steps",
+      "tag_tone_formal"
     ]
   },
   {
     "id": "rec_home_02",
     "name": "상품기획 블록팩",
-    "description": "상품 컨셉부터 상세페이지 설득까지",
+    "description": "상품 컨셉부터 상세페이지 설득 구조까지 정리",
     "category": "상품기획",
     "blockIds": [
       172,
@@ -35,19 +36,23 @@ export const featuredPacks: RecommendedBlockPack[] = [
       126,
       176,
       184,
-      185,
-      207,
-      198
+      132,
+      130,
+      127
     ],
     "tagIds": [
       "tag_framework",
-      "tag_priority"
+      "tag_priority",
+      "tag_pros_cons",
+      "tag_table",
+      "tag_practical",
+      "tag_checklist"
     ]
   },
   {
     "id": "rec_home_03",
     "name": "마케팅 블록팩",
-    "description": "고객 이해부터 광고 카피·A/B까지",
+    "description": "고객 이해부터 광고 카피와 소구 전략까지 정리",
     "category": "마케팅/브랜드",
     "blockIds": [
       122,
@@ -56,13 +61,22 @@ export const featuredPacks: RecommendedBlockPack[] = [
       132,
       163,
       164,
-      165
+      134,
+      9
+    ],
+    "tagIds": [
+      "tag_concise",
+      "tag_examples",
+      "tag_compare",
+      "tag_confident",
+      "tag_checklist",
+      "tag_humanize"
     ]
   },
   {
     "id": "rec_home_04",
     "name": "이미지 작업 블록팩",
-    "description": "레퍼런스 분석부터 이미지 프롬프트까지",
+    "description": "레퍼런스 분석부터 이미지 생성 프롬프트까지 정리",
     "category": "사진/영상/비주얼",
     "blockIds": [
       81,
@@ -70,14 +84,22 @@ export const featuredPacks: RecommendedBlockPack[] = [
       96,
       97,
       105,
-      106,
-      120
+      83,
+      104,
+      106
+    ],
+    "tagIds": [
+      "tag_deep_dive",
+      "tag_practical",
+      "tag_examples",
+      "tag_checklist",
+      "tag_concise"
     ]
   },
   {
     "id": "rec_home_05",
     "name": "딥리서치 블록팩",
-    "description": "질문 설계부터 출처 정리·액션 제안까지",
+    "description": "질문 설계부터 출처 정리와 액션 제안까지",
     "category": "딥리서치",
     "blockIds": [
       211,
@@ -85,8 +107,8 @@ export const featuredPacks: RecommendedBlockPack[] = [
       215,
       216,
       213,
-      220,
-      223,
+      214,
+      226,
       238
     ],
     "tagIds": [
@@ -95,12 +117,179 @@ export const featuredPacks: RecommendedBlockPack[] = [
       "tag_evidence",
       "tag_compare",
       "tag_risk",
-      "tag_next_steps"
+      "tag_next_steps",
+      "tag_tldr"
     ]
   }
 ];
 
 export const recommendedPacks: RecommendedBlockPack[] = [
+  {
+    "id": "rec_home_01",
+    "name": "직장인 기본 블록팩",
+    "description": "보고·메일·회의 등 매일 쓰는 업무 작업을 한 번에 정리",
+    "category": "범용 작업",
+    "blockIds": [
+      4,
+      54,
+      56,
+      23,
+      46,
+      49,
+      39
+    ],
+    "tagIds": [
+      "tag_tldr",
+      "tag_concise",
+      "tag_table",
+      "tag_bullets",
+      "tag_next_steps",
+      "tag_tone_formal"
+    ]
+  },
+  {
+    "id": "rec_home_02",
+    "name": "상품기획 블록팩",
+    "description": "상품 컨셉부터 상세페이지 설득 구조까지 정리",
+    "category": "상품기획",
+    "blockIds": [
+      172,
+      122,
+      126,
+      176,
+      184,
+      132,
+      130,
+      127
+    ],
+    "tagIds": [
+      "tag_framework",
+      "tag_priority",
+      "tag_pros_cons",
+      "tag_table",
+      "tag_practical",
+      "tag_checklist"
+    ]
+  },
+  {
+    "id": "rec_home_03",
+    "name": "마케팅 블록팩",
+    "description": "고객 이해부터 광고 카피와 소구 전략까지 정리",
+    "category": "마케팅/브랜드",
+    "blockIds": [
+      122,
+      125,
+      126,
+      132,
+      163,
+      164,
+      134,
+      9
+    ],
+    "tagIds": [
+      "tag_concise",
+      "tag_examples",
+      "tag_compare",
+      "tag_confident",
+      "tag_checklist",
+      "tag_humanize"
+    ]
+  },
+  {
+    "id": "rec_home_04",
+    "name": "이미지 작업 블록팩",
+    "description": "레퍼런스 분석부터 이미지 생성 프롬프트까지 정리",
+    "category": "사진/영상/비주얼",
+    "blockIds": [
+      81,
+      95,
+      96,
+      97,
+      105,
+      83,
+      104,
+      106
+    ],
+    "tagIds": [
+      "tag_deep_dive",
+      "tag_practical",
+      "tag_examples",
+      "tag_checklist",
+      "tag_concise"
+    ]
+  },
+  {
+    "id": "rec_home_05",
+    "name": "딥리서치 블록팩",
+    "description": "질문 설계부터 출처 정리와 액션 제안까지",
+    "category": "딥리서치",
+    "blockIds": [
+      211,
+      218,
+      215,
+      216,
+      213,
+      214,
+      226,
+      238
+    ],
+    "tagIds": [
+      "tag_deep_dive",
+      "tag_sources",
+      "tag_evidence",
+      "tag_compare",
+      "tag_risk",
+      "tag_next_steps",
+      "tag_tldr"
+    ]
+  },
+  {
+    "id": "rec_core_06",
+    "name": "글쓰기 개선 블록팩",
+    "description": "AI 티를 줄이고 자연스러운 문장으로 다듬는 글쓰기 세트",
+    "category": "콘텐츠 제작",
+    "blockIds": [
+      56,
+      74,
+      73,
+      67,
+      75,
+      23,
+      76
+    ],
+    "tagIds": [
+      "tag_humanize",
+      "tag_polish",
+      "tag_rewrite",
+      "tag_concise",
+      "tag_plain_language",
+      "tag_friendly"
+    ]
+  },
+  {
+    "id": "rec_core_07",
+    "name": "기획/보고 블록팩",
+    "description": "아이디어, 기획안, 보고서, 실행계획을 구조적으로 정리",
+    "category": "기획/보고",
+    "blockIds": [
+      16,
+      46,
+      3,
+      19,
+      31,
+      18,
+      39,
+      40
+    ],
+    "tagIds": [
+      "tag_summary_first",
+      "tag_framework",
+      "tag_priority",
+      "tag_decision",
+      "tag_table",
+      "tag_next_steps"
+    ]
+  },
   {
     "id": "rec_001",
     "name": "뉴스 한 번에 이해",
