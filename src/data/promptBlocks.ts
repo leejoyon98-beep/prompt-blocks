@@ -114,7 +114,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 8,
     "name": "콘텐츠화",
     "category": "콘텐츠 제작",
-    "description": "주제를 사람들이 흥미롭게 볼 수 있는 콘텐츠 소재로 변환",
+    "description": "정보를 사람들이 흥미롭게 볼 수 있는 콘텐츠 소재로 변환",
     "searchTags": [
       "hook",
       "human",
@@ -129,7 +129,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 9,
     "name": "후킹제목",
     "category": "콘텐츠 제작",
-    "description": "클릭하고 싶게 만드는 제목과 부제 여러 개 제안",
+    "description": "클릭하고 싶게 만드는 제목과 첫 문장 후보 제안",
     "searchTags": [
       "hook",
       "punchy",
@@ -173,7 +173,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 12,
     "name": "릴스대본",
     "category": "콘텐츠 제작",
-    "description": "짧은 영상용 오프닝, 본문, 마무리 대사 구성",
+    "description": "짧은 영상의 오프닝, 본문, 마무리 대사 구성",
     "searchTags": [
       "short script",
       "hook",
@@ -203,7 +203,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 14,
     "name": "영상콘티",
     "category": "콘텐츠 제작",
-    "description": "짧은 영상 광고의 오프닝, 문제, 제안, 혜택, CTA 구성",
+    "description": "짧은 영상의 장면 흐름과 컷 구성을 설계",
     "searchTags": [
       "video ad",
       "opening hook",
@@ -739,32 +739,6 @@ export const promptBlocks: PromptBlock[] = [
     ]
   },
   {
-    "id": 52,
-    "name": "단계정리",
-    "category": "범용 작업",
-    "description": "복잡한 내용을 순서대로 단계화",
-    "searchTags": [
-      "step-by-step",
-      "process",
-      "checklist",
-      "concise"
-    ],
-    "usedInPacks": []
-  },
-  {
-    "id": 53,
-    "name": "핵심만",
-    "category": "범용 작업",
-    "description": "불필요한 말을 줄이고 핵심만 남김",
-    "searchTags": [
-      "concise",
-      "keypoints",
-      "remove fluff",
-      "tldr"
-    ],
-    "usedInPacks": []
-  },
-  {
     "id": 54,
     "name": "표정리",
     "category": "범용 작업",
@@ -778,19 +752,6 @@ export const promptBlocks: PromptBlock[] = [
     "usedInPacks": [
       "직장인 기본 블록팩"
     ]
-  },
-  {
-    "id": 55,
-    "name": "목록화",
-    "category": "범용 작업",
-    "description": "흩어진 내용을 항목별 목록으로 정리",
-    "searchTags": [
-      "bullet points",
-      "categorize",
-      "structured",
-      "concise"
-    ],
-    "usedInPacks": []
   },
   {
     "id": 56,
@@ -847,19 +808,6 @@ export const promptBlocks: PromptBlock[] = [
     "usedInPacks": []
   },
   {
-    "id": 60,
-    "name": "전문가톤",
-    "category": "범용 작업",
-    "description": "내용을 더 전문적이고 신뢰감 있게 변경",
-    "searchTags": [
-      "professional",
-      "polished",
-      "credible",
-      "concise"
-    ],
-    "usedInPacks": []
-  },
-  {
     "id": 61,
     "name": "장단점",
     "category": "범용 작업",
@@ -886,32 +834,6 @@ export const promptBlocks: PromptBlock[] = [
     "usedInPacks": [
       "비교 리포트"
     ]
-  },
-  {
-    "id": 63,
-    "name": "결정도움",
-    "category": "범용 작업",
-    "description": "결정을 쉽게 내리도록 기준과 리스크 정리",
-    "searchTags": [
-      "decision support",
-      "criteria",
-      "risks",
-      "recommendation"
-    ],
-    "usedInPacks": []
-  },
-  {
-    "id": 64,
-    "name": "우선정리",
-    "category": "범용 작업",
-    "description": "여러 항목의 우선순위 정리",
-    "searchTags": [
-      "prioritize",
-      "impact",
-      "urgency",
-      "action plan"
-    ],
-    "usedInPacks": []
   },
   {
     "id": 65,
@@ -1136,7 +1058,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 81,
     "name": "사진분석",
     "category": "사진/영상/비주얼",
-    "description": "사진의 분위기, 구도, 조명, 색감, 인상 요소 분석",
+    "description": "레퍼런스 사진의 구도, 조명, 색감, 분위기 분석",
     "searchTags": [
       "photo analysis",
       "mood",
@@ -1169,7 +1091,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 83,
     "name": "구도추천",
     "category": "사진/영상/비주얼",
-    "description": "사진/영상에 어울리는 구도와 화면 배치 추천",
+    "description": "사진/영상에 어울리는 화면 구성과 배치 제안",
     "searchTags": [
       "composition",
       "framing",
@@ -1344,7 +1266,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 95,
     "name": "레퍼런스분석",
     "category": "사진/영상/비주얼",
-    "description": "참고 이미지/영상에서 따라 할 특징 정리",
+    "description": "참고 이미지에서 가져올 요소와 버릴 요소 구분",
     "searchTags": [
       "reference analysis",
       "style cues",
@@ -1359,7 +1281,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 96,
     "name": "스타일추출",
     "category": "사진/영상/비주얼",
-    "description": "이미지에서 스타일 요소만 뽑아 프롬프트 재료로 정리",
+    "description": "이미지에서 반복 사용 가능한 스타일 키워드 추출",
     "searchTags": [
       "style extraction",
       "visual elements",
@@ -1374,7 +1296,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 97,
     "name": "이미지프롬프트",
     "category": "사진/영상/비주얼",
-    "description": "만들고 싶은 이미지를 생성형 AI 프롬프트로 변환",
+    "description": "콘셉트를 이미지 생성 AI에 넣을 프롬프트로 변환",
     "searchTags": [
       "image prompt",
       "detailed",
@@ -1474,7 +1396,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 104,
     "name": "배경설계",
     "category": "사진/영상/비주얼",
-    "description": "이미지/영상에 어울리는 배경 구체화",
+    "description": "이미지/영상에 어울리는 공간, 배경, 소품 구성 제안",
     "searchTags": [
       "background design",
       "setting",
@@ -1487,7 +1409,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 105,
     "name": "조명방향",
     "category": "사진/영상/비주얼",
-    "description": "장면에 맞는 조명 분위기와 빛의 방향 설명",
+    "description": "장면에 맞는 빛 방향, 세기, 그림자 분위기 제안",
     "searchTags": [
       "lighting direction",
       "highlights",
@@ -1502,7 +1424,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 106,
     "name": "카메라무드",
     "category": "사진/영상/비주얼",
-    "description": "카메라 거리, 앵글, 시선 높이 느낌 정리",
+    "description": "렌즈, 앵글, 거리감, 초점감으로 촬영 느낌 제안",
     "searchTags": [
       "camera angle",
       "framing",
@@ -1742,7 +1664,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 122,
     "name": "고객분석",
     "category": "마케팅/브랜드",
-    "description": "타깃 고객의 특징, 니즈, 고민, 구매 동기 정리",
+    "description": "타깃 고객의 고민, 욕구, 구매 맥락을 정리",
     "searchTags": [
       "customer analysis",
       "needs",
@@ -1785,7 +1707,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 125,
     "name": "구매동기",
     "category": "마케팅/브랜드",
-    "description": "고객이 제품/서비스를 사는 이유 정리",
+    "description": "고객이 이 상품을 사고 싶어지는 직접적인 이유 정리",
     "searchTags": [
       "purchase motivation",
       "drivers",
@@ -1801,7 +1723,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 126,
     "name": "구매장벽분석",
     "category": "마케팅/브랜드",
-    "description": "고객이 구매를 망설이는 이유와 해소 방법 정리",
+    "description": "고객이 구매를 망설이는 이유와 해소 포인트 정리",
     "searchTags": [
       "purchase barriers",
       "objections",
@@ -1846,7 +1768,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 129,
     "name": "포지셔닝",
     "category": "마케팅/브랜드",
-    "description": "시장에서 어떤 위치를 가져야 할지 정리",
+    "description": "시장 안에서 브랜드/상품이 어떤 위치로 보여야 하는지 정리",
     "searchTags": [
       "positioning",
       "market fit",
@@ -1861,7 +1783,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 130,
     "name": "USP정리",
     "category": "마케팅/브랜드",
-    "description": "고유한 판매 포인트 정리",
+    "description": "경쟁 상품 대비 다르게 보일 차별점 정리",
     "searchTags": [
       "USP",
       "unique selling proposition",
@@ -1891,7 +1813,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 132,
     "name": "소구전략",
     "category": "마케팅/브랜드",
-    "description": "어떤 포인트로 고객을 설득할지 정리",
+    "description": "고객을 설득할 핵심 포인트와 전달 방식 정리",
     "searchTags": [
       "appeal strategy",
       "benefits",
@@ -1921,7 +1843,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 134,
     "name": "메시지전략",
     "category": "마케팅/브랜드",
-    "description": "브랜드/제품의 핵심 메시지를 단계별로 정리",
+    "description": "브랜드/상품의 핵심 메시지를 단계별로 정리",
     "searchTags": [
       "messaging strategy",
       "key message",
@@ -2330,7 +2252,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 163,
     "name": "광고각도",
     "category": "마케팅/브랜드",
-    "description": "광고 소재로 풀 수 있는 여러 설득 각도 제안",
+    "description": "광고에서 어떤 문제와 욕구를 건드릴지 각도 제안",
     "searchTags": [
       "ad angles",
       "hooks",
@@ -2468,7 +2390,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 172,
     "name": "상품컨셉",
     "category": "상품기획",
-    "description": "상품의 핵심 콘셉트와 한 줄 정의 정리",
+    "description": "상품의 핵심 특징을 고객이 이해하기 쉬운 컨셉으로 정리",
     "searchTags": [
       "product concept",
       "core idea",
@@ -2526,7 +2448,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 176,
     "name": "혜택변환",
     "category": "상품기획",
-    "description": "기능을 고객 체감 혜택으로 바꿔 설명",
+    "description": "기능과 특징을 고객이 체감하는 혜택으로 바꾸기",
     "searchTags": [
       "feature to benefit",
       "customer value",
@@ -2636,7 +2558,7 @@ export const promptBlocks: PromptBlock[] = [
     "id": 184,
     "name": "상세페이지구조",
     "category": "상품기획",
-    "description": "상세페이지 흐름과 섹션 구성 정리",
+    "description": "상세페이지의 설득 순서와 섹션 흐름 구성",
     "searchTags": [
       "detail page structure",
       "conversion",
