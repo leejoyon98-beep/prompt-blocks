@@ -22,7 +22,7 @@ export function UseExampleCard({ command, shortRequest, longRequest }: UseExampl
       onClick={toggleOnTouch}
     >
       <div className="flex h-full flex-col">
-        <p className="font-mono text-[13px] font-medium leading-[1.7] text-foreground">{command}</p>
+        <p className="text-[18px] font-semibold leading-tight text-foreground">{command}</p>
 
         <div className="mt-3">
           <p
