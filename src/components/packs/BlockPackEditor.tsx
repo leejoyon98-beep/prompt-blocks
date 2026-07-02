@@ -181,7 +181,7 @@ export function BlockPackEditor({
     } catch (error) {
       console.error("[packs] explicit save failed", error);
       if (isPackAuthRequiredError(error)) {
-        show("내 블록팩에 저장하려면 먼저 로그인해주세요.");
+        show("비로그인 상태에서는 블록팩 사용만 가능해요. 저장하려면 로그인해주세요.");
         window.dispatchEvent(new Event("prompt-auth-open"));
         return;
       }
