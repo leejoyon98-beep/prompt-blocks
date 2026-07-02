@@ -9,8 +9,6 @@ export const featuredPacks: RecommendedBlockPack[] = [
     "category": "범용 작업",
     "blockIds": [
       4,
-      54,
-      56,
       23,
       46,
       49,
@@ -21,8 +19,8 @@ export const featuredPacks: RecommendedBlockPack[] = [
       "tag_concise",
       "tag_table",
       "tag_bullets",
-      "tag_next_steps",
-      "tag_tone_formal"
+      "tag_polish",
+      "tag_rewrite"
     ]
   },
   {
@@ -112,13 +110,12 @@ export const featuredPacks: RecommendedBlockPack[] = [
       238
     ],
     "tagIds": [
-      "tag_deep_dive",
-      "tag_sources",
-      "tag_evidence",
+      "tag_tldr",
       "tag_compare",
       "tag_risk",
-      "tag_next_steps",
-      "tag_tldr"
+      "tag_evidence",
+      "tag_sources",
+      "tag_deep_dive"
     ]
   }
 ];
@@ -131,8 +128,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
     "category": "범용 작업",
     "blockIds": [
       4,
-      54,
-      56,
       23,
       46,
       49,
@@ -143,8 +138,8 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       "tag_concise",
       "tag_table",
       "tag_bullets",
-      "tag_next_steps",
-      "tag_tone_formal"
+      "tag_polish",
+      "tag_rewrite"
     ]
   },
   {
@@ -234,13 +229,12 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       238
     ],
     "tagIds": [
-      "tag_deep_dive",
-      "tag_sources",
-      "tag_evidence",
+      "tag_tldr",
       "tag_compare",
       "tag_risk",
-      "tag_next_steps",
-      "tag_tldr"
+      "tag_evidence",
+      "tag_sources",
+      "tag_deep_dive"
     ]
   },
   {
@@ -249,7 +243,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
     "description": "AI 티를 줄이고 자연스러운 문장으로 다듬는 글쓰기 세트",
     "category": "콘텐츠 제작",
     "blockIds": [
-      56,
       74,
       73,
       67,
@@ -333,8 +326,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
     "category": "자료 검색",
     "blockIds": [
       5,
-      51,
-      70,
       71
     ],
     "tagIds": [
@@ -505,7 +496,8 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       103,
       97,
       120
-    ]
+    ],
+    "tagIds": []
   },
   {
     "id": "rec_014",
@@ -548,7 +540,8 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       115,
       119,
       117
-    ]
+    ],
+    "tagIds": []
   },
   {
     "id": "rec_017",
@@ -711,7 +704,8 @@ export const recommendedPacks: RecommendedBlockPack[] = [
       172,
       174,
       173
-    ]
+    ],
+    "tagIds": []
   },
   {
     "id": "rec_027",
@@ -945,16 +939,14 @@ export const recommendedPacks: RecommendedBlockPack[] = [
     "description": "초보자리서치 · 쉽게설명 · 예시들어 등 4개 블록",
     "category": "딥리서치",
     "blockIds": [
-      233,
-      51,
-      70,
-      239
+      233
     ],
     "tagIds": [
       "tag_eli5",
       "tag_examples",
       "tag_plain_language",
-      "tag_tldr"
+      "tag_tldr",
+      "tag_table"
     ]
   },
   {
@@ -965,7 +957,6 @@ export const recommendedPacks: RecommendedBlockPack[] = [
     "blockIds": [
       236,
       220,
-      239,
       62
     ],
     "tagIds": [

@@ -723,52 +723,6 @@ export const promptBlocks: PromptBlock[] = [
     "usedInPacks": []
   },
   {
-    "id": 51,
-    "name": "쉽게설명",
-    "category": "범용 작업",
-    "description": "어려운 내용을 초보자도 이해할 수 있게 설명",
-    "searchTags": [
-      "ELI5",
-      "plain language",
-      "examples",
-      "tldr"
-    ],
-    "usedInPacks": [
-      "용어 쉽게 이해",
-      "초보자용 조사"
-    ]
-  },
-  {
-    "id": 54,
-    "name": "표정리",
-    "category": "범용 작업",
-    "description": "내용을 비교하거나 보기 쉽게 표로 변환",
-    "searchTags": [
-      "table",
-      "organize",
-      "compare",
-      "concise"
-    ],
-    "usedInPacks": [
-      "직장인 기본 블록팩"
-    ]
-  },
-  {
-    "id": 56,
-    "name": "문장개선",
-    "category": "범용 작업",
-    "description": "어색한 문장을 자연스럽게 다듬음",
-    "searchTags": [
-      "rewrite",
-      "natural",
-      "clear",
-      "selfrefine"
-    ],
-    "usedInPacks": [
-      "직장인 기본 블록팩"
-    ]
-  },
-  {
     "id": 57,
     "name": "톤변경",
     "category": "범용 작업",
@@ -804,19 +758,6 @@ export const promptBlocks: PromptBlock[] = [
       "detail",
       "examples",
       "persuasive"
-    ],
-    "usedInPacks": []
-  },
-  {
-    "id": 61,
-    "name": "장단점",
-    "category": "범용 작업",
-    "description": "선택지의 장단점 정리",
-    "searchTags": [
-      "proscons",
-      "balanced",
-      "usecase",
-      "recommendation"
     ],
     "usedInPacks": []
   },
@@ -899,22 +840,6 @@ export const promptBlocks: PromptBlock[] = [
       "tldr"
     ],
     "usedInPacks": []
-  },
-  {
-    "id": 70,
-    "name": "예시들어",
-    "category": "범용 작업",
-    "description": "추상적인 내용을 구체적인 예시로 설명",
-    "searchTags": [
-      "examples",
-      "analogy",
-      "plain language",
-      "tldr"
-    ],
-    "usedInPacks": [
-      "용어 쉽게 이해",
-      "초보자용 조사"
-    ]
   },
   {
     "id": 71,
@@ -3311,21 +3236,6 @@ export const promptBlocks: PromptBlock[] = [
       "딥리서치 블록팩",
       "정책/규제 분석",
       "사례 기반 조사"
-    ]
-  },
-  {
-    "id": 239,
-    "name": "요약표",
-    "category": "딥리서치",
-    "description": "조사 내용을 한눈에 보는 표로 정리",
-    "searchTags": [
-      "summary table",
-      "keypoints",
-      "comparison"
-    ],
-    "usedInPacks": [
-      "초보자용 조사",
-      "비교 리포트"
     ]
   },
   {
