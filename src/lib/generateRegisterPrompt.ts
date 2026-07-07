@@ -30,7 +30,7 @@ export function generateRegisterPrompt(pack: RegisterPack): string {
 
   const blockLines =
     blocks.length > 0
-      ? blocks.map((block) => `- ${block.name}: ${block.description}`)
+      ? blocks.map((block, index) => `${index + 1}. ${block.name}: ${block.description}`)
       : ["- 선택된 프롬프트 블록 없음"];
   const tagLines =
     tags.length > 0
@@ -49,7 +49,7 @@ export function generateRegisterPrompt(pack: RegisterPack): string {
     "[블록팩 설명]",
     packDescription,
     "",
-    "[포함된 프롬프트 블록]",
+    "[프롬프트 블록 순서]",
     ...blockLines,
     "",
     "[포함된 조각 태그]",
@@ -58,11 +58,13 @@ export function generateRegisterPrompt(pack: RegisterPack): string {
     "[사용 방식]",
     `1. 내가 “${packName}으로 해줘”라고 말하면, 이 블록팩에 포함된 블록과 태그의 의도를 조합해서 답변해줘.`,
     `2. 내가 블록팩 이름 뒤에 콜론(:)을 붙이고 내용을 입력하면, 그 내용을 대상으로 작업해줘. 예: “${packName}:”`,
-    "3. 필요하면 포함된 프롬프트 블록과 조각 태그를 기준으로 답변 형식, 관점, 톤, 출력 방식을 정해줘.",
-    "4. 내가 개별 프롬프트 블록이나 조각 태그를 따로 말하면, 그것도 같은 의미로 해석해줘.",
+    "3. 프롬프트 블록은 위에 적힌 순서대로 작업 흐름을 우선 해석해줘.",
+    "4. 조각 태그는 답변 방식과 출력 형식을 조정하는 옵션으로 함께 적용해줘.",
+    "5. 필요하면 포함된 프롬프트 블록과 조각 태그를 기준으로 답변 형식, 관점, 톤, 출력 방식을 정해줘.",
+    "6. 내가 개별 프롬프트 블록이나 조각 태그를 따로 말하면, 그것도 같은 의미로 해석해줘.",
     optionalCombination
-      ? `5. 보조적으로 “${optionalCombination}”처럼 개별 블록과 태그를 +로 조합해 말할 수도 있어.`
-      : "5. 보조적으로 개별 블록과 태그를 +로 조합해 말할 수도 있어.",
+      ? `7. 보조적으로 “${optionalCombination}”처럼 개별 블록과 태그를 +로 조합해 말할 수도 있어.`
+      : "7. 보조적으로 개별 블록과 태그를 +로 조합해 말할 수도 있어.",
     "",
     "[사용 예시]",
     `${packName}으로 해줘:`,

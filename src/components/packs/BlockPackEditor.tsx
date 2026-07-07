@@ -135,6 +135,17 @@ export function BlockPackEditor({
   };
   const removeBlock = (id: number) =>
     patchPack({ blockIds: pack.blockIds.filter((b) => b !== id) });
+  const reorderBlock = (activeId: number, overId: number) => {
+    if (activeId === overId) return;
+    const fromIndex = pack.blockIds.indexOf(activeId);
+    const toIndex = pack.blockIds.indexOf(overId);
+    if (fromIndex < 0 || toIndex < 0) return;
+
+    const nextBlockIds = [...pack.blockIds];
+    const [moved] = nextBlockIds.splice(fromIndex, 1);
+    nextBlockIds.splice(toIndex, 0, moved);
+    patchPack({ blockIds: nextBlockIds });
+  };
 
   const addTag = (id: string) => {
     const tagIds = pack.tagIds ?? [];
@@ -284,6 +295,7 @@ export function BlockPackEditor({
               onRename={(v) => patchPack({ name: v })}
               onDescription={(v) => patchPack({ description: v })}
               onRemove={removeBlock}
+              onReorderBlock={reorderBlock}
               onRemoveTag={removeTag}
               onSave={savePack}
               isSaving={isSaving}
