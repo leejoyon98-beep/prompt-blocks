@@ -75,10 +75,12 @@ function isMissingTagIdsColumn(error: { message?: string; details?: string; hint
 function logSupabaseError(label: string, error: unknown) {
   const e = error as { code?: string; message?: string; details?: string; hint?: string } | null;
   console.error(label, {
+    table: `public.${TABLE}`,
     code: e?.code,
     message: e?.message,
     details: e?.details,
     hint: e?.hint,
+    check: "public.block_packs 테이블, tag_ids 컬럼, RLS select/insert/update/delete 정책을 확인해주세요.",
   });
 }
 
@@ -251,7 +253,7 @@ export function usePacks() {
         if (removedId) {
           const { error } = await supabase.from(TABLE).delete().eq("id", removedId);
           if (error) {
-            console.error("[packs] delete failed", error.message);
+            logSupabaseError("[packs] delete failed", error);
             return false;
           }
           return true;

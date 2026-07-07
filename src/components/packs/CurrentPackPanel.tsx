@@ -14,6 +14,7 @@ export function CurrentPackPanel({
   onRemove,
   onRemoveTag,
   onSave,
+  isSaving = false,
 }: {
   pack: BlockPack;
   blocks: PromptBlock[];
@@ -23,6 +24,7 @@ export function CurrentPackPanel({
   onRemove: (id: number) => void;
   onRemoveTag: (id: string) => void;
   onSave: () => Promise<void> | void;
+  isSaving?: boolean;
 }) {
   const hasItems = blocks.length + tags.length > 0;
 
@@ -99,8 +101,8 @@ export function CurrentPackPanel({
         <p className="mb-3 text-center text-[12px] font-medium text-muted">
           프롬프트 블록 {blocks.length}개 · 조각 태그 {tags.length}개
         </p>
-        <Button variant="primary" size="sm" className="w-full" onClick={onSave}>
-          블록팩 저장
+        <Button variant="primary" size="sm" className="w-full" onClick={onSave} disabled={isSaving}>
+          {isSaving ? "저장 중..." : "블록팩 저장"}
         </Button>
         <CopyRegisterButton pack={pack} full label="사용하기" variant="outline" className="mt-2" />
       </div>

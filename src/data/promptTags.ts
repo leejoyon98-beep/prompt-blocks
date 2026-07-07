@@ -21,11 +21,11 @@ export const promptTags: PromptTag[] = [
     "similarTags": [
       {
         "tag": "summary-first",
-        "difference": "TL;DR은 긴 답변 앞에 붙는 1~2줄짜리 초압축 요약에 가까워요. summary-first는 답변을 결론 우선으로 구성하는 태그이고,"
+        "difference": "summary-first는 답변을 결론 우선으로 구성하는 태그이고, TL;DR은 긴 답변 앞에 붙는 1~2줄짜리 초압축 요약에 가까워요."
       },
       {
         "tag": "concise",
-        "difference": "TL;DR은 긴 답변 앞에 붙는 짧은 요약만 추가하는 태그예요. concise는 답변 전체를 짧고 간결하게 만드는 태그이고,"
+        "difference": "concise는 답변 전체의 길이와 표현을 간결하게 줄이고, TL;DR은 긴 답변 앞에 붙는 짧은 요약만 추가하는 태그예요."
       }
     ]
   },
@@ -48,7 +48,7 @@ export const promptTags: PromptTag[] = [
     "similarTags": [
       {
         "tag": "TL;DR",
-        "difference": "summary-first는 답변 전체를 결론 우선 구조로 정리하는 태그예요. TL;DR은 긴 답변 앞에 붙는 아주 짧은 압축 요약이고,"
+        "difference": "TL;DR은 긴 답변 앞에 붙는 아주 짧은 압축 요약이고, summary-first는 답변 전체를 결론 우선 구조로 정리하는 태그예요."
       }
     ]
   },
@@ -225,11 +225,11 @@ export const promptTags: PromptTag[] = [
     "similarTags": [
       {
         "tag": "timeline",
-        "difference": "step-by-step은 사용자가 따라 할 수 있는 절차를 단계별로 설명해요. timeline은 시간 순서와 기간을 중심으로 정리하고,"
+        "difference": "timeline은 시간 순서와 기간을 중심으로 정리하고, step-by-step은 사용자가 따라 할 수 있는 절차를 단계별로 설명해요."
       },
       {
         "tag": "roadmap",
-        "difference": "step-by-step은 당장 수행할 세부 절차에 더 가까워요. roadmap은 중장기 흐름을 큰 단계로 보여주고,"
+        "difference": "roadmap은 중장기 흐름을 큰 단계로 보여주고, step-by-step은 당장 수행할 세부 절차에 더 가까워요."
       }
     ]
   },
@@ -347,7 +347,7 @@ export const promptTags: PromptTag[] = [
     "similarTags": [
       {
         "tag": "TL;DR",
-        "difference": "concise는 답변 전체의 길이와 표현을 간결하게 줄이는 태그예요. TL;DR은 답변 앞에 초압축 요약을 붙이고,"
+        "difference": "TL;DR은 답변 앞에 초압축 요약을 붙이고, concise는 답변 전체의 길이와 표현을 간결하게 줄이는 태그예요."
       }
     ]
   },
@@ -366,49 +366,46 @@ export const promptTags: PromptTag[] = [
     "similarTags": [
       {
         "tag": "rewrite",
-        "difference": "polish는 기존 문장의 결을 살리면서 매끄럽게 다듬는 태그예요. rewrite는 같은 의미를 유지하며 문장을 다시 쓰는 쪽이고,"
+        "difference": "rewrite는 같은 의미를 유지하며 문장을 다시 쓰는 쪽이고, polish는 기존 문장의 결을 살리면서 매끄럽게 다듬는 태그예요."
       },
       {
         "tag": "humanize",
-        "difference": "polish는 문장 자체를 매끄럽게 정리하는 태그예요. humanize는 AI처럼 균일하고 과하게 정돈된 느낌을 줄이는 태그이고,"
+        "difference": "humanize는 AI처럼 균일하고 과하게 정돈된 느낌을 줄이는 태그이고, polish는 문장 자체를 매끄럽게 정리하는 태그예요."
       }
     ]
   },
   {
     "id": "tag_humanize",
     "type": "modifier",
-    "category": "??/?",
+    "category": "문체/톤",
     "tag": "humanize",
-    "labelKo": "AI? ???",
-    "meaning": "AI ???? ??? ??? ???, ??? ??? ??? ????? ??? ??? ??",
-    "promptText": "AI ???? ???? ???? ??? ??? ???, ??? ?? ??? ??? ??? ????? ????. ?? ??? ?? ???? ??? ??, ?? ???? ?? ???, ? ???? ????? ???? ??? ????. ??? ??? ????? ?? ??, ??, ???, ?? ??, ????? ?? ??? ???? ???? ???. ???? ??? ?? ?? ??? ??? ??? ????. ?? ??? ??, ??, ?? ?? ??? ???? ?? ??, ???? ??, ??, ??, ?? ??? ?? ??? ????? ????. ?? ??? ?? ?? ???? ??? ?? ?? ??, ?? ??? ??? ???, ???? ??? ?? ??? ???? ????. ?????? ???? ??? ??? ??? ?? ???? ??? ????, ??? ????, ?? ?????, ??? ??? ?? ??? ??? ????. ?? ??? ??? ?? 1??, 2??, ??? ?? ????. ?, ????? ??? ?? ??? ??? ??? ??? ?????? ??, ???, ??, ????, ???, ?? ??? ???? ???. ?? ???? ???? ????? ????.",
+    "labelKo": "AI티 줄이기",
+    "meaning": "AI가 쓴 것처럼 과하게 정돈되고 평탄한 느낌을 줄이고, 사람이 직접 쓴 글처럼 자연스러운 문장 리듬과 흐름으로 작성",
+    "promptText": "AI가 쓴 것처럼 지나치게 정돈되고 평탄한 느낌을 줄이고, 사람이 직접 쓴 글처럼 자연스럽게 작성해줘. 문장 길이를 너무 균일하게 맞추지 말고, 짧은 문장과 긴 문장이 자연스럽게 섞이게 해줘. 같은 문단 구조나 정리형 연결어가 반복되지 않게 하고, 문맥에 맞게 강조 위치와 흐름을 조정해줘. 쉼표와 전환어를 과하게 규칙적으로 쓰지 말고, 실제 사람이 쓴 글처럼 자연스러운 호흡을 살려줘. 단, 일부러 오타를 넣거나 문법을 망가뜨리지는 말고, 글의 명확성과 품질은 유지해줘.",
     "aliases": [
-      "AI? ???",
-      "? AI???",
-      "????",
-      "?????",
-      "?? ??",
-      "????? ?",
-      "??? ? ???",
-      "?? ?? ??",
+      "AI티 안나게",
+      "덜 AI스럽게",
+      "사람처럼",
+      "자연스럽게",
+      "자연스러운 글",
       "human",
       "natural",
       "natural-writing",
       "less-ai",
-      "AI ?? ???"
+      "AI 느낌 줄이기"
     ],
     "similarTags": [
       {
         "tag": "polish",
-        "difference": "humanize? ?? ??, ??, ??, ?? ???? ??? AI ???? ??? ??? ??? ??. polish? ??? ???? ??? ??."
+        "difference": "polish는 문장을 매끄럽게 다듬고, humanize는 AI 글처럼 평탄하고 과하게 정돈된 느낌을 줄여 사람 글 같은 리듬을 살려요."
       },
       {
         "tag": "rewrite",
-        "difference": "humanize? ??? ????? ??? ??? ??? ????? ??? ???? ??? ??. rewrite? ?? ??? ?? ?? ??."
+        "difference": "rewrite는 같은 의미로 다시 쓰는 태그이고, humanize는 다시 쓰더라도 문장 리듬과 흐름이 자연스럽게 느껴지도록 조정하는 태그예요."
       },
       {
         "tag": "concise",
-        "difference": "humanize? ? ?? ????? ?? ??? ?? ??? ????? ??? ??? ??. concise? ?? ??? ?? ???? ??? ??."
+        "difference": "concise는 답변 전체를 짧고 압축하고, humanize는 글의 길이보다 문장 리듬과 흐름을 사람 글처럼 자연스럽게 조정해요."
       }
     ]
   },
@@ -535,11 +532,11 @@ export const promptTags: PromptTag[] = [
     "similarTags": [
       {
         "tag": "risk",
-        "difference": "redteam은 허점, 반례, 놓친 전제까지 더 공격적으로 검토해요. risk는 예상 위험 요소를 정리하고,"
+        "difference": "risk는 예상 위험 요소를 정리하고, redteam은 허점, 반례, 놓친 전제까지 더 공격적으로 검토해요."
       },
       {
         "tag": "edge-cases",
-        "difference": "redteam은 결과 전체의 논리적 약점과 반박 가능성까지 점검해요. edge-cases는 예외 상황을 찾는 태그이고,"
+        "difference": "edge-cases는 예외 상황을 찾는 태그이고, redteam은 결과 전체의 논리적 약점과 반박 가능성까지 점검해요."
       }
     ]
   },
@@ -586,11 +583,11 @@ export const promptTags: PromptTag[] = [
     "similarTags": [
       {
         "tag": "redteam",
-        "difference": "risk는 예상되는 위험 요소와 주의점을 정리하는 데 집중해요. redteam은 허점과 반례까지 비판적으로 검토하고,"
+        "difference": "redteam은 허점과 반례까지 비판적으로 검토하고, risk는 예상되는 위험 요소와 주의점을 정리하는 데 집중해요."
       },
       {
         "tag": "edge-cases",
-        "difference": "risk는 그로 인해 생길 수 있는 위험을 정리해요. edge-cases는 특수하거나 놓치기 쉬운 상황을 보고,"
+        "difference": "edge-cases는 특수하거나 놓치기 쉬운 상황을 보고, risk는 그로 인해 생길 수 있는 위험을 정리해요."
       }
     ]
   },
@@ -610,11 +607,11 @@ export const promptTags: PromptTag[] = [
     "similarTags": [
       {
         "tag": "risk",
-        "difference": "edge-cases는 일반적인 흐름에서 벗어나는 예외 상황을 찾는 데 초점이 있어요. risk는 위험 요소를 정리하고,"
+        "difference": "risk는 위험 요소를 정리하고, edge-cases는 일반적인 흐름에서 벗어나는 예외 상황을 찾는 데 초점이 있어요."
       },
       {
         "tag": "redteam",
-        "difference": "edge-cases는 빠뜨리기 쉬운 특수 케이스를 보완해요. redteam은 전체 논리와 전제를 비판적으로 공격해보고,"
+        "difference": "redteam은 전체 논리와 전제를 비판적으로 공격해보고, edge-cases는 빠뜨리기 쉬운 특수 케이스를 보완해요."
       }
     ]
   },
@@ -674,11 +671,11 @@ export const promptTags: PromptTag[] = [
     "similarTags": [
       {
         "tag": "polish",
-        "difference": "rewrite는 같은 의미를 유지하면서 문장 구조나 표현을 더 크게 바꿀 수 있어요. polish는 기존 문장을 매끄럽게 다듬고,"
+        "difference": "polish는 기존 문장을 매끄럽게 다듬고, rewrite는 같은 의미를 유지하면서 문장 구조나 표현을 더 크게 바꿀 수 있어요."
       },
       {
         "tag": "humanize",
-        "difference": "rewrite는 같은 내용을 다른 문장으로 다시 쓰는 데 초점이 있어요. humanize는 AI식으로 평탄한 느낌을 줄이는 데 초점이 있고,"
+        "difference": "humanize는 AI식으로 평탄한 느낌을 줄이는 데 초점이 있고, rewrite는 같은 내용을 다른 문장으로 다시 쓰는 데 초점이 있어요."
       }
     ]
   },
@@ -711,11 +708,11 @@ export const promptTags: PromptTag[] = [
     "similarTags": [
       {
         "tag": "bullets",
-        "difference": "table은 기준별 비교나 항목 정리에 맞게 행과 열로 구조화해요. bullets는 핵심을 목록으로 빠르게 나열하고,"
+        "difference": "bullets는 핵심을 목록으로 빠르게 나열하고, table은 기준별 비교나 항목 정리에 맞게 행과 열로 구조화해요."
       },
       {
         "tag": "numbered",
-        "difference": "table은 순서보다 비교와 분류가 중요할 때 좋아요. numbered는 순서가 중요한 내용을 번호로 정리하고,"
+        "difference": "numbered는 순서가 중요한 내용을 번호로 정리하고, table은 순서보다 비교와 분류가 중요할 때 좋아요."
       }
     ]
   },
@@ -735,11 +732,11 @@ export const promptTags: PromptTag[] = [
     "similarTags": [
       {
         "tag": "table",
-        "difference": "bullets는 핵심 항목을 가볍게 훑을 수 있게 나열해요. table은 행과 열로 비교하거나 분류하고,"
+        "difference": "table은 행과 열로 비교하거나 분류하고, bullets는 핵심 항목을 가볍게 훑을 수 있게 나열해요."
       },
       {
         "tag": "numbered",
-        "difference": "bullets는 순서보다 핵심 항목 나열이 중요할 때 맞아요. numbered는 순서가 중요한 목록에 맞고,"
+        "difference": "numbered는 순서가 중요한 목록에 맞고, bullets는 순서보다 핵심 항목 나열이 중요할 때 맞아요."
       }
     ]
   },
@@ -758,11 +755,11 @@ export const promptTags: PromptTag[] = [
     "similarTags": [
       {
         "tag": "bullets",
-        "difference": "numbered는 단계나 우선순위처럼 순서가 중요한 내용을 정리해요. bullets는 순서 없는 핵심 목록에 가깝고,"
+        "difference": "bullets는 순서 없는 핵심 목록에 가깝고, numbered는 단계나 우선순위처럼 순서가 중요한 내용을 정리해요."
       },
       {
         "tag": "table",
-        "difference": "numbered는 읽는 순서나 실행 순서가 중요할 때 적합해요. table은 비교와 분류에 강하고,"
+        "difference": "table은 비교와 분류에 강하고, numbered는 읽는 순서나 실행 순서가 중요할 때 적합해요."
       }
     ]
   },
@@ -888,11 +885,11 @@ export const promptTags: PromptTag[] = [
     "similarTags": [
       {
         "tag": "step-by-step",
-        "difference": "timeline은 언제 무엇을 할지 시간 순서와 기간을 중심으로 정리해요. step-by-step은 따라 할 절차를 설명하고,"
+        "difference": "step-by-step은 따라 할 절차를 설명하고, timeline은 언제 무엇을 할지 시간 순서와 기간을 중심으로 정리해요."
       },
       {
         "tag": "roadmap",
-        "difference": "timeline은 더 구체적인 시간 순서와 일정감에 초점이 있어요. roadmap은 중장기 방향과 단계 흐름을 보여주고,"
+        "difference": "roadmap은 중장기 방향과 단계 흐름을 보여주고, timeline은 더 구체적인 시간 순서와 일정감에 초점이 있어요."
       }
     ]
   },
@@ -950,11 +947,11 @@ export const promptTags: PromptTag[] = [
     "similarTags": [
       {
         "tag": "timeline",
-        "difference": "roadmap은 장기적인 방향과 단계별 흐름을 더 크게 보여줘요. timeline은 시간 순서와 기간을 구체적으로 잡고,"
+        "difference": "timeline은 시간 순서와 기간을 구체적으로 잡고, roadmap은 장기적인 방향과 단계별 흐름을 더 크게 보여줘요."
       },
       {
         "tag": "step-by-step",
-        "difference": "roadmap은 목표까지 가는 큰 단계와 흐름을 정리해요. step-by-step은 바로 따라 할 절차에 가깝고,"
+        "difference": "step-by-step은 바로 따라 할 절차에 가깝고, roadmap은 목표까지 가는 큰 단계와 흐름을 정리해요."
       }
     ]
   },

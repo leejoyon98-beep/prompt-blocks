@@ -75,6 +75,7 @@ export function BlockPackEditor({
   const [tagCategory, setTagCategory] = useState<string>(ALL);
   const [blockSearch, setBlockSearch] = useState("");
   const [tagSearch, setTagSearch] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
   const pack = isNew ? draftPack : packs.find((p) => p.id === packId);
 
@@ -144,12 +145,15 @@ export function BlockPackEditor({
     patchPack({ tagIds: (pack.tagIds ?? []).filter((tagId) => tagId !== id) });
 
   const savePack = async () => {
+    if (isSaving) return;
+
     const trimmedName = pack.name.trim();
     if (!trimmedName) {
       show("블록팩 이름을 입력해주세요.");
       return;
     }
 
+    setIsSaving(true);
     try {
       if (isNew) {
         const created = await createPack({
@@ -159,7 +163,7 @@ export function BlockPackEditor({
           tagIds: [...(pack.tagIds ?? [])],
         });
 
-        show("내 블록팩에 저장되었어요.");
+        show("내 블록팩에 저장됐어요.");
         router.replace(`/packs/${created.id}`);
         return;
       }
@@ -172,20 +176,33 @@ export function BlockPackEditor({
       });
 
       if (!ok) {
-        console.error("[packs] explicit save failed", { packId: pack.id });
+        console.error("[packs] explicit save failed", {
+          packId: pack.id,
+          mode: isNew ? "insert" : "update",
+          blockIds: pack.blockIds,
+          tagIds: pack.tagIds ?? [],
+        });
         show("블록팩을 저장하지 못했어요. 잠시 후 다시 시도해주세요.");
         return;
       }
 
-      show("내 블록팩에 저장되었어요.");
+      show("내 블록팩에 저장됐어요.");
     } catch (error) {
-      console.error("[packs] explicit save failed", error);
+      console.error("[packs] explicit save failed", {
+        error,
+        packId: pack.id,
+        mode: isNew ? "insert" : "update",
+        blockIds: pack.blockIds,
+        tagIds: pack.tagIds ?? [],
+      });
       if (isPackAuthRequiredError(error)) {
         show("비로그인 상태에서는 블록팩 사용만 가능해요. 저장하려면 로그인해주세요.");
         window.dispatchEvent(new Event("prompt-auth-open"));
         return;
       }
       show("블록팩을 저장하지 못했어요. 잠시 후 다시 시도해주세요.");
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -269,6 +286,7 @@ export function BlockPackEditor({
               onRemove={removeBlock}
               onRemoveTag={removeTag}
               onSave={savePack}
+              isSaving={isSaving}
             />
           </div>
         </aside>
