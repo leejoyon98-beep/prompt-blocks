@@ -36,6 +36,7 @@ const tagCategoryCounts: Record<string, number> = (() => {
 })();
 
 type LibraryMode = "blocks" | "tags";
+type SaveState = "idle" | "saving" | "saved";
 
 function createDraftPack(template?: RecommendedBlockPack): BlockPack {
   const ts = new Date().toISOString();
@@ -75,9 +76,11 @@ export function BlockPackEditor({
   const [tagCategory, setTagCategory] = useState<string>(ALL);
   const [blockSearch, setBlockSearch] = useState("");
   const [tagSearch, setTagSearch] = useState("");
-  const [isSaving, setIsSaving] = useState(false);
+  const [saveState, setSaveState] = useState<SaveState>("idle");
+  const [savedPackId, setSavedPackId] = useState<string | null>(null);
 
   const pack = isNew ? draftPack : packs.find((p) => p.id === packId);
+  const isSavedNewPack = isNew && saveState === "saved" && savedPackId != null;
 
   const orderedBlocks = useMemo(
     () =>
@@ -123,6 +126,10 @@ export function BlockPackEditor({
 
   const patchPack = (patch: Partial<Omit<BlockPack, "id" | "createdAt">>) => {
     if (isNew) {
+      if (saveState === "saved") {
+        setSavedPackId(null);
+        setSaveState("idle");
+      }
       setDraftPack((prev) => ({ ...prev, ...patch, updatedAt: new Date().toISOString() }));
       return;
     }
@@ -155,8 +162,24 @@ export function BlockPackEditor({
   const removeTag = (id: string) =>
     patchPack({ tagIds: (pack.tagIds ?? []).filter((tagId) => tagId !== id) });
 
+  const startNewPack = () => {
+    setDraftPack(createDraftPack());
+    setSavedPackId(null);
+    setSaveState("idle");
+    setMode("blocks");
+    setBlockCategory(ALL);
+    setTagCategory(ALL);
+    setBlockSearch("");
+    setTagSearch("");
+    router.push("/packs/new");
+  };
+
   const savePack = async () => {
-    if (isSaving) return;
+    if (saveState === "saving") return;
+    if (isSavedNewPack) {
+      startNewPack();
+      return;
+    }
 
     const trimmedName = pack.name.trim();
     if (!trimmedName) {
@@ -164,7 +187,7 @@ export function BlockPackEditor({
       return;
     }
 
-    setIsSaving(true);
+    setSaveState("saving");
     try {
       if (isNew) {
         const created = await createPack({
@@ -174,8 +197,9 @@ export function BlockPackEditor({
           tagIds: [...(pack.tagIds ?? [])],
         });
 
-        show("내 블록팩에 저장됐어요.");
-        router.replace(`/packs/${created.id}`);
+        setSavedPackId(created.id);
+        setSaveState("saved");
+        show("저장했습니다!");
         return;
       }
 
@@ -193,11 +217,14 @@ export function BlockPackEditor({
           blockIds: pack.blockIds,
           tagIds: pack.tagIds ?? [],
         });
+        setSaveState("idle");
         show("블록팩을 저장하지 못했어요. 잠시 후 다시 시도해주세요.");
         return;
       }
 
-      show("내 블록팩에 저장됐어요.");
+      setSaveState("saved");
+      show("저장했습니다!");
+      window.setTimeout(() => setSaveState("idle"), 1600);
     } catch (error) {
       console.error("[packs] explicit save failed", {
         error,
@@ -206,14 +233,13 @@ export function BlockPackEditor({
         blockIds: pack.blockIds,
         tagIds: pack.tagIds ?? [],
       });
+      setSaveState("idle");
       if (isPackAuthRequiredError(error)) {
         show("비로그인 상태에서는 블록팩 사용만 가능해요. 저장하려면 로그인해주세요.");
         window.dispatchEvent(new Event("prompt-auth-open"));
         return;
       }
       show("블록팩을 저장하지 못했어요. 잠시 후 다시 시도해주세요.");
-    } finally {
-      setIsSaving(false);
     }
   };
 
@@ -298,7 +324,9 @@ export function BlockPackEditor({
               onReorderBlock={reorderBlock}
               onRemoveTag={removeTag}
               onSave={savePack}
-              isSaving={isSaving}
+              saveState={saveState}
+              isSavedNewPack={isSavedNewPack}
+              onCreateNew={startNewPack}
             />
           </div>
         </aside>

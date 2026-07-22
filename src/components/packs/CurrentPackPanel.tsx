@@ -7,6 +7,8 @@ import { CopyRegisterButton } from "./CopyRegisterButton";
 import { EmptyState } from "@/components/common/EmptyState";
 import { cn } from "@/lib/utils";
 
+type SaveState = "idle" | "saving" | "saved";
+
 export function CurrentPackPanel({
   pack,
   blocks,
@@ -17,7 +19,9 @@ export function CurrentPackPanel({
   onReorderBlock,
   onRemoveTag,
   onSave,
-  isSaving = false,
+  saveState = "idle",
+  isSavedNewPack = false,
+  onCreateNew,
 }: {
   pack: BlockPack;
   blocks: PromptBlock[];
@@ -28,11 +32,22 @@ export function CurrentPackPanel({
   onReorderBlock: (activeId: number, overId: number) => void;
   onRemoveTag: (id: string) => void;
   onSave: () => Promise<void> | void;
-  isSaving?: boolean;
+  saveState?: SaveState;
+  isSavedNewPack?: boolean;
+  onCreateNew?: () => void;
 }) {
   const hasItems = blocks.length + tags.length > 0;
+  const isSaving = saveState === "saving";
   const [draggingBlockId, setDraggingBlockId] = useState<number | null>(null);
   const [dragOverBlockId, setDragOverBlockId] = useState<number | null>(null);
+  const saveButtonLabel = isSaving
+    ? "저장 중..."
+    : isSavedNewPack
+      ? "새 블록팩 만들기"
+      : saveState === "saved"
+        ? "저장했습니다!"
+        : "블록팩 저장";
+  const handlePrimaryAction = isSavedNewPack && onCreateNew ? onCreateNew : onSave;
 
   const handleBlockDragStart = (event: DragEvent<HTMLButtonElement>, blockId: number) => {
     setDraggingBlockId(blockId);
@@ -84,7 +99,7 @@ export function CurrentPackPanel({
       <div className="mt-4 flex-1">
         {!hasItems ? (
           <EmptyState
-            title="아직 추가한 항목이 없어요."
+            title="아직 추가된 항목이 없어요."
             description="프롬프트 블록을 먼저 고르고, 필요하면 조각 태그를 붙여보세요."
           />
         ) : (
@@ -111,14 +126,14 @@ export function CurrentPackPanel({
                       aria-label={`${b.name} 순서 변경`}
                       className="flex h-7 w-5 shrink-0 cursor-grab items-center justify-center rounded-[6px] text-[13px] leading-none text-muted/70 transition-colors hover:bg-subtle hover:text-muted active:cursor-grabbing"
                     >
-                      ⋮⋮
+                      ::
                     </button>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-[13px] font-medium">{b.name}</p>
                       <p className="truncate text-[12px] text-muted">{b.description}</p>
                     </div>
                     <IconBtn label="삭제" onClick={() => onRemove(b.id)}>
-                      ×
+                      x
                     </IconBtn>
                   </li>
                 ))}
@@ -139,7 +154,7 @@ export function CurrentPackPanel({
                       <p className="truncate text-[12px] text-muted">{tag.meaning}</p>
                     </div>
                     <IconBtn label="삭제" onClick={() => onRemoveTag(tag.id)}>
-                      ×
+                      x
                     </IconBtn>
                   </li>
                 ))}
@@ -153,8 +168,11 @@ export function CurrentPackPanel({
         <p className="mb-3 text-center text-[12px] font-medium text-muted">
           프롬프트 블록 {blocks.length}개 · 조각 태그 {tags.length}개
         </p>
-        <Button variant="primary" size="sm" className="w-full" onClick={onSave} disabled={isSaving}>
-          {isSaving ? "저장 중..." : "블록팩 저장"}
+        {saveState === "saved" && (
+          <p className="mb-2 text-center text-[12px] font-semibold text-foreground">저장했습니다!</p>
+        )}
+        <Button variant="primary" size="sm" className="w-full" onClick={handlePrimaryAction} disabled={isSaving}>
+          {saveButtonLabel}
         </Button>
         <CopyRegisterButton pack={pack} full label="사용하기" variant="outline" className="mt-2" />
       </div>
